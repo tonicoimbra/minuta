@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, RotateCcw, FileText, CheckCircle2, ArrowLeft, Copy, Download } from 'lucide-react';
+import { ChevronRight, RotateCcw, FileText, CheckCircle2, ArrowLeft, Copy } from 'lucide-react';
 import { fluxo, Option } from './data/flow';
+import { TJPRHeader, TJPRCard, TJPRButton, TJPRBadge } from './components/TJPR';
 
 export default function App() {
   const [etapaAtual, setEtapaAtual] = useState('inicio');
@@ -9,7 +10,18 @@ export default function App() {
   const [finalizado, setFinalizado] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   const perguntaAtual = fluxo[etapaAtual];
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   const handleEscolha = () => {
     if (!selectedOption) return;
@@ -52,166 +64,165 @@ export default function App() {
 
   const copiarTexto = () => {
     navigator.clipboard.writeText(minutaFinal);
-    // Simple feedback could be added here if needed
+    // TODO: Adicionar um toast de sucesso
+  };
+
+  // Mock User
+  const mockUser = {
+    displayName: 'Usuário TJPR',
+    email: 'usuario@tjpr.jus.br',
+    avatarColor: '#1B263B'
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5] text-[#1a1a1a] font-sans selection:bg-blue-100">
-      <div className="max-w-3xl mx-auto px-6 py-12 md:py-24">
+    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-tjpr-gray-50 text-tjpr-gray-900'}`}>
+      
+      <TJPRHeader 
+        user={mockUser}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={toggleDarkMode}
+      />
+
+      <main className="flex-1 flex flex-col items-center p-6 md:p-12 relative overflow-hidden">
         
-        {/* Header */}
-        <header className="mb-12 text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-sm mb-6 border border-gray-100"
-          >
-            <FileText className="w-8 h-8 text-blue-600" />
-          </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-3xl md:text-4xl font-semibold tracking-tight mb-3"
-          >
-            Gerador de Minutas
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-gray-500 max-w-md mx-auto"
-          >
-            Responda as perguntas abaixo para gerar um documento personalizado automaticamente.
-          </motion.p>
-        </header>
+        {/* Marca d'água no fundo (opcional / estética do design system) */}
+        <div className="watermark-overlay">TJPR</div>
 
-        <main className="relative">
-          <AnimatePresence mode="wait">
-            {!finalizado ? (
-              <motion.div
-                key={etapaAtual}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100"
-              >
-                <div className="mb-8">
-                  <span className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2 block">
-                    Passo {historico.length + 1}
-                  </span>
-                  <h2 className="text-2xl font-medium leading-tight">
-                    {perguntaAtual.pergunta}
-                  </h2>
-                </div>
+        <div className="max-w-4xl w-full relative z-10 flex flex-col items-center">
+          
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl font-bold text-tjpr-navy-900 dark:text-white mb-2">
+              Gerador de Minutas
+            </h2>
+            <p className="text-tjpr-gray-600 dark:text-gray-400">
+              Sistema Auxiliar para Elaboração de Documentos Processuais
+            </p>
+          </div>
 
-                <div className="space-y-3 mb-10">
-                  {perguntaAtual.opcoes.map((opt, index) => (
-                    <label
-                      key={index}
-                      className={`
-                        flex items-center p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200
-                        ${selectedOption?.texto === opt.texto 
-                          ? 'border-blue-600 bg-blue-50/50' 
-                          : 'border-gray-100 hover:border-gray-200 bg-gray-50/30'}
-                      `}
-                    >
-                      <input
-                        type="radio"
-                        name="pergunta"
-                        className="hidden"
-                        checked={selectedOption?.texto === opt.texto}
-                        onChange={() => setSelectedOption(opt)}
-                      />
-                      <div className={`
-                        w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center transition-colors
-                        ${selectedOption?.texto === opt.texto ? 'border-blue-600 bg-blue-600' : 'border-gray-300'}
-                      `}>
-                        {selectedOption?.texto === opt.texto && <div className="w-2 h-2 bg-white rounded-full" />}
+          <div className="w-full max-w-2xl">
+            <AnimatePresence mode="wait">
+              {!finalizado ? (
+                <motion.div
+                  key={etapaAtual}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <TJPRCard className="w-full shadow-lg">
+                    <div className="mb-6 flex items-center justify-between">
+                      <TJPRBadge variant="info" icon="linear_scale">
+                        Passo {historico.length + 1}
+                      </TJPRBadge>
+                    </div>
+
+                    <h3 className="text-xl font-semibold text-tjpr-navy-800 dark:text-white mb-8 border-l-4 border-tjpr-gold pl-4">
+                      {perguntaAtual.pergunta}
+                    </h3>
+
+                    <div className="space-y-4 mb-8">
+                      {perguntaAtual.opcoes.map((opt, index) => (
+                        <label
+                          key={index}
+                          className={`
+                            flex items-center p-4 rounded-lg border cursor-pointer transition-all duration-200
+                            ${selectedOption?.texto === opt.texto 
+                              ? 'border-tjpr-navy-700 bg-blue-50 dark:bg-tjpr-navy-800/30' 
+                              : 'border-tjpr-gray-200 dark:border-gray-700 hover:border-tjpr-navy-600 bg-white dark:bg-gray-800'}
+                          `}
+                        >
+                          <input
+                            type="radio"
+                            name="pergunta"
+                            className="hidden"
+                            checked={selectedOption?.texto === opt.texto}
+                            onChange={() => setSelectedOption(opt)}
+                          />
+                          <div className={`
+                            w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center transition-colors
+                            ${selectedOption?.texto === opt.texto ? 'border-tjpr-navy-800 dark:border-tjpr-navy-500 bg-tjpr-navy-800 dark:bg-tjpr-navy-500' : 'border-tjpr-gray-600'}
+                          `}>
+                            {selectedOption?.texto === opt.texto && <div className="w-2 h-2 bg-white rounded-full" />}
+                          </div>
+                          <span className="text-lg font-medium dark:text-gray-200">{opt.texto}</span>
+                        </label>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+                      <TJPRButton
+                        variant="ghost"
+                        onClick={voltar}
+                        disabled={historico.length === 0}
+                        icon="arrow_back"
+                      >
+                        Voltar
+                      </TJPRButton>
+                      
+                      <TJPRButton
+                        variant="primary"
+                        onClick={handleEscolha}
+                        disabled={!selectedOption}
+                        icon="arrow_forward"
+                        iconPosition="right"
+                      >
+                        Avançar
+                      </TJPRButton>
+                    </div>
+                  </TJPRCard>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  <TJPRCard className="w-full shadow-lg">
+                    <div className="flex items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4">
+                        <CheckCircle2 className="w-7 h-7 text-tjpr-success dark:text-green-400" />
                       </div>
-                      <span className="text-lg font-medium">{opt.texto}</span>
-                    </label>
-                  ))}
-                </div>
+                      <div>
+                        <h2 className="text-2xl font-semibold text-tjpr-navy-900 dark:text-white">Relatório / Minuta Gerada</h2>
+                        <p className="text-tjpr-gray-600 dark:text-gray-400 text-sm mt-1">
+                          As seleções realizadas formaram o conteúdo abaixo.
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-                  <button
-                    onClick={voltar}
-                    disabled={historico.length === 0}
-                    className={`
-                      flex items-center px-4 py-2 rounded-xl font-medium transition-colors
-                      ${historico.length === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'}
-                    `}
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Voltar
-                  </button>
-                  
-                  <button
-                    onClick={handleEscolha}
-                    disabled={!selectedOption}
-                    className={`
-                      flex items-center px-8 py-3 rounded-xl font-semibold transition-all
-                      ${!selectedOption 
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200 active:scale-95'}
-                    `}
-                  >
-                    Próximo
-                    <ChevronRight className="w-5 h-5 ml-1" />
-                  </button>
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100"
-              >
-                <div className="flex items-center mb-8">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                    <CheckCircle2 className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-semibold">Minuta Gerada</h2>
-                    <p className="text-gray-500">Confira o rascunho do seu documento abaixo.</p>
-                  </div>
-                </div>
+                    <div className="bg-tjpr-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-tjpr-gray-200 dark:border-gray-700 min-h-[200px] mb-8">
+                      <p className="whitespace-pre-wrap text-tjpr-gray-900 dark:text-gray-200 text-lg leading-relaxed">
+                        {minutaFinal}
+                      </p>
+                    </div>
 
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200"></div>
-                  <div className="relative bg-gray-50 rounded-2xl p-8 border border-gray-200 min-h-[200px] leading-relaxed text-lg text-gray-800">
-                    <p className="whitespace-pre-wrap">{minutaFinal}</p>
-                  </div>
-                </div>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <TJPRButton 
+                        variant="secondary"
+                        onClick={copiarTexto}
+                        icon="content_copy"
+                      >
+                        Copiar Conteúdo
+                      </TJPRButton>
+                      <TJPRButton 
+                        variant="primary"
+                        onClick={reiniciar}
+                        icon="refresh"
+                      >
+                        Nova Classificação
+                      </TJPRButton>
+                    </div>
+                  </TJPRCard>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </main>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
-                  <button 
-                    onClick={copiarTexto}
-                    className="flex items-center justify-center px-6 py-4 bg-white border-2 border-gray-100 rounded-2xl font-semibold hover:border-gray-200 hover:bg-gray-50 transition-all active:scale-95"
-                  >
-                    <Copy className="w-5 h-5 mr-2 text-gray-600" />
-                    Copiar Texto
-                  </button>
-                  <button 
-                    onClick={reiniciar}
-                    className="flex items-center justify-center px-6 py-4 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95"
-                  >
-                    <RotateCcw className="w-5 h-5 mr-2" />
-                    Criar Nova Minuta
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </main>
-
-        {/* Footer Info */}
-        <footer className="mt-12 text-center text-gray-400 text-sm">
-          <p>© 2026 Gerador de Minutas Inteligente. Todos os direitos reservados.</p>
-        </footer>
-      </div>
+      <footer className="py-6 text-center text-tjpr-gray-600 dark:text-gray-500 text-sm border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 z-10">
+        <p>Tribunal de Justiça do Estado do Paraná © 2026. Todos os direitos reservados.</p>
+        <p className="text-xs mt-1">Este é um sistema auxiliar e não substitui a validação humana.</p>
+      </footer>
     </div>
   );
 }
