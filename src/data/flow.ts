@@ -15,56 +15,118 @@ export interface Flow {
 
 export const fluxo: Flow = {
   inicio: {
-    pergunta: "Qual o tipo do contrato?",
+    pergunta: "Qual a classificação da irregularidade no preparo?",
     opcoes: [
-      { texto: "Aluguel", proximo: "aluguel_tipo", snippet: "CONTRATO DE LOCAÇÃO" },
-      { texto: "Venda", proximo: "venda_tipo", snippet: "CONTRATO DE COMPRA E VENDA" },
-      { texto: "Prestação de Serviço", proximo: "servico_tipo", snippet: "CONTRATO DE PRESTAÇÃO DE SERVIÇOS" }
+      { texto: "Complementação", proximo: "complementacao", snippet: "Trata-se de caso de complementação de preparo." },
+      { texto: "Deserção", proximo: "desercao", snippet: "Trata-se de hipótese de deserção por irregularidade no preparo." },
+      { texto: "Pagamento em Dobro", proximo: "pagamento_dobro", snippet: "Trata-se de hipótese de pagamento em dobro das custas." }
     ]
   },
-  aluguel_tipo: {
-    pergunta: "O imóvel é comercial ou residencial?",
+  
+  // ==========================================
+  // RAMO: COMPLEMENTAÇÃO
+  // ==========================================
+  complementacao: {
+    pergunta: "Qual o tipo de recurso/custas?",
     opcoes: [
-      { texto: "Residencial", proximo: "aluguel_prazo", snippet: "residencial," },
-      { texto: "Comercial", proximo: "aluguel_prazo", snippet: "comercial," }
+      { texto: "Recurso Inominado", proximo: "comp_rec_inominado", snippet: "Referente a Recurso Inominado." },
+      { texto: "Recurso de Apelação", proximo: "comp_rec_apelacao", snippet: "Referente a Recurso de Apelação." },
+      { texto: "Agravo de Instrumento", proximo: "comp_agravo", snippet: "Referente a Agravo de Instrumento." },
+      { texto: "Custas Iniciais", proximo: "comp_custas", snippet: "Referente a Custas Iniciais." }
     ]
   },
-  aluguel_prazo: {
-    pergunta: "Qual o prazo de validade?",
+  comp_rec_inominado: {
+    pergunta: "Qual a guia a ser complementada?",
     opcoes: [
-      { texto: "12 meses", proximo: "final", snippet: "com validade de 12 meses, renováveis automaticamente." },
-      { texto: "24 meses", proximo: "final", snippet: "com validade de 24 meses, sem renovação automática." },
-      { texto: "36 meses", proximo: "final", snippet: "com validade de 36 meses, com cláusula de rescisão antecipada." }
+      { texto: "GRU", proximo: "final", snippet: "Intima-se para complementação da guia GRU pertinente." },
+      { texto: "FUNJUS", proximo: "final", snippet: "Intima-se para complementação da guia FUNJUS pertinente." }
     ]
   },
-  venda_tipo: {
-    pergunta: "Pagamento à vista ou parcelado?",
+  comp_rec_apelacao: {
+    pergunta: "Qual a guia a ser complementada?",
     opcoes: [
-      { texto: "À vista", proximo: "venda_entrega", snippet: "com pagamento integral à vista no ato da assinatura," },
-      { texto: "Parcelado", proximo: "venda_entrega", snippet: "com pagamento parcelado em 12 vezes mensais," }
+      { texto: "GRU", proximo: "final", snippet: "Intima-se para complementação da guia GRU." },
+      { texto: "FUNJUS", proximo: "final", snippet: "Intima-se para complementação da guia FUNJUS." }
     ]
   },
-  venda_entrega: {
-    pergunta: "Quando será a entrega das chaves?",
+  comp_agravo: {
+    pergunta: "Qual a situação do agravo?",
     opcoes: [
-      { texto: "Imediata", proximo: "final", snippet: "e entrega imediata das chaves." },
-      { texto: "Após quitação", proximo: "final", snippet: "e entrega das chaves somente após a quitação total." }
+      { texto: "Agravo de Instrumento - Com pedido", proximo: "final", snippet: "Complementação em Agravo de instrumento com pedido expresso." },
+      { texto: "Agravo de Instrumento - Sem pedido", proximo: "final", snippet: "Complementação em Agravo de instrumento sem pedido expresso." },
+      { texto: "Agravo / FUNJUS, custas iniciais, conciliação", proximo: "final", snippet: "Complementação relativa a FUNJUS, custas iniciais ou conciliação no agravo." },
+      { texto: "Agravo / FUNJUS", proximo: "final", snippet: "Complementação relativa à guia FUNJUS no agravo." },
+      { texto: "Agravo / Comprovante", proximo: "final", snippet: "Falta de comprovante válido vinculado ao agravo." }
     ]
   },
-  servico_tipo: {
-    pergunta: "Qual a natureza do serviço?",
+  comp_custas: {
+    pergunta: "Qual a situação das custas?",
     opcoes: [
-      { texto: "Consultoria", proximo: "servico_pagamento", snippet: "de consultoria técnica especializada," },
-      { texto: "Desenvolvimento", proximo: "servico_pagamento", snippet: "de desenvolvimento de software customizado," },
-      { texto: "Manutenção", proximo: "servico_pagamento", snippet: "de manutenção preventiva e corretiva," }
+      { texto: "Agravo de Instrumento - Com pedido", proximo: "final", snippet: "Custas iniciais relativas a Agravo de instrumento com pedido." },
+      { texto: "Agravo de Instrumento - Sem pedido", proximo: "final", snippet: "Custas iniciais relativas a Agravo de instrumento sem pedido." },
+      { texto: "Agravo / FUNJUS, custas iniciais, conciliação", proximo: "final", snippet: "Referente a FUNJUS, iniciais e conciliação atreladas ao agravo." },
+      { texto: "Agravo / FUNJUS", proximo: "final", snippet: "Custas referentes à guia FUNJUS pendentes." },
+      { texto: "Agravo / Comprovante", proximo: "final", snippet: "Falta de comprovante efetivo das custas iniciais." }
     ]
   },
-  servico_pagamento: {
-    pergunta: "Como será o faturamento?",
+
+  // ==========================================
+  // RAMO: DESERÇÃO
+  // ==========================================
+  desercao: {
+    pergunta: "Qual o escopo da deserção?",
     opcoes: [
-      { texto: "Mensal fixo", proximo: "final", snippet: "com faturamento mensal fixo." },
-      { texto: "Por hora", proximo: "final", snippet: "com faturamento baseado em horas trabalhadas." },
-      { texto: "Por entrega", proximo: "final", snippet: "com faturamento condicionado à entrega de marcos (milestones)." }
+      { texto: "Recurso Inominado / INOMINADO", proximo: "desercao_motivos_gerais", snippet: "Decreto de deserção no Recurso Inominado." },
+      { texto: "Recurso de Apelação / GRU E FUNJUS", proximo: "desercao_motivos_gerais", snippet: "Decreto de deserção no Recurso de Apelação (GRU e FUNJUS não recolhidas adequadamente)." },
+      { texto: "Não pagou / RJE", proximo: "desercao_motivos_gerais", snippet: "Decreto de deserção por falta de pagamento (RJE)." }
+    ]
+  },
+  desercao_motivos_gerais: {
+    pergunta: "Qual o motivo da irregularidade que gerou a deserção?",
+    opcoes: [
+      { texto: "Agendamento sem saldo", proximo: "final", snippet: "Constatado agendamento bancário não efetivado por falta de saldo." },
+      { texto: "Processo físico", proximo: "final", snippet: "Trâmite prejudicado por se tratar de processo físico com pendências documentais." },
+      { texto: "Outros (processo criminal...)", proximo: "final", snippet: "Irregularidade justificada sob outras razões, como envolver processo criminal." },
+      { texto: "Prazo em dobro", proximo: "final", snippet: "Situação que afasta a deserção face à incidência de prazo em dobro." },
+      { texto: "Final", proximo: "final", snippet: "Determinada a deserção final do recurso processado." }
+    ]
+  },
+
+  // ==========================================
+  // RAMO: PAGAMENTO EM DOBRO (Intempestividade / Outros)
+  // ==========================================
+  pagamento_dobro: {
+    pergunta: "Em qual recurso ou situação ocorreu?",
+    opcoes: [
+      { texto: "Recurso Apelação / INOMINADO", proximo: "dobro_guia", snippet: "Penalidade em sede de Recurso de Apelação / Inominado." },
+      { texto: "Agravo de Instrumento / CUSTAS INICIAIS", proximo: "dobro_guia", snippet: "Penalidade em sede de Agravo de Instrumento (custas iniciais)." },
+      { texto: "Intempestividade", proximo: "dobro_guia", snippet: "Reconhecimento da intempestividade do protocolo do preparo." }
+    ]
+  },
+  dobro_guia: {
+    pergunta: "Qual a situação documental do recolhimento?",
+    opcoes: [
+      { texto: "Guia", proximo: "dobro_com_guia", snippet: "Ocorreu a juntada de guia." },
+      { texto: "Sem Guia", proximo: "dobro_sem_guia", snippet: "Não constam guias anexadas nos autos." }
+    ]
+  },
+  dobro_com_guia: {
+    pergunta: "Qual a pendência constatada na guia?",
+    opcoes: [
+      { texto: "Agendamento sem saldo", proximo: "final", snippet: "Juntado comprovante de agendamento, o qual não se confirmou por ausência de saldo." },
+      { texto: "Processo físico", proximo: "final", snippet: "Falha de adequação por se tratar de processo não integralmente digitalizado (físico)." },
+      { texto: "Outros (processo criminal...)", proximo: "final", snippet: "Situação alheia à regra geral (ex: processo criminal)." },
+      { texto: "Prazo em dobro", proximo: "final", snippet: "Observância da regra do prazo em dobro." }
+    ]
+  },
+  dobro_sem_guia: {
+    pergunta: "Qual a razão para a ausência de guia?",
+    opcoes: [
+      { texto: "Guia inválida", proximo: "final", snippet: "O documento acostado é considerado guia inválida, sem código de barras correspondente." },
+      { texto: "Agendamento sem saldo", proximo: "final", snippet: "Tentativa de pagamento não efetivada (agendamento sem fundos)." },
+      { texto: "Processo físico", proximo: "final", snippet: "Ausência justificada equivocadamente como processo físico." },
+      { texto: "Outros (processo criminal...)", proximo: "final", snippet: "Justificativa embasada em especificidades procedimentais (outros/criminal)." },
+      { texto: "Final", proximo: "final", snippet: "Reconhecimento definitivo da ausência de recolhimento." }
     ]
   }
 };
