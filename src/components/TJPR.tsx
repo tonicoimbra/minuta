@@ -107,11 +107,11 @@ export const TJPRButton = ({
 
     const variantClasses: any = {
         primary: 'bg-tjpr-navy-800 hover:bg-tjpr-navy-700 text-white focus:ring-tjpr-navy-700 shadow-sm hover:shadow-md',
-        secondary: 'bg-white hover:bg-gray-50 text-tjpr-navy-800 border-2 border-tjpr-navy-800 focus:ring-tjpr-navy-700 dark:bg-gray-900 dark:text-white dark:border-gray-300 dark:hover:bg-gray-800',
+        secondary: 'bg-[#f6efe1] hover:bg-[#f0e6d5] text-tjpr-navy-900 border border-[rgba(27,38,59,0.14)] focus:ring-tjpr-navy-700 shadow-sm dark:bg-gray-900 dark:text-white dark:border-gray-300 dark:hover:bg-gray-800',
         success: 'bg-tjpr-success hover:bg-green-700 text-white focus:ring-tjpr-success shadow-sm',
         warning: 'bg-tjpr-warning hover:bg-orange-600 text-tjpr-navy-900 focus:ring-tjpr-warning shadow-sm',
         error: 'bg-tjpr-error hover:bg-red-700 text-white focus:ring-tjpr-error shadow-sm',
-        ghost: 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+        ghost: 'bg-transparent hover:bg-[rgba(27,38,59,0.06)] dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
     };
 
     const sizeClasses: any = {
@@ -333,7 +333,7 @@ export const TJPRHeader = ({ user, onLogout, onToggleDarkMode, isDarkMode, onOpe
 
 export const TJPRBadge = ({ children, variant = 'default', icon }: any) => {
     const variants: any = {
-        default: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+        default: 'bg-[rgba(27,38,59,0.06)] text-tjpr-navy-800 border border-[rgba(27,38,59,0.08)] dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600',
         success: 'tjpr-badge-success',
         warning: 'tjpr-badge-warning',
         error: 'tjpr-badge-error',

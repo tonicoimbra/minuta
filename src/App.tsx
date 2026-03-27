@@ -96,7 +96,7 @@ export default function App() {
       };
 
   return (
-    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-tjpr-gray-50 text-tjpr-gray-900'}`}>
+    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'dark bg-gray-900 text-white' : 'app-shell-light text-tjpr-gray-900'}`}>
       <TJPRHeader user={mockUser} isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
 
       <main
@@ -104,10 +104,21 @@ export default function App() {
         className="flex-1 flex flex-col items-center p-6 md:p-12 relative overflow-hidden"
         tabIndex={-1}
       >
+        {!isDarkMode && (
+          <>
+            <div className="app-light-orb app-light-orb-left" aria-hidden="true" />
+            <div className="app-light-orb app-light-orb-right" aria-hidden="true" />
+          </>
+        )}
         <div className="watermark-overlay">TJPR</div>
 
         <div className="max-w-4xl w-full relative z-10 flex flex-col items-center">
-          <div className="mb-8 text-center">
+          <div className={`mb-8 text-center ${isDarkMode ? '' : 'hero-panel-light'}`}>
+            {!isDarkMode && (
+              <div className="hero-kicker-light">
+                Triagem de preparo recursal
+              </div>
+            )}
             <h1 className="text-[clamp(1.875rem,1.55rem+1.4vw,2.5rem)] leading-tight font-bold text-tjpr-navy-900 dark:text-white mb-2">
               Gerador de Minutas
             </h1>
@@ -120,9 +131,9 @@ export default function App() {
             <AnimatePresence mode="wait">
               {!finalizado ? (
                 <motion.div key={etapaAtual} {...questionMotionProps}>
-                  <TJPRCard className="w-full shadow-lg" aria-live="polite">
+                  <TJPRCard className={`w-full shadow-lg ${isDarkMode ? '' : 'question-card-light'}`} aria-live="polite">
                     <div className="mb-6 flex items-center justify-between gap-4">
-                      <TJPRBadge variant="info" icon="linear_scale">
+                      <TJPRBadge variant={isDarkMode ? 'info' : 'default'} icon="linear_scale">
                         Passo {historico.length + 1}
                       </TJPRBadge>
                     </div>
@@ -138,9 +149,10 @@ export default function App() {
                             key={index}
                             className={`
                               flex items-center p-4 rounded-none border cursor-pointer transition-colors duration-200
+                              ${!isDarkMode ? 'choice-card-light' : ''}
                               focus-within:outline-none focus-within:ring-2 focus-within:ring-tjpr-gold focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-800
                               ${selectedOption?.texto === opt.texto
-                                ? 'border-tjpr-navy-700 bg-blue-50 dark:bg-tjpr-navy-800/30'
+                                ? `${isDarkMode ? 'border-tjpr-navy-700 bg-blue-50 dark:bg-tjpr-navy-800/30' : 'choice-card-light-selected'}`
                                 : 'border-tjpr-gray-200 dark:border-gray-700 hover:border-tjpr-navy-600 bg-white dark:bg-gray-800'}
                             `}
                           >
@@ -196,7 +208,7 @@ export default function App() {
                 </motion.div>
               ) : (
                 <motion.div {...resultMotionProps}>
-                  <TJPRCard className="w-full shadow-lg">
+                  <TJPRCard className={`w-full shadow-lg ${isDarkMode ? '' : 'question-card-light'}`}>
                     <div className="flex items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
                       <div className="w-[48px] h-[48px] bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4">
                         <CheckCircle2 className="w-[28px] h-[28px] text-tjpr-success dark:text-green-400" />
@@ -211,7 +223,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="bg-tjpr-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-tjpr-gray-200 dark:border-gray-700 min-h-[200px] mb-8">
+                    <div className={`rounded-lg p-6 border min-h-[200px] mb-8 ${isDarkMode ? 'bg-tjpr-gray-50 dark:bg-gray-800/50 border-tjpr-gray-200 dark:border-gray-700' : 'minuta-panel-light'}`}>
                       <p className="whitespace-pre-wrap max-w-[72ch] text-tjpr-gray-900 dark:text-gray-200 text-lg leading-relaxed font-sans">
                         {minutaFinal}
                       </p>
