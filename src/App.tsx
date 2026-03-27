@@ -168,9 +168,12 @@ export default function App() {
                             <label
                               key={index}
                               className={`
-                                flex items-center p-4 rounded-none border cursor-pointer transition-colors duration-200
+                                flex items-center p-4 rounded-none border cursor-pointer
+                                transition-colors duration-200
                                 ${optionStateClass}
-                                focus-within:outline-none focus-within:ring-2 focus-within:ring-tjpr-gold focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-800
+                                focus-within:outline-none focus-within:ring-2
+                                focus-within:ring-tjpr-gold focus-within:ring-offset-2
+                                focus-within:ring-offset-[#f7f4ee] dark:focus-within:ring-offset-[#101b2b]
                               `}
                             >
                               <input
@@ -186,11 +189,11 @@ export default function App() {
                                   w-[20px] h-[20px] border-2 mr-4 flex items-center justify-center transition-colors shrink-0
                                   ${selectedOption?.texto === opt.texto
                                     ? 'border-tjpr-navy-800 dark:border-tjpr-gold bg-tjpr-navy-800 dark:bg-tjpr-gold'
-                                    : 'border-tjpr-gray-600 dark:border-gray-400'}
+                                    : 'border-tjpr-gray-600 dark:border-gray-500 bg-transparent'}
                                 `}
                               >
                                 {selectedOption?.texto === opt.texto && (
-                                  <div className={`w-[8px] h-[8px] ${isDarkMode ? 'bg-tjpr-navy-900' : 'bg-white'}`} />
+                                  <div className={`w-[9px] h-[9px] rounded-none ${isDarkMode ? 'bg-[#0D1B2A]' : 'bg-white'}`} />
                                 )}
                               </div>
                               <span className="text-[clamp(1rem,0.97rem+0.2vw,1.125rem)] leading-normal font-medium text-tjpr-gray-900 dark:text-gray-100">
@@ -202,7 +205,7 @@ export default function App() {
                       </div>
                     </fieldset>
 
-                    <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-6 border-t border-[rgba(27,38,59,0.1)] dark:border-[rgba(144,169,201,0.2)]">
                       <TJPRButton
                         variant="ghost"
                         onClick={voltar}
@@ -229,7 +232,7 @@ export default function App() {
               ) : (
                 <motion.div {...resultMotionProps}>
                   <TJPRCard className={`w-full shadow-lg ${isDarkMode ? 'question-card-dark' : 'question-card-light'}`}>
-                    <div className="flex items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center mb-6 pb-4 border-b border-[rgba(27,38,59,0.1)] dark:border-[rgba(144,169,201,0.2)]">
                       <div className="w-[48px] h-[48px] bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4">
                         <CheckCircle2 className="w-[28px] h-[28px] text-tjpr-success dark:text-green-400" />
                       </div>
@@ -243,13 +246,13 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className={`rounded-lg p-6 border min-h-[200px] mb-8 ${isDarkMode ? 'minuta-panel-dark' : 'minuta-panel-light'}`}>
+                    <div className={`p-6 border min-h-[200px] mb-8 ${isDarkMode ? 'minuta-panel-dark' : 'minuta-panel-light'}`}>
                       <p className="whitespace-pre-wrap max-w-[72ch] text-tjpr-gray-900 dark:text-gray-100 text-lg leading-relaxed font-sans">
                         {minutaFinal}
                       </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-end pt-4 border-t border-[rgba(27,38,59,0.1)] dark:border-[rgba(144,169,201,0.2)]">
                       <TJPRButton variant="secondary" onClick={copiarTexto} icon="content_copy">
                         Copiar conteúdo
                       </TJPRButton>

@@ -374,11 +374,12 @@ body {
 }
 
 .choice-card-dark-selected {
-    background: linear-gradient(180deg, rgba(32, 43, 66, 0.98), rgba(21, 31, 49, 0.98));
-    border-color: rgba(212, 175, 55, 0.68);
+    background: linear-gradient(180deg, rgba(38, 54, 82, 0.98), rgba(27, 40, 62, 0.98));
+    border-color: rgba(212, 175, 55, 0.72);
     box-shadow:
-        inset 0 0 0 1px rgba(212, 175, 55, 0.28),
+        inset 0 0 0 1px rgba(212, 175, 55, 0.32),
         0 18px 28px -24px rgba(0, 0, 0, 0.56);
+    color: #f0f4f8;
 }
 
 .minuta-panel-light {
@@ -426,9 +427,18 @@ body {
 }
 
 .dark .tjpr-input {
-    background: #111827;
-    border-color: #4B5563;
-    color: white;
+    background: rgba(17, 27, 43, 0.8);
+    border-color: rgba(120, 145, 175, 0.35);
+    color: #e8edf3;
+}
+
+.dark .tjpr-input::placeholder {
+    color: rgba(181, 196, 214, 0.55);
+}
+
+.dark .tjpr-input:focus {
+    border-color: rgba(144, 169, 201, 0.7);
+    box-shadow: 0 0 0 3px rgba(144, 169, 201, 0.15);
 }
 
 .tjpr-label {

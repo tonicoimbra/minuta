@@ -57,7 +57,7 @@ export const TJPRCard = ({ title, subtitle, children, actions, className = '', i
     return (
         <div className={`tjpr-card ${className}`} {...props}>
             {(title || subtitle || icon) && (
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="px-6 py-4 border-b border-[rgba(27,38,59,0.08)] dark:border-[rgba(144,169,201,0.18)]">
                     <div className="flex items-center gap-3">
                         {icon && (
                             <span className="text-tjpr-navy-700 dark:text-tjpr-navy-500">
@@ -71,7 +71,7 @@ export const TJPRCard = ({ title, subtitle, children, actions, className = '', i
                                 </h3>
                             )}
                             {subtitle && (
-                                <p className="mt-1 text-sm text-tjpr-gray-700 dark:text-gray-300">
+                                <p className="mt-1 text-sm text-tjpr-gray-700 dark:text-[#b5c4d6]">
                                     {subtitle}
                                 </p>
                             )}
@@ -83,7 +83,7 @@ export const TJPRCard = ({ title, subtitle, children, actions, className = '', i
                 {children}
             </div>
             {actions && (
-                <div className="flex items-center justify-end gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900">
+                <div className="flex items-center justify-end gap-3 border-t border-[rgba(27,38,59,0.08)] dark:border-[rgba(144,169,201,0.18)] bg-[rgba(248,249,250,0.7)] dark:bg-[rgba(0,0,0,0.2)] px-6 py-4">
                     {actions}
                 </div>
             )}
@@ -106,12 +106,12 @@ export const TJPRButton = ({
     const baseClasses = 'inline-flex items-center justify-center gap-2 rounded-none font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-950 hover:-translate-y-0.5';
 
     const variantClasses: any = {
-        primary: 'bg-tjpr-navy-800 text-white shadow-sm hover:bg-[#142033] hover:shadow-md focus-visible:ring-tjpr-gold',
-        secondary: 'border border-[rgba(27,38,59,0.14)] bg-white/90 text-tjpr-navy-900 shadow-sm hover:bg-white hover:shadow-md focus-visible:ring-tjpr-navy-700 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
+        primary: 'bg-tjpr-navy-800 text-white shadow-sm hover:bg-[#142033] hover:shadow-md focus-visible:ring-tjpr-gold dark:bg-[#2a4a6e] dark:hover:bg-[#335580] dark:text-white dark:shadow-md',
+        secondary: 'border border-[rgba(27,38,59,0.14)] bg-white/90 text-tjpr-navy-900 shadow-sm hover:bg-white hover:shadow-md focus-visible:ring-tjpr-navy-700 dark:border-[rgba(144,169,201,0.3)] dark:bg-[rgba(255,255,255,0.08)] dark:text-[#e8edf3] dark:hover:bg-[rgba(255,255,255,0.14)] dark:hover:text-white',
         success: 'bg-tjpr-success text-white shadow-sm hover:bg-green-700 focus-visible:ring-tjpr-success',
-        warning: 'bg-tjpr-warning text-tjpr-navy-900 shadow-sm hover:bg-orange-600 focus-visible:ring-tjpr-warning',
+        warning: 'bg-tjpr-warning text-white shadow-sm hover:bg-orange-600 focus-visible:ring-tjpr-warning',
         error: 'bg-tjpr-error text-white shadow-sm hover:bg-red-700 focus-visible:ring-tjpr-error',
-        ghost: 'bg-transparent text-tjpr-gray-700 hover:bg-[rgba(27,38,59,0.08)] focus-visible:ring-tjpr-navy-700 dark:text-gray-300 dark:hover:bg-white/10 dark:focus-visible:ring-tjpr-gold'
+        ghost: 'bg-transparent text-tjpr-gray-700 hover:bg-[rgba(27,38,59,0.08)] focus-visible:ring-tjpr-navy-700 dark:text-[#b5c4d6] dark:hover:bg-[rgba(255,255,255,0.1)] dark:focus-visible:ring-tjpr-gold'
     };
 
     const sizeClasses: any = {
@@ -120,7 +120,7 @@ export const TJPRButton = ({
         lg: 'px-6 py-3 text-lg'
     };
 
-    const disabledClasses = 'pointer-events-none cursor-not-allowed opacity-50';
+    const disabledClasses = 'pointer-events-none cursor-not-allowed opacity-40 dark:opacity-35';
     const iconElement = icon ? renderIcon(icon, 'h-[1em] w-[1em]') : null;
 
     return (
@@ -431,17 +431,17 @@ export const CookieConsent = () => {
     if (!visible) return null;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-[80] animate-fade-in border-t border-slate-200 bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] dark:border-slate-800 dark:bg-slate-900">
+        <div className="fixed bottom-0 left-0 right-0 z-[80] animate-fade-in border-t border-[rgba(27,38,59,0.12)] dark:border-[rgba(144,169,201,0.18)] bg-[rgba(255,253,248,0.97)] dark:bg-[rgba(13,27,42,0.97)] p-4 shadow-[0_-4px_24px_-4px_rgba(13,27,42,0.18)] dark:shadow-[0_-4px_24px_-4px_rgba(0,0,0,0.48)] backdrop-blur-sm">
             <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
-                <div className="text-sm text-slate-700 dark:text-slate-300">
-                    <p><strong>Este sistema utiliza dados para funcionamento.</strong></p>
+                <div className="text-sm text-[#3d4a58] dark:text-[#b5c4d6]">
+                    <p><strong className="text-tjpr-navy-900 dark:text-white">Este sistema utiliza dados para funcionamento.</strong></p>
                     <p>Utilizamos armazenamento local para salvar suas preferências e coletamos dados de uso para fins de auditoria e melhoria, em conformidade com a LGPD. Ao continuar, você concorda com nossa Política de Privacidade.</p>
                 </div>
                 <div className="flex flex-shrink-0 gap-3">
                     <button
                         type="button"
                         onClick={handleAccept}
-                        className="rounded-none bg-blue-600 px-6 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-blue-700"
+                        className="rounded-none bg-tjpr-navy-800 dark:bg-[#2a4a6e] px-6 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#142033] dark:hover:bg-[#335580] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tjpr-gold focus-visible:ring-offset-2"
                     >
                         Concordar e Fechar
                     </button>
