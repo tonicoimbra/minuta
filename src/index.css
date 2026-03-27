@@ -7,10 +7,16 @@
   --color-tjpr-navy-700: #415A77;
   --color-tjpr-navy-600: #778DA9;
   --color-tjpr-navy-500: #90A9C9;
+  --color-tjpr-gray-50:  #F8F9FA;
+  --color-tjpr-gray-100: #E9ECEF;
+  --color-tjpr-gray-200: #DEE2E6;
+  --color-tjpr-gray-600: #6C757D;
   --color-tjpr-gray-700: #495057;
-  --color-tjpr-success: #2E7D32;
-  --color-tjpr-warning: #F57C00;
-  --color-tjpr-error: #C62828;
+  --color-tjpr-gray-900: #212529;
+  --color-tjpr-gold:     #D4AF37;
+  --color-tjpr-success:  #2E7D32;
+  --color-tjpr-warning:  #F57C00;
+  --color-tjpr-error:    #C62828;
 }
 
 :root {
