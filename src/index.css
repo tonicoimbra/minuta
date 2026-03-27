@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+/* <label aria-label */
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Segoe UI", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
   --color-tjpr-navy-900: #0D1B2A;
   --color-tjpr-navy-800: #1B263B;
   --color-tjpr-navy-700: #415A77;
   --color-tjpr-navy-600: #778DA9;
   --color-tjpr-navy-500: #90A9C9;
+  --color-tjpr-gray-700: #495057;
   --color-tjpr-success: #2E7D32;
   --color-tjpr-warning: #F57C00;
   --color-tjpr-error: #C62828;
@@ -30,6 +30,7 @@
     --tjpr-gray-100: #E9ECEF;
     --tjpr-gray-200: #DEE2E6;
     --tjpr-gray-600: #6C757D;
+    --tjpr-gray-700: #495057;
     --tjpr-gray-900: #212529;
     
     /* Action Colors */
@@ -46,10 +47,10 @@
     --spacing-xl: 2rem;
     
     /* Border Radius */
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
+    --radius-sm: 0px;
+    --radius-md: 0px;
+    --radius-lg: 0px;
+    --radius-xl: 0px;
     
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -63,7 +64,7 @@
    =================================== */
 html, body, #root {
     height: 100%;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -76,6 +77,22 @@ body {
     box-sizing: border-box;
 }
 
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--tjpr-navy-900);
+    color: white;
+    border: 1px solid var(--tjpr-gold);
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
 /* ===================================
    Utility Classes
    =================================== */
@@ -85,7 +102,9 @@ body {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     border: 1px solid var(--tjpr-gray-200);
-    transition: all 0.2s ease;
+    transition-property: transform, box-shadow, background-color, border-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
 }
 
 .dark .tjpr-card {
@@ -103,7 +122,9 @@ body {
     padding: 0.75rem 1.5rem;
     border-radius: var(--radius-md);
     font-weight: 600;
-    transition: all 0.2s ease;
+    transition-property: transform, box-shadow, background-color, color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
     border: none;
     cursor: pointer;
     display: inline-flex;
@@ -127,7 +148,9 @@ body {
     border: 1px solid var(--tjpr-gray-200);
     border-radius: var(--radius-md);
     font-size: 0.875rem;
-    transition: all 0.2s ease;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
     background: white;
 }
 
@@ -177,7 +200,7 @@ body {
 
 .tjpr-badge-warning {
     background: #FEF3C7;
-    color: var(--tjpr-warning);
+    color: #92400E;
 }
 
 .tjpr-badge-error {
@@ -185,28 +208,16 @@ body {
     color: var(--tjpr-error);
 }
 
-/* Material Icons */
-.material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: 'liga';
-}
-
 /* Smooth Transitions */
-* {
-    transition-property: background-color, border-color, color, fill, stroke;
+button,
+a,
+input,
+select,
+textarea,
+.tjpr-card,
+.tjpr-header,
+.tjpr-badge {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
@@ -238,11 +249,6 @@ button {
     
     main {
         padding: 1rem !important;
-    }
-    
-    .tjpr-card {
-        padding: 1rem !important;
-        border-radius: var(--radius-md);
     }
 }
 
@@ -284,12 +290,17 @@ button {
     border-radius: 4px;
 }
 
-/* Global Alert Animation */
-@keyframes slide-attention {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(10px); }
-}
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
 
-.animate-attention {
-    animation: slide-attention 1s ease-in-out;
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
