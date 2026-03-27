@@ -1,26 +1,42 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
 import { fluxo, Option } from './data/flow';
 import { TJPRBadge, TJPRButton, TJPRCard, TJPRHeader } from './components/TJPR';
+
+type ThemeMode = 'light' | 'dark';
+
+const getInitialTheme = (): ThemeMode => {
+  if (typeof window === 'undefined') return 'light';
+
+  const storedTheme = window.localStorage.getItem('theme-mode');
+  if (storedTheme === 'light' || storedTheme === 'dark') {
+    return storedTheme;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
 
 export default function App() {
   const [etapaAtual, setEtapaAtual] = useState('inicio');
   const [historico, setHistorico] = useState<{ step: string; snippet: string }[]>([]);
   const [finalizado, setFinalizado] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const reduceMotion = useReducedMotion();
+  const isDarkMode = theme === 'dark';
 
   const perguntaAtual = fluxo[etapaAtual];
 
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem('theme-mode', theme);
+  }, [isDarkMode, theme]);
+
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
 
   const handleEscolha = () => {
@@ -91,12 +107,12 @@ export default function App() {
         transition: { duration: 0 }
       }
     : {
-        initial: { opacity: 0, scale: 0.95 },
+        initial: { opacity: 0, scale: 0.98 },
         animate: { opacity: 1, scale: 1 }
       };
 
   return (
-    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'dark bg-gray-900 text-white' : 'app-shell-light text-tjpr-gray-900'}`}>
+    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'app-shell-dark text-white' : 'app-shell-light text-tjpr-gray-900'}`}>
       <TJPRHeader user={mockUser} isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
 
       <main
@@ -104,26 +120,18 @@ export default function App() {
         className="flex-1 flex flex-col items-center p-6 md:p-12 relative overflow-hidden"
         tabIndex={-1}
       >
-        {!isDarkMode && (
-          <>
-            <div className="app-light-orb app-light-orb-left" aria-hidden="true" />
-            <div className="app-light-orb app-light-orb-right" aria-hidden="true" />
-          </>
-        )}
         <div className="watermark-overlay">TJPR</div>
 
         <div className="max-w-4xl w-full relative z-10 flex flex-col items-center">
-          <div className={`mb-8 text-center ${isDarkMode ? '' : 'hero-panel-light'}`}>
-            {!isDarkMode && (
-              <div className="hero-kicker-light">
-                Triagem de preparo recursal
-              </div>
-            )}
+          <div className={`mb-8 text-center app-hero-panel ${isDarkMode ? 'app-hero-panel-dark' : 'app-hero-panel-light'}`}>
+            <div className={`hero-kicker ${isDarkMode ? 'hero-kicker-dark' : 'hero-kicker-light'}`}>
+              Triagem de preparo recursal
+            </div>
             <h1 className="text-[clamp(1.875rem,1.55rem+1.4vw,2.5rem)] leading-tight font-bold text-tjpr-navy-900 dark:text-white mb-2">
               Gerador de Minutas
             </h1>
             <p className="text-[clamp(1rem,0.97rem+0.2vw,1.0625rem)] text-tjpr-gray-700 dark:text-gray-300">
-              Sistema Auxiliar para Elaboração de Documentos Processuais
+              Sistema auxiliar para elaboração de documentos processuais
             </p>
           </div>
 
@@ -131,7 +139,10 @@ export default function App() {
             <AnimatePresence mode="wait">
               {!finalizado ? (
                 <motion.div key={etapaAtual} {...questionMotionProps}>
-                  <TJPRCard className={`w-full shadow-lg ${isDarkMode ? '' : 'question-card-light'}`} aria-live="polite">
+                  <TJPRCard
+                    className={`w-full shadow-lg ${isDarkMode ? 'question-card-dark' : 'question-card-light'}`}
+                    aria-live="polite"
+                  >
                     <div className="mb-6 flex items-center justify-between gap-4">
                       <TJPRBadge variant={isDarkMode ? 'info' : 'default'} icon="linear_scale">
                         Passo {historico.length + 1}
@@ -144,41 +155,50 @@ export default function App() {
                       </legend>
 
                       <div className="space-y-4">
-                        {perguntaAtual.opcoes.map((opt, index) => (
-                          <label
-                            key={index}
-                            className={`
-                              flex items-center p-4 rounded-none border cursor-pointer transition-colors duration-200
-                              ${!isDarkMode ? 'choice-card-light' : ''}
-                              focus-within:outline-none focus-within:ring-2 focus-within:ring-tjpr-gold focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-800
-                              ${selectedOption?.texto === opt.texto
-                                ? `${isDarkMode ? 'border-tjpr-navy-700 bg-blue-50 dark:bg-tjpr-navy-800/30' : 'choice-card-light-selected'}`
-                                : 'border-tjpr-gray-200 dark:border-gray-700 hover:border-tjpr-navy-600 bg-white dark:bg-gray-800'}
-                            `}
-                          >
-                            <input
-                              type="radio"
-                              name={`pergunta-${etapaAtual}`}
-                              className="sr-only"
-                              aria-label={opt.texto}
-                              checked={selectedOption?.texto === opt.texto}
-                              onChange={() => setSelectedOption(opt)}
-                            />
-                            <div
+                        {perguntaAtual.opcoes.map((opt, index) => {
+                          const optionStateClass = selectedOption?.texto === opt.texto
+                            ? isDarkMode
+                              ? 'choice-card-dark-selected'
+                              : 'choice-card-light-selected'
+                            : isDarkMode
+                              ? 'choice-card-dark'
+                              : 'choice-card-light';
+
+                          return (
+                            <label
+                              key={index}
                               className={`
-                                w-[20px] h-[20px] border-2 mr-4 flex items-center justify-center transition-colors shrink-0
-                                ${selectedOption?.texto === opt.texto
-                                  ? 'border-tjpr-navy-800 dark:border-tjpr-navy-500 bg-tjpr-navy-800 dark:bg-tjpr-navy-500'
-                                  : 'border-tjpr-gray-600'}
+                                flex items-center p-4 rounded-none border cursor-pointer transition-colors duration-200
+                                ${optionStateClass}
+                                focus-within:outline-none focus-within:ring-2 focus-within:ring-tjpr-gold focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-800
                               `}
                             >
-                              {selectedOption?.texto === opt.texto && <div className="w-[8px] h-[8px] bg-white" />}
-                            </div>
-                            <span className="text-[clamp(1rem,0.97rem+0.2vw,1.125rem)] leading-normal font-medium text-tjpr-gray-900 dark:text-gray-200">
-                              {opt.texto}
-                            </span>
-                          </label>
-                        ))}
+                              <input
+                                type="radio"
+                                name={`pergunta-${etapaAtual}`}
+                                className="sr-only"
+                                aria-label={opt.texto}
+                                checked={selectedOption?.texto === opt.texto}
+                                onChange={() => setSelectedOption(opt)}
+                              />
+                              <div
+                                className={`
+                                  w-[20px] h-[20px] border-2 mr-4 flex items-center justify-center transition-colors shrink-0
+                                  ${selectedOption?.texto === opt.texto
+                                    ? 'border-tjpr-navy-800 dark:border-tjpr-gold bg-tjpr-navy-800 dark:bg-tjpr-gold'
+                                    : 'border-tjpr-gray-600 dark:border-gray-400'}
+                                `}
+                              >
+                                {selectedOption?.texto === opt.texto && (
+                                  <div className={`w-[8px] h-[8px] ${isDarkMode ? 'bg-tjpr-navy-900' : 'bg-white'}`} />
+                                )}
+                              </div>
+                              <span className="text-[clamp(1rem,0.97rem+0.2vw,1.125rem)] leading-normal font-medium text-tjpr-gray-900 dark:text-gray-100">
+                                {opt.texto}
+                              </span>
+                            </label>
+                          );
+                        })}
                       </div>
                     </fieldset>
 
@@ -208,14 +228,14 @@ export default function App() {
                 </motion.div>
               ) : (
                 <motion.div {...resultMotionProps}>
-                  <TJPRCard className={`w-full shadow-lg ${isDarkMode ? '' : 'question-card-light'}`}>
+                  <TJPRCard className={`w-full shadow-lg ${isDarkMode ? 'question-card-dark' : 'question-card-light'}`}>
                     <div className="flex items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
                       <div className="w-[48px] h-[48px] bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4">
                         <CheckCircle2 className="w-[28px] h-[28px] text-tjpr-success dark:text-green-400" />
                       </div>
                       <div>
                         <h2 className="text-[clamp(1.5rem,1.3rem+0.8vw,2rem)] leading-tight font-semibold text-tjpr-navy-900 dark:text-white">
-                          Relatório / Minuta Gerada
+                          Relatório / Minuta gerada
                         </h2>
                         <p className="text-tjpr-gray-700 dark:text-gray-300 text-sm mt-1">
                           As seleções realizadas formaram o conteúdo abaixo.
@@ -223,18 +243,18 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className={`rounded-lg p-6 border min-h-[200px] mb-8 ${isDarkMode ? 'bg-tjpr-gray-50 dark:bg-gray-800/50 border-tjpr-gray-200 dark:border-gray-700' : 'minuta-panel-light'}`}>
-                      <p className="whitespace-pre-wrap max-w-[72ch] text-tjpr-gray-900 dark:text-gray-200 text-lg leading-relaxed font-sans">
+                    <div className={`rounded-lg p-6 border min-h-[200px] mb-8 ${isDarkMode ? 'minuta-panel-dark' : 'minuta-panel-light'}`}>
+                      <p className="whitespace-pre-wrap max-w-[72ch] text-tjpr-gray-900 dark:text-gray-100 text-lg leading-relaxed font-sans">
                         {minutaFinal}
                       </p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
                       <TJPRButton variant="secondary" onClick={copiarTexto} icon="content_copy">
-                        Copiar Conteúdo
+                        Copiar conteúdo
                       </TJPRButton>
                       <TJPRButton variant="primary" onClick={reiniciar} icon="refresh">
-                        Nova Classificação
+                        Nova classificação
                       </TJPRButton>
                     </div>
                   </TJPRCard>
@@ -245,9 +265,9 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="py-6 text-center text-tjpr-gray-700 dark:text-gray-300 text-sm border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 z-10">
+      <footer className={`py-6 text-center text-sm border-t z-10 ${isDarkMode ? 'app-footer-dark' : 'app-footer-light'}`}>
         <p>Tribunal de Justiça do Estado do Paraná © 2026. Todos os direitos reservados.</p>
-        <p className="text-xs mt-1 text-tjpr-gray-700 dark:text-gray-400">
+        <p className="text-xs mt-1">
           Este é um sistema auxiliar e não substitui a validação humana.
         </p>
       </footer>

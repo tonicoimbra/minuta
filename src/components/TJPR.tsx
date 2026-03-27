@@ -71,7 +71,7 @@ export const TJPRCard = ({ title, subtitle, children, actions, className = '', i
                                 </h3>
                             )}
                             {subtitle && (
-                                <p className="text-sm text-tjpr-gray-700 dark:text-gray-300 mt-1">
+                                <p className="mt-1 text-sm text-tjpr-gray-700 dark:text-gray-300">
                                     {subtitle}
                                 </p>
                             )}
@@ -83,7 +83,7 @@ export const TJPRCard = ({ title, subtitle, children, actions, className = '', i
                 {children}
             </div>
             {actions && (
-                <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end gap-3">
+                <div className="flex items-center justify-end gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900">
                     {actions}
                 </div>
             )}
@@ -103,15 +103,15 @@ export const TJPRButton = ({
     type = 'button',
     ...props
 }: any) => {
-    const baseClasses = 'inline-flex items-center justify-center gap-2 font-semibold transition-colors duration-200 rounded-none focus:outline-none focus:ring-2 focus:ring-offset-2 hover:-translate-y-0.5';
+    const baseClasses = 'inline-flex items-center justify-center gap-2 rounded-none font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-950 hover:-translate-y-0.5';
 
     const variantClasses: any = {
-        primary: 'bg-tjpr-navy-800 hover:bg-tjpr-navy-700 text-white focus:ring-tjpr-navy-700 shadow-sm hover:shadow-md',
-        secondary: 'bg-[#f6efe1] hover:bg-[#f0e6d5] text-tjpr-navy-900 border border-[rgba(27,38,59,0.14)] focus:ring-tjpr-navy-700 shadow-sm dark:bg-gray-900 dark:text-white dark:border-gray-300 dark:hover:bg-gray-800',
-        success: 'bg-tjpr-success hover:bg-green-700 text-white focus:ring-tjpr-success shadow-sm',
-        warning: 'bg-tjpr-warning hover:bg-orange-600 text-tjpr-navy-900 focus:ring-tjpr-warning shadow-sm',
-        error: 'bg-tjpr-error hover:bg-red-700 text-white focus:ring-tjpr-error shadow-sm',
-        ghost: 'bg-transparent hover:bg-[rgba(27,38,59,0.06)] dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+        primary: 'bg-tjpr-navy-800 text-white shadow-sm hover:bg-[#142033] hover:shadow-md focus-visible:ring-tjpr-gold',
+        secondary: 'border border-[rgba(27,38,59,0.14)] bg-white/90 text-tjpr-navy-900 shadow-sm hover:bg-white hover:shadow-md focus-visible:ring-tjpr-navy-700 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
+        success: 'bg-tjpr-success text-white shadow-sm hover:bg-green-700 focus-visible:ring-tjpr-success',
+        warning: 'bg-tjpr-warning text-tjpr-navy-900 shadow-sm hover:bg-orange-600 focus-visible:ring-tjpr-warning',
+        error: 'bg-tjpr-error text-white shadow-sm hover:bg-red-700 focus-visible:ring-tjpr-error',
+        ghost: 'bg-transparent text-tjpr-gray-700 hover:bg-[rgba(27,38,59,0.08)] focus-visible:ring-tjpr-navy-700 dark:text-gray-300 dark:hover:bg-white/10 dark:focus-visible:ring-tjpr-gold'
     };
 
     const sizeClasses: any = {
@@ -120,7 +120,7 @@ export const TJPRButton = ({
         lg: 'px-6 py-3 text-lg'
     };
 
-    const disabledClasses = 'opacity-50 cursor-not-allowed pointer-events-none';
+    const disabledClasses = 'pointer-events-none cursor-not-allowed opacity-50';
     const iconElement = icon ? renderIcon(icon, 'h-[1em] w-[1em]') : null;
 
     return (
@@ -160,12 +160,12 @@ export const TJPRInput = ({
             {label && (
                 <label htmlFor={inputId} className="tjpr-label">
                     {label}
-                    {required && <span className="text-tjpr-error ml-1">*</span>}
+                    {required && <span className="ml-1 text-tjpr-error">*</span>}
                 </label>
             )}
             <div className="relative">
                 {icon && (
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                         {renderIcon(icon, 'h-4 w-4')}
                     </div>
                 )}
@@ -182,7 +182,7 @@ export const TJPRInput = ({
                 />
             </div>
             {error && (
-                <p className="mt-1 text-sm text-tjpr-error flex items-center gap-1">
+                <p className="mt-1 flex items-center gap-1 text-sm text-tjpr-error">
                     {renderIcon('error', 'h-4 w-4')}
                     {error}
                 </p>
@@ -200,6 +200,15 @@ export const TJPRHeader = ({ user, onLogout, onToggleDarkMode, isDarkMode, onOpe
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const menuId = useId();
+    const headerClass = isDarkMode ? 'tjpr-header tjpr-header-dark' : 'tjpr-header tjpr-header-light';
+    const markClass = isDarkMode ? 'tjpr-header-mark tjpr-header-mark-dark' : 'tjpr-header-mark tjpr-header-mark-light';
+    const titleClass = isDarkMode ? 'tjpr-header-title tjpr-header-title-dark' : 'tjpr-header-title tjpr-header-title-light';
+    const subtitleClass = isDarkMode ? 'tjpr-header-subtitle tjpr-header-subtitle-dark' : 'tjpr-header-subtitle tjpr-header-subtitle-light';
+    const iconButtonClass = isDarkMode ? 'tjpr-header-icon-button tjpr-header-icon-button-dark' : 'tjpr-header-icon-button tjpr-header-icon-button-light';
+    const menuButtonClass = isDarkMode ? 'tjpr-header-menu-button tjpr-header-menu-button-dark' : 'tjpr-header-menu-button tjpr-header-menu-button-light';
+    const avatarClass = isDarkMode ? 'tjpr-header-avatar tjpr-header-avatar-dark' : 'tjpr-header-avatar tjpr-header-avatar-light';
+    const menuPanelClass = isDarkMode ? 'tjpr-header-menu-panel tjpr-header-menu-panel-dark' : 'tjpr-header-menu-panel tjpr-header-menu-panel-light';
+    const menuItemClass = isDarkMode ? 'tjpr-header-menu-item tjpr-header-menu-item-dark' : 'tjpr-header-menu-item tjpr-header-menu-item-light';
 
     useEffect(() => {
         if (!isMenuOpen) return;
@@ -226,96 +235,92 @@ export const TJPRHeader = ({ user, onLogout, onToggleDarkMode, isDarkMode, onOpe
     }, [isMenuOpen]);
 
     return (
-        <header className="tjpr-header sticky top-0 z-50">
+        <header className={`${headerClass} sticky top-0 z-50`}>
             <div className="max-w-full px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between min-h-16 py-3 gap-4">
-                    <div className="flex items-center gap-3 min-w-0">
-                        <div
-                            aria-hidden="true"
-                            className="h-10 w-10 shrink-0 border border-white/20 bg-white/10 flex items-center justify-center text-white font-bold tracking-[0.14em] text-sm"
-                        >
+                <div className="flex min-h-16 items-center justify-between gap-4 py-3">
+                    <div className="flex min-w-0 items-center gap-3">
+                        <div aria-hidden="true" className={markClass}>
                             TJ
                         </div>
                         <div className="min-w-0">
-                            <p className="text-[clamp(1rem,0.95rem+0.35vw,1.125rem)] leading-tight font-semibold text-white truncate">
+                            <p className={titleClass}>
                                 Gerador de Minutas
                             </p>
-                            <p className="text-xs sm:text-sm text-tjpr-navy-500 truncate">
+                            <p className={subtitleClass}>
                                 Tribunal de Justiça do Paraná • Assessoria P-SEP-AR
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <div className="flex shrink-0 items-center gap-2 sm:gap-3">
                         {onToggleNotifications && (
                             <button
+                                type="button"
                                 onClick={onToggleNotifications}
-                                className="relative p-2 rounded-none hover:bg-tjpr-navy-700 transition-colors"
+                                className={`relative ${iconButtonClass}`}
                                 title="Notificações"
                                 aria-label="Abrir notificações"
                             >
-                                {renderIcon('notifications', 'h-5 w-5 text-white')}
+                                {renderIcon('notifications', 'h-5 w-5')}
                                 {notifications && notifications.length > 0 && (
-                                    <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-none border-2 border-tjpr-navy-900 pointer-events-none"></span>
+                                    <span className={`pointer-events-none absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-none border-2 bg-red-500 ${isDarkMode ? 'border-tjpr-navy-900' : 'border-white'}`}></span>
                                 )}
                             </button>
                         )}
 
                         {onToggleDarkMode && (
                             <button
+                                type="button"
                                 onClick={onToggleDarkMode}
-                                className="p-2 rounded-none hover:bg-tjpr-navy-700 transition-colors"
+                                className={iconButtonClass}
                                 title={isDarkMode ? 'Modo claro' : 'Modo escuro'}
                                 aria-label={isDarkMode ? 'Ativar modo claro' : 'Ativar modo escuro'}
+                                aria-pressed={isDarkMode}
                             >
-                                {renderIcon(isDarkMode ? 'light_mode' : 'dark_mode', 'h-5 w-5 text-white')}
+                                {renderIcon(isDarkMode ? 'light_mode' : 'dark_mode', 'h-5 w-5')}
                             </button>
                         )}
 
                         <div className="relative" ref={menuRef}>
                             <button
+                                type="button"
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                className="flex items-center gap-2 p-2 rounded-none hover:bg-tjpr-navy-700 transition-colors"
+                                className={menuButtonClass}
                                 aria-label="Abrir menu do usuário"
                                 aria-haspopup="menu"
                                 aria-expanded={isMenuOpen}
                                 aria-controls={menuId}
                             >
-                                <div
-                                    className="w-8 h-8 rounded-none flex items-center justify-center text-white font-semibold"
-                                    style={{ backgroundColor: user?.avatarColor || '#C5A572' }}
-                                >
+                                <div className={avatarClass} style={{ backgroundColor: user?.avatarColor || '#C5A572' }}>
                                     {user?.displayName?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'U'}
                                 </div>
-                                <span className="hidden md:block text-white text-sm font-medium max-w-32 truncate">
+                                <span className={`hidden max-w-32 truncate text-sm font-medium md:block ${isDarkMode ? 'text-white' : 'text-tjpr-navy-900'}`}>
                                     {user?.displayName || user?.email?.split('@')[0] || 'Usuário'}
                                 </span>
-                                {renderIcon(isMenuOpen ? 'expand_less' : 'expand_more', 'h-4 w-4 text-white')}
+                                {renderIcon(isMenuOpen ? 'expand_less' : 'expand_more', `h-4 w-4 ${isDarkMode ? 'text-white' : 'text-tjpr-navy-800'}`)}
                             </button>
 
                             {isMenuOpen && (
-                                <div
-                                    id={menuId}
-                                    role="menu"
-                                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-none shadow-xl py-2 border border-gray-200 dark:border-gray-700"
-                                >
+                                <div id={menuId} role="menu" className={`absolute right-0 mt-2 w-52 py-2 ${menuPanelClass}`}>
                                     <button
+                                        type="button"
                                         onClick={() => {
                                             if (onOpenProfile) onOpenProfile();
                                             setIsMenuOpen(false);
                                         }}
-                                        className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                                        className={menuItemClass}
                                         role="menuitem"
                                     >
                                         {renderIcon('person', 'h-4 w-4')}
                                         Meu Perfil
                                     </button>
                                     <button
+                                        type="button"
                                         onClick={() => {
                                             if (onLogout) onLogout();
                                             setIsMenuOpen(false);
                                         }}
-                                        className="w-full px-4 py-2 text-left text-sm text-tjpr-error hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                                        className={`${menuItemClass} text-tjpr-error`}
                                         role="menuitem"
                                     >
                                         {renderIcon('logout', 'h-4 w-4')}
@@ -333,11 +338,11 @@ export const TJPRHeader = ({ user, onLogout, onToggleDarkMode, isDarkMode, onOpe
 
 export const TJPRBadge = ({ children, variant = 'default', icon }: any) => {
     const variants: any = {
-        default: 'bg-[rgba(27,38,59,0.06)] text-tjpr-navy-800 border border-[rgba(27,38,59,0.08)] dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600',
+        default: 'border border-[rgba(27,38,59,0.12)] bg-[rgba(27,38,59,0.08)] text-tjpr-navy-800 shadow-sm dark:border-white/10 dark:bg-[rgba(255,255,255,0.08)] dark:text-gray-100',
         success: 'tjpr-badge-success',
         warning: 'tjpr-badge-warning',
         error: 'tjpr-badge-error',
-        info: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
+        info: 'border border-blue-200 bg-blue-100/90 text-blue-900 shadow-sm dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-100'
     };
 
     return (
@@ -377,10 +382,10 @@ export const TJPRModal = ({ isOpen, onClose, title, children, maxWidth = '2xl', 
     };
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in" role="dialog" aria-modal="true">
-            <div className={`w-full ${maxWidths[maxWidth]} max-h-[90vh] overflow-auto`}>
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-fade-in" role="dialog" aria-modal="true">
+            <div className={`max-h-[90vh] w-full overflow-auto ${maxWidths[maxWidth]}`}>
                 <div className="tjpr-card">
-                    <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 {icon && <span className="text-tjpr-navy-700 dark:text-tjpr-navy-500">{renderIcon(icon, 'h-5 w-5')}</span>}
@@ -389,8 +394,9 @@ export const TJPRModal = ({ isOpen, onClose, title, children, maxWidth = '2xl', 
                                 </h3>
                             </div>
                             <button
+                                type="button"
                                 onClick={onClose}
-                                className="p-1 rounded-none hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                className="rounded-none p-1 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                                 aria-label="Fechar modal"
                             >
                                 {renderIcon('close', 'h-5 w-5 text-gray-500')}
@@ -425,16 +431,17 @@ export const CookieConsent = () => {
     if (!visible) return null;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[80] animate-fade-in">
-            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="fixed bottom-0 left-0 right-0 z-[80] animate-fade-in border-t border-slate-200 bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] dark:border-slate-800 dark:bg-slate-900">
+            <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
                 <div className="text-sm text-slate-700 dark:text-slate-300">
                     <p><strong>Este sistema utiliza dados para funcionamento.</strong></p>
                     <p>Utilizamos armazenamento local para salvar suas preferências e coletamos dados de uso para fins de auditoria e melhoria, em conformidade com a LGPD. Ao continuar, você concorda com nossa Política de Privacidade.</p>
                 </div>
-                <div className="flex gap-3 flex-shrink-0">
+                <div className="flex flex-shrink-0 gap-3">
                     <button
+                        type="button"
                         onClick={handleAccept}
-                        className="px-6 py-2 text-sm font-bold bg-blue-600 text-white rounded-none hover:bg-blue-700 transition-colors shadow-sm"
+                        className="rounded-none bg-blue-600 px-6 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-blue-700"
                     >
                         Concordar e Fechar
                     </button>
