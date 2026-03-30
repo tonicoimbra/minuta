@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Minutas de referência (PDFs internos — não versionar)
+minutas/
