@@ -209,7 +209,7 @@ export default function App() {
                         {/* Linha vertical conectora */}
                         {idx < historico.length - 1 && (
                           <span
-                            className={`absolute left-[17px] top-[36px] bottom-0 w-px ${isDarkMode ? 'bg-[rgba(144,169,201,0.25)]' : 'bg-[rgba(27,38,59,0.1)]'}`}
+                            className={`absolute left-[17px] top-[36px] bottom-0 w-px ${isDarkMode ? 'bg-[rgba(144,169,201,0.25)]' : 'bg-[rgba(27,38,59,0.22)]'}`}
                             aria-hidden
                           />
                         )}
@@ -235,7 +235,7 @@ export default function App() {
                           </div>
 
                           <div className="flex-1 min-w-0 pt-0.5">
-                            <p className={`text-[0.68rem] font-semibold uppercase tracking-wider mb-0.5 truncate ${isDarkMode ? 'text-[#90a9c9]' : 'text-tjpr-navy-600'}`}>
+                            <p className={`text-[0.68rem] font-semibold uppercase tracking-wider mb-0.5 truncate ${isDarkMode ? 'text-[#90a9c9]' : 'text-tjpr-navy-800'}`}>
                               {STEP_LABELS[item.step] ?? `Passo ${idx + 1}`}
                             </p>
                             <p className={`text-[0.84rem] leading-snug font-medium ${isDarkMode ? 'text-gray-100' : 'text-tjpr-gray-900'}`}>
@@ -244,7 +244,7 @@ export default function App() {
                           </div>
 
                           {idx < historico.length - 1 && (
-                            <ChevronRight className={`shrink-0 w-4 h-4 mt-1 ${isDarkMode ? 'text-[rgba(144,169,201,0.4)]' : 'text-[rgba(27,38,59,0.25)]'}`} aria-hidden />
+                            <ChevronRight className={`shrink-0 w-4 h-4 mt-1 ${isDarkMode ? 'text-[rgba(144,169,201,0.4)]' : 'text-tjpr-navy-700'}`} aria-hidden />
                           )}
                         </div>
                       </motion.li>
@@ -273,7 +273,7 @@ export default function App() {
                           <p className={`text-[0.68rem] font-semibold uppercase tracking-wider mb-0.5 ${isDarkMode ? 'text-tjpr-gold' : 'text-tjpr-navy-800'}`}>
                             {STEP_LABELS[etapaAtual] ?? `Passo ${historico.length + 1}`}
                           </p>
-                          <p className={`text-[0.78rem] italic ${isDarkMode ? 'text-[rgba(144,169,201,0.6)]' : 'text-tjpr-gray-600'}`}>
+                          <p className={`text-[0.78rem] italic ${isDarkMode ? 'text-[rgba(144,169,201,0.6)]' : 'text-tjpr-gray-700'}`}>
                             Em classificação…
                           </p>
                         </div>
@@ -354,7 +354,7 @@ export default function App() {
                                     w-[20px] h-[20px] border-2 mr-4 flex items-center justify-center transition-colors shrink-0
                                     ${isSelected
                                       ? 'border-tjpr-navy-800 dark:border-tjpr-gold bg-tjpr-navy-800 dark:bg-tjpr-gold'
-                                      : 'border-tjpr-gray-600 dark:border-gray-500 bg-transparent'}
+                                      : 'border-tjpr-navy-700 dark:border-gray-400 bg-transparent'}
                                   `}
                                 >
                                   {isSelected && (
