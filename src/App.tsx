@@ -85,24 +85,12 @@ export default function App() {
   );
 
   const minutaFinal = useMemo(
-    () => minutaSelecionada?.fullSnippet ?? historico.map(step => step.snippet).join(' '),
-    [historico, minutaSelecionada]
+    () => minutaSelecionada?.templateText ?? '',
+    [minutaSelecionada]
   );
 
-  const confidenceLabel = useMemo(() => {
-    switch (minutaSelecionada?.reference?.confidence) {
-      case 'alta':
-        return 'Confiança alta';
-      case 'média':
-        return 'Confiança média';
-      case 'baixa':
-        return 'Confiança baixa';
-      default:
-        return null;
-    }
-  }, [minutaSelecionada]);
-
   const copiarTexto = () => {
+    if (!minutaFinal) return;
     navigator.clipboard.writeText(minutaFinal);
   };
 
@@ -264,10 +252,10 @@ export default function App() {
                       </div>
                       <div>
                         <h2 className="text-[clamp(1.5rem,1.3rem+0.8vw,2rem)] leading-tight font-semibold text-tjpr-navy-900 dark:text-white">
-                          Relatório / Minuta gerada
+                          Minuta padrão pronta
                         </h2>
                         <p className="text-tjpr-gray-700 dark:text-gray-300 text-sm mt-1">
-                          As seleções realizadas formaram o conteúdo abaixo.
+                          Copie e cole o template abaixo, ajustando apenas os dados variáveis do caso concreto.
                         </p>
                       </div>
                     </div>
@@ -277,75 +265,6 @@ export default function App() {
                         {minutaFinal}
                       </p>
                     </div>
-
-                    {minutaSelecionada?.reference && (
-                      <div
-                        className={`mb-8 border p-6 ${
-                          isDarkMode
-                            ? 'border-[rgba(144,169,201,0.24)] bg-[rgba(12,26,43,0.62)]'
-                            : 'border-[rgba(27,38,59,0.12)] bg-[rgba(255,252,245,0.96)]'
-                        }`}
-                      >
-                        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                          <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-tjpr-gray-700 dark:text-[#9fb2c8]">
-                              Banca de Minutas
-                            </p>
-                            <h3 className="mt-1 text-lg font-semibold text-tjpr-navy-900 dark:text-white">
-                              {minutaSelecionada.reference.label}
-                            </h3>
-                          </div>
-                          {confidenceLabel && (
-                            <span
-                              className={`inline-flex w-fit items-center border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${
-                                minutaSelecionada.reference.confidence === 'alta'
-                                  ? 'border-green-600/25 bg-green-100 text-green-800 dark:border-green-400/25 dark:bg-green-500/10 dark:text-green-200'
-                                  : minutaSelecionada.reference.confidence === 'média'
-                                    ? 'border-amber-600/25 bg-amber-100 text-amber-800 dark:border-amber-400/25 dark:bg-amber-500/10 dark:text-amber-200'
-                                    : 'border-slate-600/20 bg-slate-100 text-slate-700 dark:border-slate-400/25 dark:bg-slate-500/10 dark:text-slate-200'
-                              }`}
-                            >
-                              {confidenceLabel}
-                            </span>
-                          )}
-                        </div>
-
-                        <p className="mb-4 text-sm leading-6 text-tjpr-gray-800 dark:text-[#d5dfeb]">
-                          {minutaSelecionada.reference.whyMatched}
-                        </p>
-
-                        <div className="mb-4 space-y-2">
-                          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-tjpr-gray-700 dark:text-[#9fb2c8]">
-                            Arquivos-base
-                          </p>
-                          {minutaSelecionada.reference.sourceFiles.length > 0 ? (
-                            <div className="space-y-2">
-                              {minutaSelecionada.reference.sourceFiles.map(sourceFile => (
-                                <p
-                                  key={sourceFile}
-                                  className="break-all border-l-2 border-tjpr-gold pl-3 text-sm text-tjpr-gray-900 dark:text-gray-100"
-                                >
-                                  {sourceFile}
-                                </p>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="text-sm text-tjpr-gray-800 dark:text-[#d5dfeb]">
-                              Nenhum PDF literal foi localizado para esse cenário; a saída foi mantida a partir da regra normativa do fluxo.
-                            </p>
-                          )}
-                        </div>
-
-                        <div>
-                          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-tjpr-gray-700 dark:text-[#9fb2c8]">
-                            Trecho-âncora
-                          </p>
-                          <p className="whitespace-pre-wrap text-sm leading-6 text-tjpr-gray-900 dark:text-gray-100">
-                            {minutaSelecionada.reference.excerpt}
-                          </p>
-                        </div>
-                      </div>
-                    )}
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-end pt-4 border-t border-[rgba(27,38,59,0.1)] dark:border-[rgba(144,169,201,0.2)]">
                       <TJPRButton variant="secondary" onClick={copiarTexto} icon="content_copy">

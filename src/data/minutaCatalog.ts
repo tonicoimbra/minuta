@@ -1,5 +1,5 @@
 import { fluxo, type Flow, type Option } from './flow';
-import { findMinutaReference, type MinutaReference } from './minutaReferences';
+import { resolveMinutaTemplate, type MinutaTemplate } from './minutaTemplates';
 
 export interface MinutaSelection {
   stepKey: string;
@@ -12,8 +12,8 @@ export interface MinutaSelection {
 export interface MinutaCatalogEntry {
   id: string;
   selections: MinutaSelection[];
-  fullSnippet: string;
-  reference?: MinutaReference;
+  templateText: string;
+  template?: MinutaTemplate;
 }
 
 export interface MinutaPathStep {
@@ -50,17 +50,19 @@ const collectMinutas = (
     ];
 
     if (option.proximo === 'final') {
+      const template = resolveMinutaTemplate(
+        nextTrail.map(selection => ({
+          stepKey: selection.stepKey,
+          optionText: selection.optionText
+        }))
+      );
+
       return [
         {
           id: buildEntryId(nextTrail),
           selections: nextTrail,
-          fullSnippet: nextTrail.map(selection => selection.snippet).join(' '),
-          reference: findMinutaReference(
-            nextTrail.map(selection => ({
-              stepKey: selection.stepKey,
-              optionText: selection.optionText
-            }))
-          )
+          templateText: template.text,
+          template
         }
       ];
     }
