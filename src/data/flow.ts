@@ -24,94 +24,88 @@ const finalOption = (texto: string, snippet: string): Option =>
 
 export const fluxo: Flow = {
   inicio: {
-    pergunta: 'Qual o tipo de recurso/ação em análise?',
+    pergunta: 'Qual o tipo de recurso excepcional em analise?',
     opcoes: [
-      option('Apelação', 'classif_irregularidade', 'Recurso de Apelação.'),
-      option('Recurso Inominado (JEC)', 'classif_irregularidade', 'Recurso Inominado (Juizados Especiais).'),
-      option('Agravo de Instrumento', 'classif_irregularidade', 'Agravo de Instrumento.'),
-      option('Recurso Especial (REsp)', 'classif_irregularidade', 'Recurso Especial (REsp).'),
-      finalOption(
-        'Agravo em REsp (AREsp)',
-        'Agravo em Recurso Especial (AREsp). Não há exigência de preparo recursal para o AREsp (art. 1.042, §2°, do CPC). Recurso regular quanto ao preparo.'
+      option(
+        'Recurso Especial (REsp)',
+        'classif_irregularidade',
+        'Recurso Especial dirigido ao Superior Tribunal de Justica.'
       ),
-      finalOption(
-        'Agravo Interno (AgInt)',
-        'Agravo Interno/Regimental. O AgInt não está sujeito a preparo recursal. Recurso regular quanto ao preparo.'
-      ),
-      finalOption(
-        'Embargos de Declaração (EDcl)',
-        'Embargos de Declaração. Os EDcl não se sujeitam a preparo (art. 1.023, do CPC). Recurso regular quanto ao preparo.'
+      option(
+        'Recurso Extraordinario (RE)',
+        'classif_irregularidade',
+        'Recurso Extraordinario dirigido ao Supremo Tribunal Federal.'
       )
     ]
   },
   classif_irregularidade: {
-    pergunta: 'Qual a classificação da irregularidade no preparo?',
+    pergunta: 'Qual a classificacao da irregularidade no preparo?',
     opcoes: [
       option(
-        'Complementação (pagamento insuficiente / vício formal)',
+        'Complementacao (pagamento insuficiente / vicio formal)',
         'complementacao',
-        'Trata-se de caso de complementação de preparo.'
+        'Trata-se de caso de complementacao de preparo.'
       ),
       option(
-        'Pagamento em Dobro (preparo não comprovado no ato)',
+        'Pagamento em Dobro (preparo nao comprovado no ato)',
         'dobro',
-        'Trata-se de recolhimento não comprovado no ato da interposição, sujeito ao pagamento em dobro (art. 1.007, §4°, do CPC).'
+        'Trata-se de recolhimento nao comprovado no ato da interposicao, sujeito ao pagamento em dobro (art. 1.007, paragrafo 4o, do CPC).'
       ),
       option(
-        'Deserção (prazo de regularização esgotado)',
+        'Desercao (prazo de regularizacao esgotado)',
         'desercao',
-        'Trata-se de hipótese de deserção por irregularidade insanável ou prazo de regularização não atendido.'
+        'Trata-se de hipotese de desercao por irregularidade insanavel ou prazo de regularizacao nao atendido.'
       )
     ]
   },
   complementacao: {
-    pergunta: 'Qual é a natureza da pendência documental?',
+    pergunta: 'Qual e a natureza da pendencia documental?',
     opcoes: [
       option(
-        'Falta só a guia (pagamento feito, mas formulário GRU/FUNJUS não juntado)',
+        'Falta so a guia (pagamento feito, mas formulario da GRU federal ou do FUNJUS nao foi juntado)',
         'comp_falta_guia',
-        'Constatada a ausência do formulário de guia de recolhimento, embora o comprovante de débito exista.'
+        'Constatada a ausencia do formulario de guia de recolhimento, embora o comprovante de debito exista.'
       ),
       option(
-        'Falta só o comprovante de pagamento (guia presente, sem recibo)',
+        'Falta so o comprovante de pagamento (guia presente, sem recibo)',
         'comp_falta_comprovante',
-        'A guia foi juntada; todavia, o comprovante de débito efetivo está ausente.'
+        'A guia foi juntada; todavia, o comprovante de debito efetivo esta ausente.'
       ),
       option(
-        'Irregularidade na guia GRU (FUNJUS está regular)',
+        'Irregularidade na guia GRU (FUNJUS esta regular)',
         'comp_irr_gru',
         'Verificada irregularidade na guia GRU; a guia FUNJUS encontra-se regular.'
       ),
       option(
-        'Irregularidade na guia FUNJUS (GRU está regular)',
+        'Irregularidade na guia FUNJUS (GRU esta regular)',
         'comp_irr_funjus',
         'Verificada irregularidade na guia FUNJUS; a guia GRU encontra-se regular.'
       )
     ]
   },
   comp_falta_guia: {
-    pergunta: 'Qual guia (documento) está ausente?',
+    pergunta: 'Qual guia esta ausente?',
     opcoes: [
       finalOption(
         'GRU',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, proceder à juntada da guia GRU correspondente ao recolhimento já efetuado, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias uteis, proceder a juntada da guia GRU correspondente ao recolhimento ja efetuado, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       ),
       finalOption(
         'FUNJUS',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, proceder à juntada da guia FUNJUS correspondente ao recolhimento já efetuado, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias uteis, proceder a juntada da guia FUNJUS correspondente ao recolhimento ja efetuado, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       )
     ]
   },
   comp_falta_comprovante: {
-    pergunta: 'Comprovante de qual guia está ausente?',
+    pergunta: 'Comprovante de qual guia esta ausente?',
     opcoes: [
       finalOption(
         'GRU',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, juntar o comprovante de débito efetivo referente à guia GRU. Ressalta-se que comprovante de agendamento bancário não constitui prova de quitação, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias uteis, juntar o comprovante de debito efetivo referente a guia GRU. Ressalta-se que comprovante de agendamento bancario nao constitui prova de quitacao, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       ),
       finalOption(
         'FUNJUS',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, juntar o comprovante de débito efetivo referente à guia FUNJUS. Ressalta-se que comprovante de agendamento bancário não constitui prova de quitação, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias uteis, juntar o comprovante de debito efetivo referente a guia FUNJUS. Ressalta-se que comprovante de agendamento bancario nao constitui prova de quitacao, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       )
     ]
   },
@@ -119,24 +113,24 @@ export const fluxo: Flow = {
     pergunta: 'Qual a irregularidade constatada na guia GRU?',
     opcoes: [
       finalOption(
-        'Agendamento / em análise (transação não efetivada)',
-        'O comprovante da guia GRU refere-se a agendamento bancário ainda não efetivado (transação pendente/em análise). Comprovante de agendamento não constitui prova de recolhimento efetivo. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovante de débito definitivo da guia GRU, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Agendamento / em analise (transacao nao efetivada)',
+        'O comprovante da guia GRU refere-se a agendamento bancario ainda nao efetivado (transacao pendente/em analise). Comprovante de agendamento nao constitui prova de recolhimento efetivo. Intime-se para, no prazo de 5 (cinco) dias uteis, apresentar comprovante de debito definitivo da guia GRU, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       ),
       finalOption(
         'Valor divergente / insuficiente (e val. falso)',
-        'O comprovante da guia GRU apresenta valor divergente do exigido (insuficiência de preparo). Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento complementar da diferença na guia GRU, sob pena de deserção (art. 1.007, §2°, do CPC).'
+        'O comprovante da guia GRU apresenta valor divergente do exigido (insuficiencia de preparo). Intime-se para, no prazo de 5 (cinco) dias uteis, efetuar o recolhimento complementar da diferenca na guia GRU, sob pena de desercao (art. 1.007, paragrafo 2o, do CPC).'
       ),
       finalOption(
-        'Sem número de processo / número incorreto',
-        'A guia GRU não contém o número do processo ou apresenta numeração incorreta, impossibilitando a vinculação eletrônica do recolhimento ao feito. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar guia GRU com a correta identificação processual, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Sem numero de processo / numero incorreto',
+        'A guia GRU nao contem o numero do processo ou apresenta numeracao incorreta, impossibilitando a vinculacao eletronica do recolhimento ao feito. Intime-se para, no prazo de 5 (cinco) dias uteis, juntar guia GRU com a correta identificacao processual, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       ),
       finalOption(
-        'Pago a destempo - PAD (após o prazo recursal)',
-        'O recolhimento da guia GRU foi efetuado após o prazo recursal (recolhimento intempestivo). Intime-se para, no prazo de 5 (cinco) dias úteis, regularizar o recolhimento da guia GRU, sob pena de deserção.'
+        'Pago a destempo - PAD (apos o prazo recursal)',
+        'O recolhimento da guia GRU foi efetuado apos o prazo recursal (recolhimento intempestivo). Intime-se para, no prazo de 5 (cinco) dias uteis, regularizar o recolhimento da guia GRU, sob pena de desercao.'
       ),
       finalOption(
         'Guia pertencente a outro processo',
-        'A guia GRU juntada pertence a outro processo ou recurso, não sendo imputável ao presente feito. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar a guia GRU correspondente a este processo, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'A guia GRU juntada pertence a outro processo ou recurso, nao sendo imputavel ao presente feito. Intime-se para, no prazo de 5 (cinco) dias uteis, juntar a guia GRU correspondente a este processo, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       )
     ]
   },
@@ -144,198 +138,198 @@ export const fluxo: Flow = {
     pergunta: 'Qual a irregularidade constatada na guia FUNJUS?',
     opcoes: [
       finalOption(
-        'Agendamento / em análise',
-        'O comprovante da guia FUNJUS refere-se a agendamento bancário ainda não efetivado. Comprovante de agendamento não constitui prova de recolhimento efetivo. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovante de débito definitivo da guia FUNJUS, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Agendamento / em analise',
+        'O comprovante da guia FUNJUS refere-se a agendamento bancario ainda nao efetivado. Comprovante de agendamento nao constitui prova de recolhimento efetivo. Intime-se para, no prazo de 5 (cinco) dias uteis, apresentar comprovante de debito definitivo da guia FUNJUS, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       ),
       finalOption(
         'Valor divergente / insuficiente',
-        'O comprovante da guia FUNJUS apresenta valor divergente do exigido. Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento complementar da diferença na guia FUNJUS, sob pena de deserção (art. 1.007, §2°, do CPC).'
+        'O comprovante da guia FUNJUS apresenta valor divergente do exigido. Intime-se para, no prazo de 5 (cinco) dias uteis, efetuar o recolhimento complementar da diferenca na guia FUNJUS, sob pena de desercao (art. 1.007, paragrafo 2o, do CPC).'
       ),
       finalOption(
-        'Sem número de processo / número incorreto',
-        'A guia FUNJUS não contém o número do processo ou apresenta numeração incorreta. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar guia FUNJUS com a correta identificação processual, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Sem numero de processo / numero incorreto',
+        'A guia FUNJUS nao contem o numero do processo ou apresenta numeracao incorreta. Intime-se para, no prazo de 5 (cinco) dias uteis, juntar guia FUNJUS com a correta identificacao processual, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       ),
       finalOption(
         'Pago a destempo - PAD',
-        'O recolhimento da guia FUNJUS foi efetuado após o prazo recursal. Intime-se para, no prazo de 5 (cinco) dias úteis, regularizar o recolhimento da guia FUNJUS, sob pena de deserção.'
+        'O recolhimento da guia FUNJUS foi efetuado apos o prazo recursal. Intime-se para, no prazo de 5 (cinco) dias uteis, regularizar o recolhimento da guia FUNJUS, sob pena de desercao.'
       ),
       finalOption(
         'Guia pertencente a outro processo',
-        'A guia FUNJUS juntada pertence a outro processo ou recurso. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar a guia FUNJUS correspondente a este processo, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'A guia FUNJUS juntada pertence a outro processo ou recurso. Intime-se para, no prazo de 5 (cinco) dias uteis, juntar a guia FUNJUS correspondente a este processo, sob pena de desercao (art. 1.007, paragrafo 7o, do CPC).'
       )
     ]
   },
   dobro: {
-    pergunta: 'Qual é a situação documental do preparo no momento da interposição?',
+    pergunta: 'Qual e a situacao documental do preparo no momento da interposicao?',
     opcoes: [
       option(
-        'Falta só a guia (GRU + FUNJUS ausentes - sem nenhum documento)',
+        'Falta so a guia (GRU federal + FUNJUS ausentes - sem nenhum documento)',
         'dobro_falta_guia',
-        'Verificada a ausência das guias de recolhimento GRU e FUNJUS no ato da interposição.'
+        'Verificada a ausencia das guias de recolhimento federal e local no ato da interposicao.'
       ),
       option(
-        'Falta só o comprovante (GRU + FUNJUS sem comprovante de débito)',
+        'Falta so o comprovante (GRU federal + FUNJUS sem comprovante de debito)',
         'dobro_falta_comprovante',
-        'As guias GRU e FUNJUS foram juntadas; os comprovantes de débito efetivo estão ausentes.'
+        'As guias federal e local foram juntadas; os comprovantes de debito efetivo estao ausentes.'
       ),
       option(
-        'Autos não digitalizados - processo físico (N/D)',
+        'Autos nao digitalizados - processo fisico (N/D)',
         'dobro_nd',
-        'Tratando-se de processo físico não digitalizado, verificada ausência ou irregularidade de recolhimento do preparo.'
+        'Tratando-se de processo fisico nao digitalizado, verificada ausencia ou irregularidade de recolhimento do preparo.'
       )
     ]
   },
   dobro_falta_guia: {
-    pergunta: 'Qual a razão identificada para a ausência das guias GRU e FUNJUS?',
+    pergunta: 'Qual a razao identificada para a ausencia das guias GRU e FUNJUS?',
     opcoes: [
       finalOption(
-        '2 agendamentos / em análise',
-        'Os documentos apresentados para GRU e FUNJUS referem-se a agendamentos bancários não efetivados, o que não constitui comprovação válida do preparo. Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro de GRU e FUNJUS com comprovantes de débito efetivo, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        '2 agendamentos / em analise',
+        'Os documentos apresentados para GRU e FUNJUS referem-se a agendamentos bancarios nao efetivados, o que nao constitui comprovacao valida do preparo. Intime-se para, no prazo de 5 (cinco) dias uteis, efetuar o recolhimento em dobro de GRU e FUNJUS com comprovantes de debito efetivo, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
         '2 valores divergentes / insuficientes',
-        'As guias GRU e FUNJUS apresentam valores inferiores aos exigidos. Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro dos valores corretos de ambas as guias, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        'As guias GRU e FUNJUS apresentam valores inferiores aos exigidos. Intime-se para, no prazo de 5 (cinco) dias uteis, efetuar o recolhimento em dobro dos valores corretos de ambas as guias, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
-        '2 guias sem número / número incorreto de processo',
-        'As guias GRU e FUNJUS não identificam o número do processo ou apresentam numeração incorreta. Intime-se para, no prazo de 5 (cinco) dias úteis, recolher em dobro GRU e FUNJUS com correta identificação processual, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        '2 guias sem numero / numero incorreto de processo',
+        'As guias GRU e FUNJUS nao identificam o numero do processo ou apresentam numeracao incorreta. Intime-se para, no prazo de 5 (cinco) dias uteis, recolher em dobro GRU e FUNJUS com correta identificacao processual, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
-        '2 não localizadas / não disponíveis (N/D)',
-        'Não localizados nos autos comprovantes de recolhimento das guias GRU e FUNJUS. Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro de ambas as guias, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        '2 nao localizadas / nao disponiveis (N/D)',
+        'Nao localizados nos autos comprovantes de recolhimento das guias GRU e FUNJUS. Intime-se para, no prazo de 5 (cinco) dias uteis, efetuar o recolhimento em dobro de ambas as guias, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
         '2 guias pertencentes a outros processos',
-        'As guias GRU e FUNJUS juntadas pertencem a outros processos ou recursos, não sendo imputáveis ao presente feito. Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro das guias GRU e FUNJUS correspondentes a este processo, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        'As guias GRU e FUNJUS juntadas pertencem a outros processos ou recursos, nao sendo imputaveis ao presente feito. Intime-se para, no prazo de 5 (cinco) dias uteis, efetuar o recolhimento em dobro das guias GRU e FUNJUS correspondentes a este processo, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       )
     ]
   },
   dobro_falta_comprovante: {
-    pergunta: 'Qual a situação específica dos comprovantes ausentes (GRU + FUNJUS)?',
+    pergunta: 'Qual a situacao especifica dos comprovantes ausentes (GRU + FUNJUS)?',
     opcoes: [
       finalOption(
-        '2 agendamentos / em análise',
-        'Os comprovantes das guias GRU e FUNJUS correspondem a agendamentos não efetivados. Agendamento bancário não constitui prova de quitação. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovantes de débito definitivo em dobro de ambas as guias, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        '2 agendamentos / em analise',
+        'Os comprovantes das guias GRU e FUNJUS correspondem a agendamentos nao efetivados. Agendamento bancario nao constitui prova de quitacao. Intime-se para, no prazo de 5 (cinco) dias uteis, apresentar comprovantes de debito definitivo em dobro de ambas as guias, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
         '2 valores divergentes / insuficientes',
-        'Os comprovantes das guias GRU e FUNJUS registram valores inferiores aos devidos. Intime-se para, no prazo de 5 (cinco) dias úteis, recolher em dobro os valores corretos de ambas as guias e apresentar os comprovantes correspondentes, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        'Os comprovantes das guias GRU e FUNJUS registram valores inferiores aos devidos. Intime-se para, no prazo de 5 (cinco) dias uteis, recolher em dobro os valores corretos de ambas as guias e apresentar os comprovantes correspondentes, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
-        '2 guias sem número / número incorreto de processo',
-        'Os comprovantes das guias GRU e FUNJUS não identificam o processo corretamente. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovantes do recolhimento em dobro com a correta identificação processual, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        '2 guias sem numero / numero incorreto de processo',
+        'Os comprovantes das guias GRU e FUNJUS nao identificam o processo corretamente. Intime-se para, no prazo de 5 (cinco) dias uteis, apresentar comprovantes do recolhimento em dobro com a correta identificacao processual, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
-        '2 não localizados / não disponíveis (N/D)',
-        'Ausentes os comprovantes de quitação das guias GRU e FUNJUS. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar os comprovantes do recolhimento em dobro de ambas as guias, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        '2 nao localizados / nao disponiveis (N/D)',
+        'Ausentes os comprovantes de quitacao das guias GRU e FUNJUS. Intime-se para, no prazo de 5 (cinco) dias uteis, juntar os comprovantes do recolhimento em dobro de ambas as guias, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       ),
       finalOption(
         '2 pertencentes a outros processos',
-        'Os comprovantes juntados referem-se a guias de outros processos. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovantes do recolhimento em dobro das guias GRU e FUNJUS deste feito, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
+        'Os comprovantes juntados referem-se a guias de outros processos. Intime-se para, no prazo de 5 (cinco) dias uteis, apresentar comprovantes do recolhimento em dobro das guias GRU e FUNJUS deste feito, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       )
     ]
   },
   dobro_nd: {
-    pergunta: 'Qual a situação das guias em autos físicos (não digitalizados)?',
+    pergunta: 'Qual a situacao das guias em autos fisicos (nao digitalizados)?',
     opcoes: [
       finalOption(
-        '3 guias ausentes / incorretas (GRU + FUNJUS + porte de remessa)',
-        'Tratando-se de processo físico não digitalizado, verificada a ausência ou irregularidade das guias de recolhimento (GRU, FUNJUS e porte de remessa e retorno). Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro das guias GRU, FUNJUS e porte de remessa e retorno com a correta identificação processual, nos termos do art. 1.007, §4°, do CPC e Súmula 187/STJ, sob pena de não conhecimento do recurso.'
+        '3 guias ausentes / incorretas (GRU federal + FUNJUS + porte de remessa)',
+        'Tratando-se de processo fisico nao digitalizado, verificada a ausencia ou irregularidade das guias de recolhimento da corte superior, do FUNJUS e do porte de remessa e retorno. Intime-se para, no prazo de 5 (cinco) dias uteis, efetuar o recolhimento em dobro dessas despesas com a correta identificacao processual, nos termos do art. 1.007, paragrafo 4o, do CPC, sob pena de nao conhecimento do recurso.'
       )
     ]
   },
   desercao: {
-    pergunta: 'Qual guia apresenta irregularidade definitiva (ensejando a deserção)?',
+    pergunta: 'Qual guia apresenta irregularidade definitiva (ensejando a desercao)?',
     opcoes: [
       option(
         'Irregularidade definitiva na GRU (FUNJUS regular)',
         'desercao_gru',
-        'Verificada irregularidade definitiva na guia GRU, não regularizada no prazo assinado.'
+        'Verificada irregularidade definitiva na guia GRU, nao regularizada no prazo assinado.'
       ),
       option(
         'Irregularidade definitiva em ambas (GRU + FUNJUS)',
         'desercao_ambas',
-        'Verificada irregularidade definitiva nas guias GRU e FUNJUS, não regularizadas no prazo assinado.'
+        'Verificada irregularidade definitiva nas guias GRU e FUNJUS, nao regularizadas no prazo assinado.'
       ),
       option(
         'Irregularidade definitiva na FUNJUS (GRU regular)',
         'desercao_funjus',
-        'Verificada irregularidade definitiva na guia FUNJUS, não regularizada no prazo assinado.'
+        'Verificada irregularidade definitiva na guia FUNJUS, nao regularizada no prazo assinado.'
       )
     ]
   },
   desercao_gru: {
-    pergunta: 'Qual a irregularidade que fundamenta a deserção na GRU?',
+    pergunta: 'Qual a irregularidade que fundamenta a desercao na GRU?',
     opcoes: [
       finalOption(
-        'Agendamento não efetivado',
-        'O comprovante da guia GRU refere-se a agendamento bancário que não foi efetivado, o que não constitui prova de quitação. Comprovante de agendamento não sana o preparo. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Agendamento nao efetivado',
+        'O comprovante da guia GRU refere-se a agendamento bancario que nao foi efetivado, o que nao constitui prova de quitacao. Comprovante de agendamento nao sana o preparo. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
         'Valor divergente (insuficiente)',
-        'O comprovante da guia GRU apresenta valor divergente do exigido, não tendo sido efetuada a complementação no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'O comprovante da guia GRU apresenta valor divergente do exigido, nao tendo sido efetuada a complementacao no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
-        'Sem número de processo / número incorreto',
-        'A guia GRU não identifica o processo ou apresenta numeração incorreta, não tendo sido regularizada no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Sem numero de processo / numero incorreto',
+        'A guia GRU nao identifica o processo ou apresenta numeracao incorreta, nao tendo sido regularizada no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
-        'Não localizada / não disponível (N/D)',
-        'Ausente o comprovante de quitação da guia GRU, não tendo sido regularizado o preparo no prazo assinado. Decreto a deserção do recurso por falta de preparo (art. 1.007, §4°-5°, do CPC - Súmula 187/STJ).'
+        'Nao localizada / nao disponivel (N/D)',
+        'Ausente o comprovante de quitacao da guia GRU, nao tendo sido regularizado o preparo no prazo assinado. Decreto a desercao do recurso por falta de preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
         'Guia pertencente a outro processo',
-        'A guia GRU apresentada pertence a outro processo, não tendo sido juntada a guia correspondente a este feito no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'A guia GRU apresentada pertence a outro processo, nao tendo sido juntada a guia correspondente a este feito no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       )
     ]
   },
   desercao_ambas: {
-    pergunta: 'Qual a irregularidade que fundamenta a deserção nas guias GRU e FUNJUS?',
+    pergunta: 'Qual a irregularidade que fundamenta a desercao nas guias GRU e FUNJUS?',
     opcoes: [
       finalOption(
-        'Agendamentos não efetivados',
-        'Os comprovantes das guias GRU e FUNJUS referem-se a agendamentos bancários não efetivados. Comprovante de agendamento não constitui prova de quitação. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Agendamentos nao efetivados',
+        'Os comprovantes das guias GRU e FUNJUS referem-se a agendamentos bancarios nao efetivados. Comprovante de agendamento nao constitui prova de quitacao. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
         'Valores divergentes',
-        'As guias GRU e FUNJUS apresentam valores divergentes dos exigidos, não tendo sido efetuada a regularização no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'As guias GRU e FUNJUS apresentam valores divergentes dos exigidos, nao tendo sido efetuada a regularizacao no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
-        'Sem número de processo / número incorreto',
-        'As guias GRU e FUNJUS não identificam o processo corretamente, não tendo sido regularizadas no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Sem numero de processo / numero incorreto',
+        'As guias GRU e FUNJUS nao identificam o processo corretamente, nao tendo sido regularizadas no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
-        'Não localizadas / não disponíveis (N/D)',
-        'Ausentes os comprovantes de quitação das guias GRU e FUNJUS, não tendo sido regularizado o preparo no prazo assinado. Decreto a deserção do recurso por falta de preparo (art. 1.007, §4°-5°, do CPC - Súmula 187/STJ).'
+        'Nao localizadas / nao disponiveis (N/D)',
+        'Ausentes os comprovantes de quitacao das guias GRU e FUNJUS, nao tendo sido regularizado o preparo no prazo assinado. Decreto a desercao do recurso por falta de preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
         'Guias pertencentes a outros processos',
-        'As guias GRU e FUNJUS apresentadas pertencem a outros processos, não tendo sido juntadas as guias correspondentes a este feito no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'As guias GRU e FUNJUS apresentadas pertencem a outros processos, nao tendo sido juntadas as guias correspondentes a este feito no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       )
     ]
   },
   desercao_funjus: {
-    pergunta: 'Qual a irregularidade que fundamenta a deserção na FUNJUS?',
+    pergunta: 'Qual a irregularidade que fundamenta a desercao na FUNJUS?',
     opcoes: [
       finalOption(
-        'Agendamento não efetivado',
-        'O comprovante da guia FUNJUS refere-se a agendamento bancário não efetivado. Comprovante de agendamento não constitui prova de quitação. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Agendamento nao efetivado',
+        'O comprovante da guia FUNJUS refere-se a agendamento bancario nao efetivado. Comprovante de agendamento nao constitui prova de quitacao. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
         'Valor divergente (insuficiente)',
-        'O comprovante da guia FUNJUS apresenta valor divergente do exigido, não tendo sido efetuada a regularização no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'O comprovante da guia FUNJUS apresenta valor divergente do exigido, nao tendo sido efetuada a regularizacao no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
-        'Sem número de processo / número incorreto',
-        'A guia FUNJUS não identifica o processo ou apresenta numeração incorreta, não tendo sido regularizada no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Sem numero de processo / numero incorreto',
+        'A guia FUNJUS nao identifica o processo ou apresenta numeracao incorreta, nao tendo sido regularizada no prazo assinado. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
-        'Não localizada / não disponível (N/D)',
-        'Ausente o comprovante de quitação da guia FUNJUS, não tendo sido regularizado o preparo no prazo assinado. Decreto a deserção do recurso por falta de preparo (art. 1.007, §4°-5°, do CPC - Súmula 187/STJ).'
+        'Nao localizada / nao disponivel (N/D)',
+        'Ausente o comprovante de quitacao da guia FUNJUS, nao tendo sido regularizado o preparo no prazo assinado. Decreto a desercao do recurso por falta de preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       ),
       finalOption(
-        'Justaposição de guia FUNJUS',
-        'Verificada a justaposição de guia FUNJUS nos autos: o comprovante de recolhimento apresentado é o mesmo já utilizado em outro processo ou recurso anterior, não sendo hábil a comprovar o recolhimento neste feito. Trata-se de vício insanável. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Justaposicao de guia FUNJUS',
+        'Verificada a justaposicao de guia FUNJUS nos autos: o comprovante de recolhimento apresentado e o mesmo ja utilizado em outro processo ou recurso anterior, nao sendo habil a comprovar o recolhimento neste feito. Trata-se de vicio insanavel. Decreto a desercao do recurso por irregularidade insanavel no preparo (art. 1.007, paragrafos 4o e 5o, do CPC).'
       )
     ]
   }
