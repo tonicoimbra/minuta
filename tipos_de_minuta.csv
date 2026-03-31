@@ -1,85 +1,85 @@
-id,tipo_recurso,classificacao,subcategoria,especificidade,tipo_acao,fundamento_legal
-1,REsp,Complementação,Falta de guia,GRU ausente,Intimação para juntar guia GRU (5 dias),art. 1.007 §7° CPC
-2,REsp,Complementação,Falta de guia,FUNJUS ausente,Intimação para juntar guia FUNJUS (5 dias),art. 1.007 §7° CPC
-3,REsp,Complementação,Falta de comprovante,Comprovante GRU ausente,Intimação para juntar comprovante de débito GRU (5 dias),art. 1.007 §7° CPC
-4,REsp,Complementação,Falta de comprovante,Comprovante FUNJUS ausente,Intimação para juntar comprovante de débito FUNJUS (5 dias),art. 1.007 §7° CPC
-5,REsp,Complementação,Irregularidade na GRU,Agendamento / em análise,Intimação para apresentar comprovante definitivo GRU (5 dias),art. 1.007 §7° CPC
-6,REsp,Complementação,Irregularidade na GRU,Valor divergente / insuficiente,Intimação para recolhimento complementar GRU (5 dias),art. 1.007 §2° CPC
-7,REsp,Complementação,Irregularidade na GRU,Sem número de processo / número incorreto,Intimação para juntar GRU com identificação processual correta (5 dias),art. 1.007 §7° CPC
-8,REsp,Complementação,Irregularidade na GRU,Pago a destempo — PAD,Intimação para regularizar recolhimento GRU (5 dias),art. 1.007 §7° CPC
-9,REsp,Complementação,Irregularidade na GRU,Guia pertencente a outro processo,Intimação para juntar GRU correta (5 dias),art. 1.007 §7° CPC
-10,REsp,Complementação,Irregularidade na FUNJUS,Agendamento / em análise,Intimação para apresentar comprovante definitivo FUNJUS (5 dias),art. 1.007 §7° CPC
-11,REsp,Complementação,Irregularidade na FUNJUS,Valor divergente / insuficiente,Intimação para recolhimento complementar FUNJUS (5 dias),art. 1.007 §2° CPC
-12,REsp,Complementação,Irregularidade na FUNJUS,Sem número de processo / número incorreto,Intimação para juntar FUNJUS com identificação processual correta (5 dias),art. 1.007 §7° CPC
-13,REsp,Complementação,Irregularidade na FUNJUS,Pago a destempo — PAD,Intimação para regularizar recolhimento FUNJUS (5 dias),art. 1.007 §7° CPC
-14,REsp,Complementação,Irregularidade na FUNJUS,Guia pertencente a outro processo,Intimação para juntar FUNJUS correta (5 dias),art. 1.007 §7° CPC
-15,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 agendamentos / em análise,Intimação para recolhimento em dobro com comprovante definitivo (5 dias),art. 1.007 §4° CPC
-16,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro dos valores corretos (5 dias),art. 1.007 §4° CPC
-17,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para recolhimento em dobro com identificação correta (5 dias),art. 1.007 §4° CPC
-18,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 não localizadas / N/D,Intimação para recolhimento em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC
-19,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias pertencentes a outros processos,Intimação para recolhimento em dobro com guias deste processo (5 dias),art. 1.007 §4° CPC
-20,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 agendamentos / em análise,Intimação para comprovante débito definitivo em dobro (5 dias),art. 1.007 §4° CPC
-21,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro e comprovantes correspondentes (5 dias),art. 1.007 §4° CPC
-22,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para comprovante em dobro com identificação correta (5 dias),art. 1.007 §4° CPC
-23,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 não localizados / N/D,Intimação para juntar comprovantes em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC
-24,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 pertencentes a outros processos,Intimação para comprovante em dobro das guias deste processo (5 dias),art. 1.007 §4° CPC
-25,REsp,Pagamento em Dobro,Autos físicos não digitalizados (N/D),3 guias ausentes / incorretas (GRU + FUNJUS + porte),Intimação para recolhimento em dobro de 3 guias (5 dias),art. 1.007 §4° CPC + Súmula 187/STJ
-26,REsp,Deserção,Irregularidade definitiva na GRU,Agendamento não efetivado,Decreto de deserção — GRU: agendamento,art. 1.007 §4°-5° CPC
-27,REsp,Deserção,Irregularidade definitiva na GRU,Valor divergente (insuficiente),Decreto de deserção — GRU: valor insuficiente,art. 1.007 §4°-5° CPC
-28,REsp,Deserção,Irregularidade definitiva na GRU,Sem número de processo / número incorreto,Decreto de deserção — GRU: identificação incorreta,art. 1.007 §4°-5° CPC
-29,REsp,Deserção,Irregularidade definitiva na GRU,Não localizada / N/D,Decreto de deserção — GRU: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ
-30,REsp,Deserção,Irregularidade definitiva na GRU,Guia pertencente a outro processo,Decreto de deserção — GRU: guia de outro processo,art. 1.007 §4°-5° CPC
-31,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Agendamentos não efetivados,Decreto de deserção — ambas: agendamentos,art. 1.007 §4°-5° CPC
-32,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Valores divergentes,Decreto de deserção — ambas: valores divergentes,art. 1.007 §4°-5° CPC
-33,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Sem número de processo / número incorreto,Decreto de deserção — ambas: identificação incorreta,art. 1.007 §4°-5° CPC
-34,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Não localizadas / N/D,Decreto de deserção — ambas: não localizadas,art. 1.007 §4°-5° CPC + Súmula 187/STJ
-35,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Guias pertencentes a outros processos,Decreto de deserção — ambas: guias de outros processos,art. 1.007 §4°-5° CPC
-36,REsp,Deserção,Irregularidade definitiva na FUNJUS,Agendamento não efetivado,Decreto de deserção — FUNJUS: agendamento,art. 1.007 §4°-5° CPC
-37,REsp,Deserção,Irregularidade definitiva na FUNJUS,Valor divergente (insuficiente),Decreto de deserção — FUNJUS: valor insuficiente,art. 1.007 §4°-5° CPC
-38,REsp,Deserção,Irregularidade definitiva na FUNJUS,Sem número de processo / número incorreto,Decreto de deserção — FUNJUS: identificação incorreta,art. 1.007 §4°-5° CPC
-39,REsp,Deserção,Irregularidade definitiva na FUNJUS,Não localizada / N/D,Decreto de deserção — FUNJUS: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ
-40,REsp,Deserção,Irregularidade definitiva na FUNJUS,Justaposição de guia FUNJUS,Decreto de deserção — FUNJUS: justaposição (vício insanável),art. 1.007 §4°-5° CPC
-41,REsp,Intempestivo,—,Pagamento realizado fora do prazo recursal,Inadmissão do recurso — preparo intempestivo,art. 1.003 §5° c/c art. 219 CPC
-42,REsp,Intempestivo,—,Comprovante de pagamento juntado fora do prazo recursal,Inadmissão do recurso — comprovante intempestivo,art. 1.003 §5° c/c art. 219 CPC
-43,RE,Complementação,Falta de guia,GRU ausente,Intimação para juntar guia GRU (5 dias),art. 1.007 §7° CPC
-44,RE,Complementação,Falta de guia,FUNJUS ausente,Intimação para juntar guia FUNJUS (5 dias),art. 1.007 §7° CPC
-45,RE,Complementação,Falta de comprovante,Comprovante GRU ausente,Intimação para juntar comprovante de débito GRU (5 dias),art. 1.007 §7° CPC
-46,RE,Complementação,Falta de comprovante,Comprovante FUNJUS ausente,Intimação para juntar comprovante de débito FUNJUS (5 dias),art. 1.007 §7° CPC
-47,RE,Complementação,Irregularidade na GRU,Agendamento / em análise,Intimação para apresentar comprovante definitivo GRU (5 dias),art. 1.007 §7° CPC
-48,RE,Complementação,Irregularidade na GRU,Valor divergente / insuficiente,Intimação para recolhimento complementar GRU (5 dias),art. 1.007 §2° CPC
-49,RE,Complementação,Irregularidade na GRU,Sem número de processo / número incorreto,Intimação para juntar GRU com identificação processual correta (5 dias),art. 1.007 §7° CPC
-50,RE,Complementação,Irregularidade na GRU,Pago a destempo — PAD,Intimação para regularizar recolhimento GRU (5 dias),art. 1.007 §7° CPC
-51,RE,Complementação,Irregularidade na GRU,Guia pertencente a outro processo,Intimação para juntar GRU correta (5 dias),art. 1.007 §7° CPC
-52,RE,Complementação,Irregularidade na FUNJUS,Agendamento / em análise,Intimação para apresentar comprovante definitivo FUNJUS (5 dias),art. 1.007 §7° CPC
-53,RE,Complementação,Irregularidade na FUNJUS,Valor divergente / insuficiente,Intimação para recolhimento complementar FUNJUS (5 dias),art. 1.007 §2° CPC
-54,RE,Complementação,Irregularidade na FUNJUS,Sem número de processo / número incorreto,Intimação para juntar FUNJUS com identificação processual correta (5 dias),art. 1.007 §7° CPC
-55,RE,Complementação,Irregularidade na FUNJUS,Pago a destempo — PAD,Intimação para regularizar recolhimento FUNJUS (5 dias),art. 1.007 §7° CPC
-56,RE,Complementação,Irregularidade na FUNJUS,Guia pertencente a outro processo,Intimação para juntar FUNJUS correta (5 dias),art. 1.007 §7° CPC
-57,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 agendamentos / em análise,Intimação para recolhimento em dobro com comprovante definitivo (5 dias),art. 1.007 §4° CPC
-58,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro dos valores corretos (5 dias),art. 1.007 §4° CPC
-59,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para recolhimento em dobro com identificação correta (5 dias),art. 1.007 §4° CPC
-60,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 não localizadas / N/D,Intimação para recolhimento em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC
-61,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias pertencentes a outros processos,Intimação para recolhimento em dobro com guias deste processo (5 dias),art. 1.007 §4° CPC
-62,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 agendamentos / em análise,Intimação para comprovante débito definitivo em dobro (5 dias),art. 1.007 §4° CPC
-63,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro e comprovantes correspondentes (5 dias),art. 1.007 §4° CPC
-64,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para comprovante em dobro com identificação correta (5 dias),art. 1.007 §4° CPC
-65,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 não localizados / N/D,Intimação para juntar comprovantes em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC
-66,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 pertencentes a outros processos,Intimação para comprovante em dobro das guias deste processo (5 dias),art. 1.007 §4° CPC
-67,RE,Pagamento em Dobro,Autos físicos não digitalizados (N/D),3 guias ausentes / incorretas (GRU + FUNJUS + porte),Intimação para recolhimento em dobro de 3 guias (5 dias),art. 1.007 §4° CPC + Súmula 187/STJ
-68,RE,Deserção,Irregularidade definitiva na GRU,Agendamento não efetivado,Decreto de deserção — GRU: agendamento,art. 1.007 §4°-5° CPC
-69,RE,Deserção,Irregularidade definitiva na GRU,Valor divergente (insuficiente),Decreto de deserção — GRU: valor insuficiente,art. 1.007 §4°-5° CPC
-70,RE,Deserção,Irregularidade definitiva na GRU,Sem número de processo / número incorreto,Decreto de deserção — GRU: identificação incorreta,art. 1.007 §4°-5° CPC
-71,RE,Deserção,Irregularidade definitiva na GRU,Não localizada / N/D,Decreto de deserção — GRU: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ
-72,RE,Deserção,Irregularidade definitiva na GRU,Guia pertencente a outro processo,Decreto de deserção — GRU: guia de outro processo,art. 1.007 §4°-5° CPC
-73,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Agendamentos não efetivados,Decreto de deserção — ambas: agendamentos,art. 1.007 §4°-5° CPC
-74,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Valores divergentes,Decreto de deserção — ambas: valores divergentes,art. 1.007 §4°-5° CPC
-75,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Sem número de processo / número incorreto,Decreto de deserção — ambas: identificação incorreta,art. 1.007 §4°-5° CPC
-76,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Não localizadas / N/D,Decreto de deserção — ambas: não localizadas,art. 1.007 §4°-5° CPC + Súmula 187/STJ
-77,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Guias pertencentes a outros processos,Decreto de deserção — ambas: guias de outros processos,art. 1.007 §4°-5° CPC
-78,RE,Deserção,Irregularidade definitiva na FUNJUS,Agendamento não efetivado,Decreto de deserção — FUNJUS: agendamento,art. 1.007 §4°-5° CPC
-79,RE,Deserção,Irregularidade definitiva na FUNJUS,Valor divergente (insuficiente),Decreto de deserção — FUNJUS: valor insuficiente,art. 1.007 §4°-5° CPC
-80,RE,Deserção,Irregularidade definitiva na FUNJUS,Sem número de processo / número incorreto,Decreto de deserção — FUNJUS: identificação incorreta,art. 1.007 §4°-5° CPC
-81,RE,Deserção,Irregularidade definitiva na FUNJUS,Não localizada / N/D,Decreto de deserção — FUNJUS: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ
-82,RE,Deserção,Irregularidade definitiva na FUNJUS,Justaposição de guia FUNJUS,Decreto de deserção — FUNJUS: justaposição (vício insanável),art. 1.007 §4°-5° CPC
-83,RE,Intempestivo,—,Pagamento realizado fora do prazo recursal,Inadmissão do recurso — preparo intempestivo,art. 1.003 §5° c/c art. 219 CPC
-84,RE,Intempestivo,—,Comprovante de pagamento juntado fora do prazo recursal,Inadmissão do recurso — comprovante intempestivo,art. 1.003 §5° c/c art. 219 CPC
+id,tipo_recurso,classificacao,subcategoria,especificidade,tipo_acao,fundamento_legal,arquivo_fonte
+1,REsp,Complementação,Falta de guia,GRU ausente,Intimação para juntar guia GRU (5 dias),art. 1.007 §7° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf
+2,REsp,Complementação,Falta de guia,FUNJUS ausente,Intimação para juntar guia FUNJUS (5 dias),art. 1.007 §7° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf
+3,REsp,Complementação,Falta de comprovante,Comprovante GRU ausente,Intimação para juntar comprovante de débito GRU (5 dias),art. 1.007 §7° CPC,VANESSA/0000281-66.2026.8.16.0084 Pet.pdf
+4,REsp,Complementação,Falta de comprovante,Comprovante FUNJUS ausente,Intimação para juntar comprovante de débito FUNJUS (5 dias),art. 1.007 §7° CPC,VANESSA/0000281-66.2026.8.16.0084 Pet.pdf
+5,REsp,Complementação,Irregularidade na GRU,Agendamento / em análise,Intimação para apresentar comprovante definitivo GRU (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+6,REsp,Complementação,Irregularidade na GRU,Valor divergente / insuficiente,Intimação para recolhimento complementar GRU (5 dias),art. 1.007 §2° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+7,REsp,Complementação,Irregularidade na GRU,Sem número de processo / número incorreto,Intimação para juntar GRU com identificação processual correta (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+8,REsp,Complementação,Irregularidade na GRU,Pago a destempo — PAD,Intimação para regularizar recolhimento GRU (5 dias),art. 1.007 §7° CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
+9,REsp,Complementação,Irregularidade na GRU,Guia pertencente a outro processo,Intimação para juntar GRU correta (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+10,REsp,Complementação,Irregularidade na FUNJUS,Agendamento / em análise,Intimação para apresentar comprovante definitivo FUNJUS (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf; GABY/0003396-38.2025.8.16.0179 Pet - COMPROVANTE FUNJUS - EM PROCESSO DE AUTENTICACAO - INTIMADO COMPROVAR CORRETAMENTE - EQUIVALE A AGENDAMENTO.pdf
+11,REsp,Complementação,Irregularidade na FUNJUS,Valor divergente / insuficiente,Intimação para recolhimento complementar FUNJUS (5 dias),art. 1.007 §2° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+12,REsp,Complementação,Irregularidade na FUNJUS,Sem número de processo / número incorreto,Intimação para juntar FUNJUS com identificação processual correta (5 dias),art. 1.007 §7° CPC,VANESSA/0020823-03.2025.8.16.0194 Pet.pdf
+13,REsp,Complementação,Irregularidade na FUNJUS,Pago a destempo — PAD,Intimação para regularizar recolhimento FUNJUS (5 dias),art. 1.007 §7° CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
+14,REsp,Complementação,Irregularidade na FUNJUS,Guia pertencente a outro processo,Intimação para juntar FUNJUS correta (5 dias),art. 1.007 §7° CPC,VANESSA/0020823-03.2025.8.16.0194 Pet.pdf
+15,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 agendamentos / em análise,Intimação para recolhimento em dobro com comprovante definitivo (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+16,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro dos valores corretos (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+17,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para recolhimento em dobro com identificação correta (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+18,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 não localizadas / N/D,Intimação para recolhimento em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+19,REsp,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias pertencentes a outros processos,Intimação para recolhimento em dobro com guias deste processo (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+20,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 agendamentos / em análise,Intimação para comprovante débito definitivo em dobro (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+21,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro e comprovantes correspondentes (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+22,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para comprovante em dobro com identificação correta (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+23,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 não localizados / N/D,Intimação para juntar comprovantes em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+24,REsp,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 pertencentes a outros processos,Intimação para comprovante em dobro das guias deste processo (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+25,REsp,Pagamento em Dobro,Autos físicos não digitalizados (N/D),3 guias ausentes / incorretas (GRU + FUNJUS + porte),Intimação para recolhimento em dobro de 3 guias (5 dias),art. 1.007 §4° CPC + Súmula 187/STJ,pendente (sem modelo PDF identificado)
+26,REsp,Deserção,Irregularidade definitiva na GRU,Agendamento não efetivado,Decreto de deserção — GRU: agendamento,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+27,REsp,Deserção,Irregularidade definitiva na GRU,Valor divergente (insuficiente),Decreto de deserção — GRU: valor insuficiente,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+28,REsp,Deserção,Irregularidade definitiva na GRU,Sem número de processo / número incorreto,Decreto de deserção — GRU: identificação incorreta,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+29,REsp,Deserção,Irregularidade definitiva na GRU,Não localizada / N/D,Decreto de deserção — GRU: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+30,REsp,Deserção,Irregularidade definitiva na GRU,Guia pertencente a outro processo,Decreto de deserção — GRU: guia de outro processo,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+31,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Agendamentos não efetivados,Decreto de deserção — ambas: agendamentos,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+32,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Valores divergentes,Decreto de deserção — ambas: valores divergentes,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+33,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Sem número de processo / número incorreto,Decreto de deserção — ambas: identificação incorreta,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+34,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Não localizadas / N/D,Decreto de deserção — ambas: não localizadas,art. 1.007 §4°-5° CPC + Súmula 187/STJ,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+35,REsp,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Guias pertencentes a outros processos,Decreto de deserção — ambas: guias de outros processos,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+36,REsp,Deserção,Irregularidade definitiva na FUNJUS,Agendamento não efetivado,Decreto de deserção — FUNJUS: agendamento,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+37,REsp,Deserção,Irregularidade definitiva na FUNJUS,Valor divergente (insuficiente),Decreto de deserção — FUNJUS: valor insuficiente,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+38,REsp,Deserção,Irregularidade definitiva na FUNJUS,Sem número de processo / número incorreto,Decreto de deserção — FUNJUS: identificação incorreta,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+39,REsp,Deserção,Irregularidade definitiva na FUNJUS,Não localizada / N/D,Decreto de deserção — FUNJUS: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+40,REsp,Deserção,Irregularidade definitiva na FUNJUS,Justaposição de guia FUNJUS,Decreto de deserção — FUNJUS: justaposição (vício insanável),art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+41,REsp,Intempestivo,—,Pagamento realizado fora do prazo recursal,Inadmissão do recurso — preparo intempestivo,art. 1.003 §5° c/c art. 219 CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
+42,REsp,Intempestivo,—,Comprovante de pagamento juntado fora do prazo recursal,Inadmissão do recurso — comprovante intempestivo,art. 1.003 §5° c/c art. 219 CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
+43,RE,Complementação,Falta de guia,GRU ausente,Intimação para juntar guia GRU (5 dias),art. 1.007 §7° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf
+44,RE,Complementação,Falta de guia,FUNJUS ausente,Intimação para juntar guia FUNJUS (5 dias),art. 1.007 §7° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf
+45,RE,Complementação,Falta de comprovante,Comprovante GRU ausente,Intimação para juntar comprovante de débito GRU (5 dias),art. 1.007 §7° CPC,VANESSA/0000281-66.2026.8.16.0084 Pet.pdf
+46,RE,Complementação,Falta de comprovante,Comprovante FUNJUS ausente,Intimação para juntar comprovante de débito FUNJUS (5 dias),art. 1.007 §7° CPC,VANESSA/0000281-66.2026.8.16.0084 Pet.pdf
+47,RE,Complementação,Irregularidade na GRU,Agendamento / em análise,Intimação para apresentar comprovante definitivo GRU (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+48,RE,Complementação,Irregularidade na GRU,Valor divergente / insuficiente,Intimação para recolhimento complementar GRU (5 dias),art. 1.007 §2° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+49,RE,Complementação,Irregularidade na GRU,Sem número de processo / número incorreto,Intimação para juntar GRU com identificação processual correta (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+50,RE,Complementação,Irregularidade na GRU,Pago a destempo — PAD,Intimação para regularizar recolhimento GRU (5 dias),art. 1.007 §7° CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
+51,RE,Complementação,Irregularidade na GRU,Guia pertencente a outro processo,Intimação para juntar GRU correta (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+52,RE,Complementação,Irregularidade na FUNJUS,Agendamento / em análise,Intimação para apresentar comprovante definitivo FUNJUS (5 dias),art. 1.007 §7° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf; GABY/0003396-38.2025.8.16.0179 Pet - COMPROVANTE FUNJUS - EM PROCESSO DE AUTENTICACAO - INTIMADO COMPROVAR CORRETAMENTE - EQUIVALE A AGENDAMENTO.pdf
+53,RE,Complementação,Irregularidade na FUNJUS,Valor divergente / insuficiente,Intimação para recolhimento complementar FUNJUS (5 dias),art. 1.007 §2° CPC,GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+54,RE,Complementação,Irregularidade na FUNJUS,Sem número de processo / número incorreto,Intimação para juntar FUNJUS com identificação processual correta (5 dias),art. 1.007 §7° CPC,VANESSA/0020823-03.2025.8.16.0194 Pet.pdf
+55,RE,Complementação,Irregularidade na FUNJUS,Pago a destempo — PAD,Intimação para regularizar recolhimento FUNJUS (5 dias),art. 1.007 §7° CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
+56,RE,Complementação,Irregularidade na FUNJUS,Guia pertencente a outro processo,Intimação para juntar FUNJUS correta (5 dias),art. 1.007 §7° CPC,VANESSA/0020823-03.2025.8.16.0194 Pet.pdf
+57,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 agendamentos / em análise,Intimação para recolhimento em dobro com comprovante definitivo (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+58,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro dos valores corretos (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+59,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para recolhimento em dobro com identificação correta (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+60,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 não localizadas / N/D,Intimação para recolhimento em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+61,RE,Pagamento em Dobro,Falta de guia (GRU + FUNJUS),2 guias pertencentes a outros processos,Intimação para recolhimento em dobro com guias deste processo (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+62,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 agendamentos / em análise,Intimação para comprovante débito definitivo em dobro (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+63,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 valores divergentes / insuficientes,Intimação para recolhimento em dobro e comprovantes correspondentes (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+64,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 guias sem número / número incorreto,Intimação para comprovante em dobro com identificação correta (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+65,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 não localizados / N/D,Intimação para juntar comprovantes em dobro de GRU e FUNJUS (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+66,RE,Pagamento em Dobro,Falta de comprovante (GRU + FUNJUS),2 pertencentes a outros processos,Intimação para comprovante em dobro das guias deste processo (5 dias),art. 1.007 §4° CPC,GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+67,RE,Pagamento em Dobro,Autos físicos não digitalizados (N/D),3 guias ausentes / incorretas (GRU + FUNJUS + porte),Intimação para recolhimento em dobro de 3 guias (5 dias),art. 1.007 §4° CPC + Súmula 187/STJ,pendente (sem modelo PDF identificado)
+68,RE,Deserção,Irregularidade definitiva na GRU,Agendamento não efetivado,Decreto de deserção — GRU: agendamento,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+69,RE,Deserção,Irregularidade definitiva na GRU,Valor divergente (insuficiente),Decreto de deserção — GRU: valor insuficiente,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+70,RE,Deserção,Irregularidade definitiva na GRU,Sem número de processo / número incorreto,Decreto de deserção — GRU: identificação incorreta,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+71,RE,Deserção,Irregularidade definitiva na GRU,Não localizada / N/D,Decreto de deserção — GRU: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+72,RE,Deserção,Irregularidade definitiva na GRU,Guia pertencente a outro processo,Decreto de deserção — GRU: guia de outro processo,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+73,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Agendamentos não efetivados,Decreto de deserção — ambas: agendamentos,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+74,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Valores divergentes,Decreto de deserção — ambas: valores divergentes,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+75,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Sem número de processo / número incorreto,Decreto de deserção — ambas: identificação incorreta,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+76,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Não localizadas / N/D,Decreto de deserção — ambas: não localizadas,art. 1.007 §4°-5° CPC + Súmula 187/STJ,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+77,RE,Deserção,Irregularidade definitiva em ambas (GRU + FUNJUS),Guias pertencentes a outros processos,Decreto de deserção — ambas: guias de outros processos,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+78,RE,Deserção,Irregularidade definitiva na FUNJUS,Agendamento não efetivado,Decreto de deserção — FUNJUS: agendamento,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+79,RE,Deserção,Irregularidade definitiva na FUNJUS,Valor divergente (insuficiente),Decreto de deserção — FUNJUS: valor insuficiente,art. 1.007 §4°-5° CPC,VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+80,RE,Deserção,Irregularidade definitiva na FUNJUS,Sem número de processo / número incorreto,Decreto de deserção — FUNJUS: identificação incorreta,art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+81,RE,Deserção,Irregularidade definitiva na FUNJUS,Não localizada / N/D,Decreto de deserção — FUNJUS: não localizada,art. 1.007 §4°-5° CPC + Súmula 187/STJ,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+82,RE,Deserção,Irregularidade definitiva na FUNJUS,Justaposição de guia FUNJUS,Decreto de deserção — FUNJUS: justaposição (vício insanável),art. 1.007 §4°-5° CPC,DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf; VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+83,RE,Intempestivo,—,Pagamento realizado fora do prazo recursal,Inadmissão do recurso — preparo intempestivo,art. 1.003 §5° c/c art. 219 CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
+84,RE,Intempestivo,—,Comprovante de pagamento juntado fora do prazo recursal,Inadmissão do recurso — comprovante intempestivo,art. 1.003 §5° c/c art. 219 CPC,DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf; VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
