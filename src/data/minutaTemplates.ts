@@ -121,7 +121,7 @@ Todavia, a parte não regularizou o preparo recursal, como determinado, visto qu
 
 Nesse particular, é assente o entendimento do Superior Tribunal de Justiça "(...) no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. A juntada apenas do comprovante de pagamento das custas, sem a respectiva guia de recolhimento, configura ausência de regular comprovação do preparo." (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023).
 
-Sendo assim, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, declaro a deserção do recurso especial.
+Sendo assim, nos termos do artigo 1.007, §§ 4º e 5º, do Código de Processo Civil, c/c a Súmula 187 do Superior Tribunal de Justiça, declaro a deserção do recurso especial.
 
 Diante do exposto, inadmito o recurso especial interposto.`;
 
@@ -220,13 +220,15 @@ export const resolveMinutaTemplate = (path: MinutaTemplatePathStep[]): MinutaTem
       const guide = lastStep.optionText; // 'GRU' ou 'FUNJUS'
       if (guide === 'GRU') {
         return {
-          id: `comp-falta-guia-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação por ausência da guia GRU`,
-          text: `O recurso não foi devidamente preparado, visto que a parte juntou o comprovante de pagamento referente às custas devidas ao ${profile.superiorCourtName}, mas não juntou o respectivo formulário de guia GRU.
+          id: `dobro-guia-unica-gru-${profile.kind}`,
+          title: `${profile.shortLabel} — recolhimento em dobro por ausência da guia GRU`,
+          text: `A parte recorrente não comprovou o recolhimento do preparo no ato da interposição do recurso, visto que não juntou a guia de recolhimento GRU referente às custas devidas ao ${profile.superiorCourtName}, conforme exigido pelo artigo 1.007, caput, do Código de Processo Civil.
 
-Nesse particular, é assente o entendimento do Superior Tribunal de Justiça no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023).
+Nesse sentido, é assente o entendimento do Superior Tribunal de Justiça de que os recursos especiais devem estar acompanhados, simultaneamente, das guias de recolhimento devidamente preenchidas e dos respectivos comprovantes de pagamento, sob pena de deserção. A juntada apenas do comprovante de pagamento das custas, sem a respectiva guia de recolhimento, configura ausência de regular comprovação do preparo (AgInt no AREsp n. 2.258.023/GO, relator Ministro Paulo Sérgio Domingues, Primeira Turma, julgado em 4/9/2023, DJe de 8/9/2023).
 
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 7º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, juntar a guia GRU correspondente ao recolhimento já efetuado, sob pena de deserção.
+Assim sendo, intime-se a parte Recorrente, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, o recolhimento em dobro das custas devidas ao ${profile.superiorCourtName}.
+
+Para tanto, deverá apresentar nova guia GRU com o valor correspondente ao dobro das custas devidas ao ${profile.superiorCourtName}, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
 
 Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
           sourceFiles: ['minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf']
@@ -234,19 +236,20 @@ Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, 
       }
       // FUNJUS
       return {
-        id: `comp-falta-guia-funjus-${profile.kind}`,
-        title: `${profile.shortLabel} — complementação por ausência da guia FUNJUS`,
-        text: `O recurso não foi devidamente preparado, visto que a parte juntou o comprovante de pagamento referente às custas locais devidas a este Tribunal de Justiça, mas não juntou o respectivo formulário de guia FUNJUS.
+        id: `dobro-guia-unica-funjus-${profile.kind}`,
+        title: `${profile.shortLabel} — recolhimento em dobro por ausência da guia FUNJUS`,
+        text: `A parte recorrente não comprovou o recolhimento do preparo no ato da interposição do recurso, visto que não juntou a guia de recolhimento FUNJUS referente às custas locais devidas a este Tribunal de Justiça, conforme exigido pelo artigo 1.007, caput, do Código de Processo Civil.
 
-Nesse particular, é assente o entendimento do Superior Tribunal de Justiça no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023).
+Nesse sentido, é assente o entendimento do Superior Tribunal de Justiça de que os recursos especiais devem estar acompanhados, simultaneamente, das guias de recolhimento devidamente preenchidas e dos respectivos comprovantes de pagamento, sob pena de deserção. A juntada apenas do comprovante de pagamento das custas, sem a respectiva guia de recolhimento, configura ausência de regular comprovação do preparo (AgInt no AREsp n. 2.258.023/GO, relator Ministro Paulo Sérgio Domingues, Primeira Turma, julgado em 4/9/2023, DJe de 8/9/2023).
 
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 7º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, juntar a guia FUNJUS correspondente ao recolhimento já efetuado, sob pena de deserção.
+Assim sendo, intime-se a parte Recorrente, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, o recolhimento em dobro das custas locais devidas a este Tribunal de Justiça (FUNJUS).
+
+Para tanto, deverá gerar nova guia FUNJUS com o valor correspondente ao dobro das custas devidas a este Tribunal de Justiça, no próprio sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
 
 Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-        sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+        sourceFiles: ['minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf']
       };
     }
-
     // --- COMPLEMENTAÇÃO: falta comprovante ---
     case 'comp_falta_comprovante': {
       const guide = lastStep.optionText;
@@ -556,6 +559,18 @@ Cumpre esclarecer que para comprovação do efetivo recolhimento do preparo, a p
           title: `${profile.shortLabel} — deserção por irregularidade material`,
           text: BODY_DESERCAO_DOBRO_SIMPLES,
           sourceFiles: ['minutas/VANESSA/0139226-28.2025.8.16.0000 Pet.pdf']
+        };
+      }
+      // Guia nunca apresentada após intimação
+      if (
+        opt === 'Guia GRU não apresentada após intimação (nunca juntada)' ||
+        opt === 'Guia FUNJUS não apresentada após intimação (nunca juntada)'
+      ) {
+        return {
+          id: `desercao-guia-nao-apresentada-${profile.kind}-${lastStep.stepKey}`,
+          title: `${profile.shortLabel} — deserção por guia não apresentada após intimação`,
+          text: BODY_DESERCAO_GERAL,
+          sourceFiles: ['minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf']
         };
       }
       // Demais casos (agendamento, N/D, justaposição)

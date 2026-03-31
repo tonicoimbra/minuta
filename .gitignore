@@ -9,3 +9,6 @@ coverage/
 
 # Minutas de referência (PDFs internos — não versionar)
 minutas/
+
+# Textos gerados por pdftotext (regeneráveis a partir dos PDFs)
+materiais/*.txt

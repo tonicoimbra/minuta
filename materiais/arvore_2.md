@@ -27,7 +27,7 @@ PREPARO
 │       ├── 2 s/ cód. barras (18)
 │       ├── 2 núm. processo (sem ou erro) (19)
 │       ├── 2 N/D (20)
-│       └── 2 guias erradas (21)
+│       └── 2 1 guia certa (FUNJUS ou GRU) e um comprovante errado (21)
 │
 └── DESERTO
     ├── Juntou só guias (GRU + FUNJUS) (22)

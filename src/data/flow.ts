@@ -42,7 +42,7 @@ export const fluxo: Flow = {
     pergunta: 'Qual a classificação da irregularidade no preparo?',
     opcoes: [
       option(
-        'Complementação (pagamento insuficiente / vício formal)',
+        'Complementação — primeira irregularidade (parte ainda não foi intimada)',
         'complementacao',
         'Trata-se de caso de complementação de preparo.'
       ),
@@ -52,7 +52,7 @@ export const fluxo: Flow = {
         'Trata-se de recolhimento não comprovado no ato da interposição, sujeito ao pagamento em dobro (art. 1.007, §4°, do CPC).'
       ),
       option(
-        'Deserção (prazo de regularização esgotado)',
+        'Deserção — após intimação não atendida (prazo concedido e não cumprido)',
         'desercao',
         'Trata-se de hipótese de deserção por irregularidade insanável ou prazo de regularização não atendido.'
       ),
@@ -66,11 +66,6 @@ export const fluxo: Flow = {
   complementacao: {
     pergunta: 'Qual é a natureza da pendência documental?',
     opcoes: [
-      option(
-        'Falta só a guia (pagamento feito, mas formulário da GRU federal ou do FUNJUS não foi juntado)',
-        'comp_falta_guia',
-        'Constatada a ausência do formulário de guia de recolhimento, embora o comprovante de débito exista.'
-      ),
       option(
         'Falta só o comprovante de pagamento (guia presente, sem recibo)',
         'comp_falta_comprovante',
@@ -89,15 +84,15 @@ export const fluxo: Flow = {
     ]
   },
   comp_falta_guia: {
-    pergunta: 'Qual guia (documento) está ausente?',
+    pergunta: 'Qual guia está ausente (a outra foi apresentada regularmente)?',
     opcoes: [
       finalOption(
         'GRU',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, proceder à juntada da guia GRU correspondente ao recolhimento já efetuado, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Constatada a ausência da guia GRU no ato da interposição. Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro das custas devidas ao Tribunal Superior, com juntada da guia GRU e comprovante de débito efetivo, sob pena de deserção (art. 1.007, §4°, do CPC).'
       ),
       finalOption(
         'FUNJUS',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, proceder à juntada da guia FUNJUS correspondente ao recolhimento já efetuado, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Constatada a ausência da guia FUNJUS no ato da interposição. Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro das custas locais devidas a este Tribunal de Justiça, com juntada da guia FUNJUS e comprovante de débito efetivo, sob pena de deserção (art. 1.007, §4°, do CPC).'
       )
     ]
   },
@@ -143,7 +138,7 @@ export const fluxo: Flow = {
     ]
   },
   comp_irr_gru: {
-    pergunta: 'Qual a irregularidade constatada na guia GRU?',
+    pergunta: 'Qual a irregularidade constatada na guia GRU? (use somente se a parte ainda não foi intimada)',
     opcoes: [
       finalOption(
         'Sem número de processo / número incorreto',
@@ -156,11 +151,11 @@ export const fluxo: Flow = {
     ]
   },
   comp_irr_funjus: {
-    pergunta: 'Qual a irregularidade constatada na guia FUNJUS?',
+    pergunta: 'Qual a irregularidade constatada na guia FUNJUS? (use somente se a parte ainda não foi intimada)',
     opcoes: [
       finalOption(
         'Agendamento / em análise',
-        'O comprovante da guia FUNJUS refere-se a agendamento bancário ainda não efetivado. Comprovante de agendamento não constitui prova de recolhimento efetivo. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovante de débito definitivo da guia FUNJUS, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'O comprovante da guia FUNJUS refere-se a agendamento bancário ainda não efetivado. Comprovante de agendamento não constitui prova de recolhimento efetivo. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovante de débito definitivo da guia FUNJUS, sob pena de deserção (art. 1.007, §2°, do CPC).'
       ),
       finalOption(
         'Valor divergente / insuficiente',
@@ -180,6 +175,11 @@ export const fluxo: Flow = {
     pergunta: 'Qual é a situação documental do preparo no momento da interposição?',
     opcoes: [
       option(
+        'Falta de uma guia (apenas GRU OU apenas FUNJUS ausente — a outra está regular)',
+        'comp_falta_guia',
+        'Constatada a ausência de uma única guia no ato da interposição: a outra guia está regular. Trata-se de ausência de preparo no ato, sujeita ao recolhimento em dobro (art. 1.007, §4°, do CPC).'
+      ),
+      option(
         'Falta só a guia (GRU federal + FUNJUS ausentes — sem nenhum documento)',
         'dobro_falta_guia',
         'Verificada a ausência das guias de recolhimento GRU e FUNJUS no ato da interposição.'
@@ -190,7 +190,7 @@ export const fluxo: Flow = {
         'As guias GRU e FUNJUS foram juntadas; os comprovantes de débito efetivo estão ausentes.'
       ),
       option(
-        'Autos não digitalizados — processo físico (N/D)',
+        'Autos não digitalizados — processo físico (N/D) · uso raro',
         'dobro_nd',
         'Tratando-se de processo físico não digitalizado, verificada ausência ou irregularidade de recolhimento do preparo.'
       ),
@@ -211,10 +211,6 @@ export const fluxo: Flow = {
       finalOption(
         '2 valores divergentes / insuficientes',
         'As guias GRU e FUNJUS apresentam valores inferiores aos exigidos. Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro dos valores corretos de ambas as guias, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
-      ),
-      finalOption(
-        '2 guias sem número / número incorreto de processo',
-        'As guias GRU e FUNJUS não identificam o número do processo ou apresentam numeração incorreta. Intime-se para, no prazo de 5 (cinco) dias úteis, recolher em dobro GRU e FUNJUS com correta identificação processual, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
       ),
       finalOption(
         '2 não localizadas / não disponíveis (N/D)',
@@ -270,7 +266,7 @@ export const fluxo: Flow = {
     ]
   },
   desercao: {
-    pergunta: 'Qual guia apresenta irregularidade definitiva (ensejando a deserção)?',
+    pergunta: 'Qual guia apresenta irregularidade definitiva após intimação não atendida?',
     opcoes: [
       option(
         'Irregularidade definitiva na GRU (FUNJUS regular)',
@@ -312,10 +308,9 @@ export const fluxo: Flow = {
         'Guia pertencente a outro processo',
         'A guia GRU apresentada pertence a outro processo, não tendo sido juntada a guia correspondente a este feito no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
       ),
-      option(
-        'Inadmissão por intempestividade',
-        'intempestivo',
-        'Verificado que o recurso é intempestivo, independentemente da análise do preparo.'
+      finalOption(
+        'Guia GRU não apresentada após intimação (nunca juntada)',
+        'A parte foi intimada para juntar a guia GRU correspondente ao recolhimento das custas devidas ao Tribunal Superior e não atendeu à determinação no prazo assinado. Decreto a deserção do recurso por falta de comprovação regular do preparo (art. 1.007, §§ 4°-5°, do CPC — Súmula 187/STJ).'
       )
     ]
   },
@@ -366,6 +361,10 @@ export const fluxo: Flow = {
       finalOption(
         'Justaposição de guia FUNJUS',
         'Verificada a justaposição de guia FUNJUS nos autos: o comprovante de recolhimento apresentado é o mesmo já utilizado em outro processo ou recurso anterior, não sendo hábil a comprovar o recolhimento neste feito. Trata-se de vício insanável. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+      ),
+      finalOption(
+        'Guia FUNJUS não apresentada após intimação (nunca juntada)',
+        'A parte foi intimada para juntar a guia FUNJUS correspondente às custas locais devidas a este Tribunal de Justiça e não atendeu à determinação no prazo assinado. Decreto a deserção do recurso por falta de comprovação regular do preparo (art. 1.007, §§ 4°-5°, do CPC — Súmula 187/STJ).'
       )
     ]
   },
