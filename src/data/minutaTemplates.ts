@@ -266,6 +266,66 @@ Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, 
       };
     }
 
+    // --- COMPLEMENTAÇÃO: comprovante GRU com situação específica ---
+    case 'comp_comp_gru': {
+      const opt = lastStep.optionText;
+      if (opt === 'Agendamento / em análise (transação não efetivada)') {
+        return {
+          id: `comp-comp-agend-gru-${profile.kind}`,
+          title: `${profile.shortLabel} — complementação por comprovante GRU em agendamento`,
+          text: `O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas ao ${profile.superiorCourtName} não restou comprovado, já que o comprovante de agendamento bancário juntado no mov. [MOVIMENTO DO COMPROVANTE GRU] não é documento apto a comprovar o efetivo recolhimento das custas (AgInt nos EAREsp n. 940.673/SP, relator Ministro João Otávio de Noronha, Corte Especial, julgado em 8/4/2025, DJEN de 14/4/2025.).
+
+Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
+
+Para tanto, deverá apresentar o comprovante de pagamento definitivo referente à guia GRU juntada no mov. [MOVIMENTO DA GUIA GRU], no qual conste o código de barras de forma visível e legível, "(...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento." (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).
+
+Caso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento das custas devidas ao ${profile.superiorCourtName}, conforme normativo de custas vigente.
+
+Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
+          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+        };
+      }
+      // Valor divergente / insuficiente
+      return {
+        id: `comp-comp-valor-gru-${profile.kind}`,
+        title: `${profile.shortLabel} — complementação por comprovante GRU com valor divergente`,
+        text: `O recurso não foi devidamente preparado, visto que o valor recolhido por meio da guia GRU referente às custas devidas ao ${profile.superiorCourtName} mostra-se insuficiente ou divergente do valor exigido.
+
+Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
+
+Para tanto, deverá juntar nova guia GRU com o valor correto das custas devidas ao ${profile.superiorCourtName}, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
+
+Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
+        sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+      };
+    }
+
+    // --- COMPLEMENTAÇÃO: comprovante FUNJUS com situação específica ---
+    case 'comp_comp_funjus': {
+      const opt = lastStep.optionText;
+      if (opt === 'Agendamento / em análise') {
+        return {
+          id: `comp-comp-agend-funjus-${profile.kind}`,
+          title: `${profile.shortLabel} — complementação por comprovante FUNJUS em agendamento`,
+          text: BODY_COMP_AGENDAMENTO_FUNJUS,
+          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+        };
+      }
+      // Valor divergente / insuficiente
+      return {
+        id: `comp-comp-valor-funjus-${profile.kind}`,
+        title: `${profile.shortLabel} — complementação por comprovante FUNJUS com valor divergente`,
+        text: `O recurso não foi devidamente preparado, visto que o valor recolhido por meio da guia FUNJUS referente às custas locais devidas a este Tribunal de Justiça mostra-se insuficiente ou divergente do valor exigido.
+
+Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
+
+Para tanto, deverá gerar nova guia FUNJUS com o valor correto das custas devidas a este Tribunal de Justiça, no próprio sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
+
+Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
+        sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+      };
+    }
+
     // --- COMPLEMENTAÇÃO: irregularidade GRU ---
     case 'comp_irr_gru': {
       const opt = lastStep.optionText;
@@ -308,6 +368,8 @@ Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, 
           title: `${profile.shortLabel} — complementação GRU por identificação processual divergente`,
           text: `O recurso não foi devidamente preparado, visto que a guia GRU referente às custas devidas ao ${profile.superiorCourtName} apresentada não permite a vinculação segura ao presente feito, diante da ausência do número do processo, número incorreto ou outra falha de identificação processual.
 
+Nesse particular, é assente o entendimento do Superior Tribunal de Justiça no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023.)
+
 Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 7º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, regularizar o preparo recursal, sob pena de deserção.
 
 Para regularização, a parte deverá gerar e juntar nova guia GRU com a correta identificação processual, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
@@ -340,6 +402,8 @@ Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, 
         id: `comp-outro-processo-gru-${profile.kind}`,
         title: `${profile.shortLabel} — complementação GRU por guia de outro processo`,
         text: `O recurso não foi devidamente preparado, visto que a guia GRU referente às custas devidas ao ${profile.superiorCourtName} apresentada não se refere aos presentes autos, de modo que não é apta a comprovar o recolhimento devido neste recurso.
+
+Nesse particular, é assente o entendimento do Superior Tribunal de Justiça no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023.)
 
 Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 7º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, regularizar o preparo recursal, sob pena de deserção.
 
@@ -439,6 +503,17 @@ Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, 
       };
     }
 
+    // --- DOBRO: pagamento intempestivo ---
+    case 'dobro_intempestivo': {
+      const bodyBase = profile.kind === 'resp' ? BODY_DOBRO_SO_GUIAS_RESP : BODY_DOBRO_SO_GUIAS_RE;
+      return {
+        id: `dobro-intempestivo-${profile.kind}`,
+        title: `${profile.shortLabel} — pagamento em dobro (recolhimento intempestivo)`,
+        text: bodyBase,
+        sourceFiles: ['minutas/GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf']
+      };
+    }
+
     // --- DOBRO: autos físicos N/D ---
     case 'dobro_nd': {
       const corteLabel = profile.superiorCourtShort;
@@ -472,7 +547,7 @@ Cumpre esclarecer que para comprovação do efetivo recolhimento do preparo, a p
       if (
         opt === 'Valores divergentes' ||
         opt === 'Valor divergente (insuficiente)' ||
-        opt === 'Sem número de processo / número incorreto' ||
+        opt === 'Intimado para pagar em dobro e pagou simples' ||
         opt === 'Guia pertencente a outro processo' ||
         opt === 'Guias pertencentes a outros processos'
       ) {

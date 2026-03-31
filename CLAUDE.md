@@ -28,9 +28,13 @@ All logic is declarative and stateless:
 
 1. `src/data/flow.ts` — defines the entire decision tree as a `Flow` object (`Record<string, Question>`). Each node has a `pergunta` (question) and an array of `opcoes` (options), each option carrying a `snippet` string and a `proximo` key pointing to the next node. The tree terminates at a special `"final"` key.
 
-2. `src/App.tsx` — walks the tree. State: `etapaAtual` (current node key), `historico` (stack of visited nodes for back-navigation), `snippetsSelecionados` (accumulated snippets). On completion, the final minuta is the `snippetsSelecionados` array joined with spaces.
+2. `src/App.tsx` — walks the tree. State: `etapaAtual` (current node key), `historico` (stack of `{ step, optionText, snippet }` for back-navigation and path display), `finalizado`. On completion the accumulated snippets are taken from `historico`. Animations use `motion/react`; icons use `lucide-react`.
 
-3. `src/components/TJPR.tsx` — reusable component library (TJPRCard, TJPRButton, TJPRInput, TJPRHeader, TJPRBadge, TJPRFormGroup, TJPRModal, CookieConsent). No external component library — all components are custom-built here.
+3. `src/data/minutaCatalog.ts` — recursively walks `fluxo` and builds a flat `MinutaCatalogEntry[]` catalog of every possible path. Used for auditing and template resolution. Exports `minutaCatalog` and `findMinutaByPath`.
+
+4. `src/data/minutaTemplates.ts` — maps each `(stepKey, optionText)` path to a structured `MinutaTemplate` (with `title`, `text`, `legalBasis`, `action`). Called by `minutaCatalog.ts` via `resolveMinutaTemplate`.
+
+5. `src/components/TJPR.tsx` — reusable component library (TJPRCard, TJPRButton, TJPRInput, TJPRHeader, TJPRBadge, TJPRFormGroup, TJPRModal, CookieConsent). No external component library — all components are custom-built here.
 
 ### Styling
 
@@ -41,11 +45,11 @@ All logic is declarative and stateless:
 
 ### Adding New Decision Tree Branches
 
-To extend the flow, edit `src/data/flow.ts` only — add new nodes to the `fluxo` object. The UI in `App.tsx` is completely driven by the data structure and requires no changes for new branches.
+To extend the flow, edit `src/data/flow.ts` and `src/data/minutaTemplates.ts` together — `flow.ts` defines navigation and snippets; `minutaTemplates.ts` defines the full structured minuta text for each terminal path. `App.tsx` and `minutaCatalog.ts` require no changes.
 
 ### Environment Variables
 
-Copy `.env.example` to `.env.local`. `GEMINI_API_KEY` and `APP_URL` are defined but the Gemini integration (`@google/genai`) is not yet wired into the UI.
+Copy `.env.example` to `.env.local`. `GEMINI_API_KEY` and `APP_URL` are defined. The `@google/genai` and `express` dependencies are present but not yet wired into the UI.
 
 ### Docker / Production
 

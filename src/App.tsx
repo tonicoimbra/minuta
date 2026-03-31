@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, Fragment } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { CheckCircle2, ChevronRight, FileText } from 'lucide-react';
 import { fluxo, Option } from './data/flow';
@@ -6,6 +6,16 @@ import { findMinutaByPath } from './data/minutaCatalog';
 import { TJPRBadge, TJPRButton, TJPRCard, TJPRHeader } from './components/TJPR';
 
 type ThemeMode = 'light' | 'dark';
+
+/** Renderiza o texto da minuta com os `[PLACEHOLDERS]` em vermelho. */
+function renderMinutaComColchetes(text: string): React.ReactNode {
+  const partes = text.split(/(\[[^\]]+\])/g);
+  return partes.map((parte, i) =>
+    parte.startsWith('[') && parte.endsWith(']')
+      ? <span key={i} className="text-red-600 dark:text-red-400 font-semibold">{parte}</span>
+      : <Fragment key={i}>{parte}</Fragment>
+  );
+}
 
 const getInitialTheme = (): ThemeMode => {
   if (typeof window === 'undefined') return 'light';
@@ -21,12 +31,15 @@ const STEP_LABELS: Record<string, string> = {
   complementacao: 'Natureza da Pendência',
   comp_falta_guia: 'Guia Ausente',
   comp_falta_comprovante: 'Comprovante Ausente',
+  comp_comp_gru: 'Situação — Comprovante GRU',
+  comp_comp_funjus: 'Situação — Comprovante FUNJUS',
   comp_irr_gru: 'Irregularidade GRU',
   comp_irr_funjus: 'Irregularidade FUNJUS',
   dobro: 'Situação Documental',
   dobro_falta_guia: 'Razão — Dobro',
   dobro_falta_comprovante: 'Comprovante — Dobro',
   dobro_nd: 'Autos Físicos',
+  dobro_intempestivo: 'Dobro — Intempestivo',
   desercao: 'Guia com Irregularidade',
   desercao_gru: 'Fundamento — GRU',
   desercao_ambas: 'Fundamento — GRU + FUNJUS',
@@ -41,12 +54,15 @@ const STEP_ICONS: Record<string, string> = {
   complementacao: '📋',
   comp_falta_guia: '📄',
   comp_falta_comprovante: '🧾',
+  comp_comp_gru: '🔍',
+  comp_comp_funjus: '🔎',
   comp_irr_gru: '🏛️',
   comp_irr_funjus: '📊',
   dobro: '💰',
   dobro_falta_guia: '❌',
   dobro_falta_comprovante: '📑',
   dobro_nd: '📦',
+  dobro_intempestivo: '⏳',
   desercao: '⛔',
   desercao_gru: '🚫',
   desercao_ambas: '🚫',
@@ -415,7 +431,7 @@ export default function App() {
                       {/* ── Corpo da minuta (sem cabeçalho nem rodapé) ── */}
                       <div className={`p-6 border min-h-[200px] mb-8 ${isDarkMode ? 'minuta-panel-dark' : 'minuta-panel-light'}`}>
                         <p className="whitespace-pre-wrap max-w-[72ch] text-tjpr-gray-900 dark:text-gray-100 text-base leading-relaxed font-sans">
-                          {minutaFinal}
+                          {renderMinutaComColchetes(minutaFinal)}
                         </p>
                       </div>
 

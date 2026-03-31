@@ -104,13 +104,41 @@ export const fluxo: Flow = {
   comp_falta_comprovante: {
     pergunta: 'Comprovante de qual guia está ausente?',
     opcoes: [
-      finalOption(
+      option(
         'GRU',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, juntar o comprovante de débito efetivo referente à guia GRU. Ressalta-se que comprovante de agendamento bancário não constitui prova de quitação, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'comp_comp_gru',
+        'A guia GRU foi juntada; o comprovante de débito efetivo está ausente ou apresenta irregularidade.'
+      ),
+      option(
+        'FUNJUS',
+        'comp_comp_funjus',
+        'A guia FUNJUS foi juntada; o comprovante de débito efetivo está ausente ou apresenta irregularidade.'
+      )
+    ]
+  },
+  comp_comp_gru: {
+    pergunta: 'Qual a situação do comprovante de pagamento da GRU?',
+    opcoes: [
+      finalOption(
+        'Agendamento / em análise (transação não efetivada)',
+        'O comprovante da guia GRU refere-se a agendamento bancário ainda não efetivado. Comprovante de agendamento não constitui prova de recolhimento efetivo.'
       ),
       finalOption(
-        'FUNJUS',
-        'Intime-se a parte recorrente para, no prazo de 5 (cinco) dias úteis, juntar o comprovante de débito efetivo referente à guia FUNJUS. Ressalta-se que comprovante de agendamento bancário não constitui prova de quitação, sob pena de deserção (art. 1.007, §7°, do CPC).'
+        'Valor divergente / insuficiente',
+        'O comprovante da guia GRU apresenta valor divergente do exigido (insuficiência de preparo).'
+      )
+    ]
+  },
+  comp_comp_funjus: {
+    pergunta: 'Qual a situação do comprovante de pagamento da FUNJUS?',
+    opcoes: [
+      finalOption(
+        'Agendamento / em análise',
+        'O comprovante da guia FUNJUS refere-se a agendamento bancário ainda não efetivado. Comprovante de agendamento não constitui prova de recolhimento efetivo.'
+      ),
+      finalOption(
+        'Valor divergente / insuficiente',
+        'O comprovante da guia FUNJUS apresenta valor divergente do exigido.'
       )
     ]
   },
@@ -118,20 +146,8 @@ export const fluxo: Flow = {
     pergunta: 'Qual a irregularidade constatada na guia GRU?',
     opcoes: [
       finalOption(
-        'Agendamento / em análise (transação não efetivada)',
-        'O comprovante da guia GRU refere-se a agendamento bancário ainda não efetivado (transação pendente/em análise). Comprovante de agendamento não constitui prova de recolhimento efetivo. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovante de débito definitivo da guia GRU, sob pena de deserção (art. 1.007, §7°, do CPC).'
-      ),
-      finalOption(
-        'Valor divergente / insuficiente (é val. falso)',
-        'O comprovante da guia GRU apresenta valor divergente do exigido (insuficiência de preparo). Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento complementar da diferença na guia GRU, sob pena de deserção (art. 1.007, §2°, do CPC).'
-      ),
-      finalOption(
         'Sem número de processo / número incorreto',
         'A guia GRU não contém o número do processo ou apresenta numeração incorreta, impossibilitando a vinculação eletrônica do recolhimento ao feito. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar guia GRU com a correta identificação processual, sob pena de deserção (art. 1.007, §7°, do CPC).'
-      ),
-      finalOption(
-        'Pago a destempo — PAD (após o prazo recursal)',
-        'O recolhimento da guia GRU foi efetuado após o prazo recursal (recolhimento intempestivo). Intime-se para, no prazo de 5 (cinco) dias úteis, regularizar o recolhimento da guia GRU, sob pena de deserção.'
       ),
       finalOption(
         'Guia pertencente a outro processo',
@@ -153,10 +169,6 @@ export const fluxo: Flow = {
       finalOption(
         'Sem número de processo / número incorreto',
         'A guia FUNJUS não contém o número do processo ou apresenta numeração incorreta. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar guia FUNJUS com a correta identificação processual, sob pena de deserção (art. 1.007, §7°, do CPC).'
-      ),
-      finalOption(
-        'Pago a destempo — PAD',
-        'O recolhimento da guia FUNJUS foi efetuado após o prazo recursal. Intime-se para, no prazo de 5 (cinco) dias úteis, regularizar o recolhimento da guia FUNJUS, sob pena de deserção.'
       ),
       finalOption(
         'Guia pertencente a outro processo',
@@ -181,6 +193,11 @@ export const fluxo: Flow = {
         'Autos não digitalizados — processo físico (N/D)',
         'dobro_nd',
         'Tratando-se de processo físico não digitalizado, verificada ausência ou irregularidade de recolhimento do preparo.'
+      ),
+      option(
+        'Pagamento Intempestivo (recolhimento efetuado após o prazo recursal)',
+        'dobro_intempestivo',
+        'Verificado que o recolhimento do preparo foi efetuado após o prazo recursal, equiparando-se à ausência de preparo no ato da interposição, sujeito ao recolhimento em dobro (art. 1.007, §4°, do CPC).'
       )
     ]
   },
@@ -221,16 +238,8 @@ export const fluxo: Flow = {
         'Os comprovantes das guias GRU e FUNJUS registram valores inferiores aos devidos. Intime-se para, no prazo de 5 (cinco) dias úteis, recolher em dobro os valores corretos de ambas as guias e apresentar os comprovantes correspondentes, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
       ),
       finalOption(
-        '2 guias sem número / número incorreto de processo',
-        'Os comprovantes das guias GRU e FUNJUS não identificam o processo corretamente. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovantes do recolhimento em dobro com a correta identificação processual, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
-      ),
-      finalOption(
         '2 não localizados / não disponíveis (N/D)',
         'Ausentes os comprovantes de quitação das guias GRU e FUNJUS. Intime-se para, no prazo de 5 (cinco) dias úteis, juntar os comprovantes do recolhimento em dobro de ambas as guias, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
-      ),
-      finalOption(
-        '2 pertencentes a outros processos',
-        'Os comprovantes juntados referem-se a guias de outros processos. Intime-se para, no prazo de 5 (cinco) dias úteis, apresentar comprovantes do recolhimento em dobro das guias GRU e FUNJUS deste feito, nos termos do art. 1.007, §4°, do CPC, sob pena de não conhecimento do recurso.'
       )
     ]
   },
@@ -240,6 +249,23 @@ export const fluxo: Flow = {
       finalOption(
         '3 guias ausentes / incorretas (GRU federal + FUNJUS + porte de remessa)',
         'Tratando-se de processo físico não digitalizado, verificada a ausência ou irregularidade das guias de recolhimento (GRU, FUNJUS e porte de remessa e retorno). Intime-se para, no prazo de 5 (cinco) dias úteis, efetuar o recolhimento em dobro das guias GRU, FUNJUS e porte de remessa e retorno com a correta identificação processual, nos termos do art. 1.007, §4°, do CPC e Súmula 187/STJ, sob pena de não conhecimento do recurso.'
+      )
+    ]
+  },
+  dobro_intempestivo: {
+    pergunta: 'Qual guia foi recolhida intempestivamente?',
+    opcoes: [
+      finalOption(
+        'GRU (recolhimento após o prazo recursal)',
+        'Verificado recolhimento intempestivo da guia GRU. Intime-se para recolhimento em dobro da GRU, nos termos do art. 1.007, §4°, do CPC.'
+      ),
+      finalOption(
+        'FUNJUS (recolhimento após o prazo recursal)',
+        'Verificado recolhimento intempestivo da guia FUNJUS. Intime-se para recolhimento em dobro da FUNJUS, nos termos do art. 1.007, §4°, do CPC.'
+      ),
+      finalOption(
+        'GRU e FUNJUS (ambas recolhidas após o prazo recursal)',
+        'Verificado recolhimento intempestivo das guias GRU e FUNJUS. Intime-se para recolhimento em dobro de ambas as guias, nos termos do art. 1.007, §4°, do CPC.'
       )
     ]
   },
@@ -275,8 +301,8 @@ export const fluxo: Flow = {
         'O comprovante da guia GRU apresenta valor divergente do exigido, não tendo sido efetuada a complementação no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
       ),
       finalOption(
-        'Sem número de processo / número incorreto',
-        'A guia GRU não identifica o processo ou apresenta numeração incorreta, não tendo sido regularizada no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+        'Intimado para pagar em dobro e pagou simples',
+        'A parte foi intimada para recolhimento em dobro e apresentou comprovante de recolhimento apenas simples, sem correspondência entre o código de barras da guia e do comprovante. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
       ),
       finalOption(
         'Não localizada / não disponível (N/D)',
@@ -285,6 +311,11 @@ export const fluxo: Flow = {
       finalOption(
         'Guia pertencente a outro processo',
         'A guia GRU apresentada pertence a outro processo, não tendo sido juntada a guia correspondente a este feito no prazo assinado. Decreto a deserção do recurso por irregularidade insanável no preparo (art. 1.007, §4°-5°, do CPC).'
+      ),
+      option(
+        'Inadmissão por intempestividade',
+        'intempestivo',
+        'Verificado que o recurso é intempestivo, independentemente da análise do preparo.'
       )
     ]
   },
