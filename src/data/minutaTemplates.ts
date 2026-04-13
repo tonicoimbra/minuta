@@ -3,6 +3,8 @@
  * Textos extraídos integralmente dos PDFs de referência da pasta /minutas/.
  * Apenas os dados variáveis do caso concreto são representados por placeholders.
  * Nenhum conteúdo foi inventado — toda redação tem origem nos documentos reais.
+ *
+ * Caminhos sem PDF correspondente retornam 'AINDA SEM REFERENCIA DE MINUTAS'.
  */
 
 export interface MinutaTemplatePathStep {
@@ -19,591 +21,182 @@ export interface MinutaTemplate {
 }
 
 // ---------------------------------------------------------------------------
-// Textos corpo extraídos dos PDFs reais
+// Constante sentinel
+// ---------------------------------------------------------------------------
+
+const SEM_REFERENCIA = 'AINDA SEM REFERENCIA DE MINUTAS';
+
+// ---------------------------------------------------------------------------
+// Textos exatos extraídos dos PDFs confirmados
 // ---------------------------------------------------------------------------
 
 /**
- * COMPLEMENTAÇÃO — falta só comprovante (FUNJUS).
- * Fonte: minutas/VANESSA/0000281-66.2026.8.16.0084 Pet.pdf
+ * Caso 01 — 0000102-44.2026.8.16.0081
+ * stepKey: dobro_nd / optionText: '1 guia certa (GRU ou FUNJUS) + comprovante ausente/inválido'
+ * Situação: guia GRU juntada sem comprovante + FUNJUS não recolhida → dobro §4º
  */
-const BODY_COMP_FALTA_COMPROVANTE_FUNJUS =
-`O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas a este Tribunal de Justiça não restou comprovado, visto que juntou a guia de recolhimento de mov. [MOVIMENTO DA GUIA FUNJUS], sem o respectivo comprovante de pagamento.
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá apresentar o comprovante de pagamento referente à guia juntada no mov. [MOVIMENTO DA GUIA FUNJUS], no qual conste o código de barras de forma visível e legível, "(...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento." (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).
-
-Caso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento ao Fundo da Justiça – FUNJUS, referente às custas do Tribunal de Justiça do Estado do Paraná, conforme Lei Estadual nº 21.868, de 18/12/2023.`;
+const TEXTO_CASO_01 = "Verifica-se que a parte recorrente não comprovou o recolhimento do preparo no ato da interposição do recurso, já que juntou a guia de recolhimento das custas destinadas ao Superior Tribunal de Justiça (mov. [MOVIMENTO DA GUIA GRU]), sem o respectivo comprovante de pagamento. Ademais não realizou o recolhimento das custas locais.\n\nA jurisprudência do Superior Tribunal de Justiça é firme no sentido de que \"Para comprovação do preparo recursal não basta o pagamento das custas processuais, impõe-se a juntada dos respectivos comprovantes e guia de recolhimento, sob pena de deserção. Precedentes.\" (AgInt nos EAREsp n. 2.343.494/SP, relator Ministro Humberto Martins, Segunda Seção, julgado em 19/11/2024, DJe de 25/11/2024.)\n\nAssim sendo, diante da ausência de comprovação do pagamento das custas no ato da interposição do recurso, intime-se a parte recorrente para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, o recolhimento em dobro do preparo.\n\nPara tanto, a parte recorrente deverá:\n\n1. apresentar o comprovante de pagamento referentes à guia de recolhimento de [MOVIMENTO DA GUIA GRU] e, ainda, realizar o recolhimento da importância de R$ [VALOR STJ COMPLEMENTAR EM DOBRO], referente às custas do Superior Tribunal de Justiça, conforme Tabela \"B\", do Anexo da INSTRUÇÃO NORMATIVA STJ/GP N. 13 DE 27 DE JANEIRO DE 2026, cujo novo valor passou a vigorar a partir de 02.02.2025, eis que devidas em dobro;\n\n2. caso não seja possível juntar o documento mencionado no item 1, deverá realizar o recolhimento da importância de R$ [VALOR GRU TOTAL EM DOBRO], por meio da guia GRU-COBRANÇA, referente ao recolhimento em dobro das custas devidas ao Superior Tribunal de Justiça, conforme Tabela \"B\", do Anexo da INSTRUÇÃO NORMATIVA STJ/GP N. 13 DE 27 DE JANEIRO DE 2026;\n\n3. realizar o recolhimento da importância de R$ [VALOR FUNJUS EM DOBRO], ao Fundo da Justiça – FUNJUS, por meio de guia gerada no site deste Tribunal de Justiça, referente ao recolhimento em dobro das custas locais (Lei Estadual nº 21.868, de 18/12/2023).\n\nInsta salientar, que para comprovação do efetivo recolhimento do preparo, a parte deverá providenciar a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível. No caso do pagamento ter sido realizado por meio da plataforma digital PagTesouro, da Secretaria do Tesouro Nacional (ferramenta disponibilizada pela Corte Superior), a parte deverá apresentar o recibo enviado pelo STJ por e-mail, que conterá todas as informações do pagamento, inclusive com os dados de identificação do contribuinte e número único do processo.";
 
 /**
- * COMPLEMENTAÇÃO — falta só comprovante (GRU).
- * Adaptado da mesma base (VANESSA/0000281), trocando FUNJUS por GRU.
+ * Caso 02 — 0000281-66.2026.8.16.0084
+ * stepKey: comp_funjus / optionText: 'Juntou só a guia FUNJUS (sem comprovante de pagamento)'
+ * Situação: guia FUNJUS juntada sem comprovante, GRU regular → complementação §2º
  */
-const BODY_COMP_FALTA_COMPROVANTE_GRU =
-`O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas ao [CORTE SUPERIOR] não restou comprovado, visto que juntou a guia GRU de mov. [MOVIMENTO DA GUIA GRU], sem o respectivo comprovante de pagamento.
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá apresentar o comprovante de pagamento referente à guia GRU juntada no mov. [MOVIMENTO DA GUIA GRU], no qual conste o código de barras de forma visível e legível, "(...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento." (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).
-
-Caso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento das custas devidas ao [CORTE SUPERIOR], conforme normativo de custas vigente.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`;
+const TEXTO_CASO_02 = "O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas a este Tribunal de Justiça não restou comprovado, visto que juntou a guia de recolhimento de mov. [MOVIMENTO DA GUIA FUNJUS], sem o respectivo comprovante de pagamento.\n\nSendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.\n\nPara tanto, deverá apresentar o comprovante de pagamento referente à guia juntada no mov. [MOVIMENTO DA GUIA FUNJUS], no qual conste o código de barras de forma visível e legível, \" (...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento.\" (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).\n\nCaso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento da importância de R$ [VALOR DAS CUSTAS FUNJUS] ao Fundo da Justiça – FUNJUS, referente às custas do Tribunal de Justiça do Estado do Paraná, conforme Lei Estadual nº 21.868, de 18/12/2023.";
 
 /**
- * COMPLEMENTAÇÃO — agendamento FUNJUS.
- * Fonte: minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf
+ * Caso 05 — 0003021-52.2026.8.16.0001
+ * stepKey: comp_funjus / optionText: 'Guia FUNJUS juntada + comprovante de agendamento bancário'
+ * Situação: comprovante de agendamento bancário FUNJUS, GRU regular → complementação §2º
  */
-const BODY_COMP_AGENDAMENTO_FUNJUS =
-`O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas a este Tribunal de Justiça não restou comprovado, já que o comprovante de agendamento bancário juntado no mov. [MOVIMENTO DO COMPROVANTE] não é documento apto a comprovar o efetivo recolhimento das custas (AgInt nos EAREsp n. 940.673/SP, relator Ministro João Otávio de Noronha, Corte Especial, julgado em 8/4/2025, DJEN de 14/4/2025.).
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá apresentar o comprovante de pagamento referente à guia FUNJUS juntada no mov. [MOVIMENTO DA GUIA FUNJUS], no qual conste o código de barras de forma visível e legível, "(...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento." (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).
-
-Caso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento ao Fundo da Justiça – FUNJUS, referente às custas locais, previstas na Lei Estadual nº 22.956/2025.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`;
+const TEXTO_CASO_05 = "O recurso não foi devidamente preparado, visto que o pagamento das custas recursais devidas a este Tribunal de Justiça não restou comprovado, já que o comprovante de agendamento bancário juntado no mov. [MOVIMENTO DO COMPROVANTE DE AGENDAMENTO] não é documento apto a comprovar o efetivo recolhimento das custas (AgInt nos EAREsp n. 940.673/SP, relator Ministro João Otávio de Noronha, Corte Especial, julgado em 8/4/2025, DJEN de 14/4/2025.).\n\nSendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.\n\nPara tanto, deverá apresentar o comprovante de pagamento referente à guia juntada no mov. [MOVIMENTO DA GUIA FUNJUS], no qual conste o código de barras de forma visível e legível, \"(...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento.\" (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).\n\nCaso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento da importância de R$ [VALOR DAS CUSTAS FUNJUS] ao Fundo da Justiça – FUNJUS, referente às custas locais, previstas na Lei Estadual nº 22.956/2025.\n\nInsta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.";
 
 /**
- * COMPLEMENTAÇÃO — guia FUNJUS pertence a outro processo.
- * Fonte: minutas/VANESSA/0020823-03.2025.8.16.0194 Pet.pdf
+ * Caso 07 — 0008661-39.2026.8.16.0000
+ * stepKey: comp_funjus / optionText: 'Guia FUNJUS juntada + comprovante sem código de barras legível'
+ * Situação: código de barras do comprovante diverge da guia FUNJUS, GRU regular → complementação §2º
  */
-const BODY_COMP_OUTRO_PROCESSO_FUNJUS =
-`Intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, em 5 (cinco) dias, complementar o preparo, sob pena de deserção, tendo em vista que a guia de recolhimento das custas recursais destinadas a este Tribunal de Justiça (FUNJUS - mov. [MOVIMENTO DA GUIA FUNJUS]) não se refere aos presentes autos.
-
-Para tanto, a parte deverá gerar a guia no próprio sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau (informações pelo telefone (041) 3210-7117) e efetuar o recolhimento ao Fundo da Justiça – FUNJUS, referente às custas do Tribunal de Justiça do Estado do Paraná (Lei Estadual nº 21.868, de 18/12/2023).
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`;
+const TEXTO_CASO_07 = "O presente recurso especial não foi devidamente preparado, visto que o recolhimento das custas devidas a este Tribunal de Justiça não restou comprovado, pois não há correspondência entre o código de barras constante na guia de recolhimento de mov. [MOVIMENTO DA GUIA FUNJUS] e o do comprovante de pagamento de mov. [MOVIMENTO DO COMPROVANTE FUNJUS].\n\nA jurisprudência do Superior Tribunal de Justiça é firme no sentido de que \"(...) a falta de correspondência entre o código de barras constante do comprovante de pagamento e o da guia de recolhimento do preparo implica pena de deserção, ante a irregularidade no pagamento. Incidência da Súmula 187 do STJ.\". (AgInt no AREsp n. 1.894.595/RJ, relator Ministro Raul Araújo, Quarta Turma, julgado em 22/11/2021, DJe de 2/12/2021.)\n\nAssim sendo, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, intime-se a parte recorrente, para que, no prazo de 5 (cinco) dias, comprove nos autos a complementação do preparo do recurso, sob pena de deserção.\n\nPara tanto, a parte deverá juntar aos autos o comprovante de pagamento referente à guia de recolhimento de mov. [MOVIMENTO DA GUIA FUNJUS].\n\nCaso não seja possível apresentação do referido documento, deverá ser realizado novo recolhimento da importância de R$ [VALOR DAS CUSTAS FUNJUS] ao Fundo da Justiça – FUNJUS.\n\nInsta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.";
 
 /**
- * DOBRO — juntou só as guias (sem comprovantes), REsp.
- * Fonte: minutas/GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf
+ * Caso 08 — 0001715-16.2026.8.16.0044
+ * stepKey: comp_funjus / optionText: 'Guia FUNJUS juntada + comprovante não localizado (N/D)'
+ * Situação: FUNJUS completamente ausente, GRU regular → complementação §2º
  */
-const BODY_DOBRO_SO_GUIAS_RESP =
-`A parte não comprovou o recolhimento do preparo, visto que juntou aos autos tão somente as guias de recolhimento (movs. [MOVIMENTOS DAS GUIAS]), sem os respectivos comprovantes de pagamento.
-
-A jurisprudência do Superior Tribunal de Justiça é unânime no sentido de que "Para comprovação do preparo recursal não basta o pagamento das custas processuais, impõe-se a juntada dos respectivos comprovantes e guia de recolhimento, sob pena de deserção. Precedentes." (AgInt nos EAREsp n. 2.343.494/SP, relator Ministro Humberto Martins, Segunda Seção, julgado em 19/11/2024, DJe de 25/11/2024.)
-
-Assim sendo, diante da ausência de comprovação do pagamento das custas no ato da interposição do recurso, intime-se a parte recorrente para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, o recolhimento em dobro do preparo.
-
-Para tanto, a parte deverá comprovar o recolhimento dos seguintes valores:
-- [VALOR FUNJUS EM DOBRO], por meio do Fundo da Justiça – FUNJUS, referente ao recolhimento em dobro das custas locais, por meio de guia gerada no próprio sítio deste Tribunal de Justiça, no link https://www.tjpr.jus.br/preparo-de-recurso-2o-grau;
-- [VALOR DAS CUSTAS STJ EM DOBRO], por meio da guia GRU-COBRANÇA, referente ao recolhimento em dobro das custas devidas ao Superior Tribunal de Justiça, conforme Tabela "B", do Anexo da INSTRUÇÃO NORMATIVA STJ/GP N. 13 DE 27 DE JANEIRO DE 2026.
-
-Cumpre esclarecer que para comprovação do efetivo recolhimento do preparo, a parte deverá providenciar a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível. No caso do pagamento ter sido realizado por meio da plataforma digital PagTesouro, da Secretaria do Tesouro Nacional (ferramenta disponibilizada pela Corte Superior), a parte deverá apresentar o recibo enviado pelo STJ por e-mail, que conterá todas as informações do pagamento, inclusive com os dados de identificação do contribuinte e número único do processo.`;
+const TEXTO_CASO_08 = "Intime-se a parte recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para que, no prazo de 5 (cinco) dias, comprove nos autos a complementação do preparo do recurso, sob pena de deserção.\n\nPara tanto, a parte deverá gerar a guia no próprio sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau e efetuar o recolhimento da importância de R$ [VALOR DAS CUSTAS FUNJUS] ao Fundo da Justiça – FUNJUS, referente às custas locais, previstas na Lei Estadual nº [LEI ESTADUAL FUNJUS VIGENTE], cujo novo valor passou a vigorar a partir de [DATA DE VIGÊNCIA DA LEI].\n\nInsta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.";
 
 /**
- * DOBRO — juntou só as guias (sem comprovantes), RE.
- * Adaptado do mesmo padrão, trocando STJ por STF.
+ * Caso 10 — 0001137-80.2026.8.16.0035
+ * stepKey: dobro / optionText: 'Juntou só as guias GRU e FUNJUS (sem comprovantes de pagamento)'
+ * Situação: apenas guias GRU+FUNJUS, sem comprovantes → dobro §4º
  */
-const BODY_DOBRO_SO_GUIAS_RE =
-`A parte não comprovou o recolhimento do preparo, visto que juntou aos autos tão somente as guias de recolhimento (movs. [MOVIMENTOS DAS GUIAS]), sem os respectivos comprovantes de pagamento.
-
-A jurisprudência do Superior Tribunal de Justiça é unânime no sentido de que "Para comprovação do preparo recursal não basta o pagamento das custas processuais, impõe-se a juntada dos respectivos comprovantes e guia de recolhimento, sob pena de deserção. Precedentes." (AgInt nos EAREsp n. 2.343.494/SP, relator Ministro Humberto Martins, Segunda Seção, julgado em 19/11/2024, DJe de 25/11/2024.)
-
-Assim sendo, diante da ausência de comprovação do pagamento das custas no ato da interposição do recurso, intime-se a parte recorrente para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, o recolhimento em dobro do preparo.
-
-Para tanto, a parte deverá comprovar o recolhimento dos seguintes valores:
-- [VALOR FUNJUS EM DOBRO], por meio do Fundo da Justiça – FUNJUS, referente ao recolhimento em dobro das custas locais, por meio de guia gerada no próprio sítio deste Tribunal de Justiça, no link https://www.tjpr.jus.br/preparo-de-recurso-2o-grau;
-- [VALOR DAS CUSTAS STF EM DOBRO], por meio da guia GRU-COBRANÇA, referente ao recolhimento em dobro das custas devidas ao Supremo Tribunal Federal, conforme normativo de custas do STF vigente.
-
-Cumpre esclarecer que para comprovação do efetivo recolhimento do preparo, a parte deverá providenciar a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível. No caso do pagamento ter sido realizado por meio da plataforma digital PagTesouro, a parte deverá apresentar o recibo enviado pelo STF por e-mail, que conterá todas as informações do pagamento, inclusive com os dados de identificação do contribuinte e número único do processo.`;
+const TEXTO_CASO_10 = "A parte não comprovou o recolhimento do preparo, visto que juntou aos autos tão somente as guias de recolhimento (movs. [MOVIMENTOS DAS GUIAS GRU E FUNJUS]), sem os respectivos comprovantes de pagamento.\n\nA jurisprudência do Superior Tribunal de Justiça é unânime no sentido de que \"Para comprovação do preparo recursal não basta o pagamento das custas processuais, impõe-se a juntada dos respectivos comprovantes e guia de recolhimento, sob pena de deserção. Precedentes.\" (AgInt nos EAREsp n. 2.343.494/SP, relator Ministro Humberto Martins, Segunda Seção, julgado em 19/11/2024, DJe de 25/11/2024.)\n\nAssim sendo, diante da ausência de comprovação do pagamento das custas no ato da interposição do recurso, intime-se a parte recorrente para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, o recolhimento em dobro do preparo.\n\nPara tanto, a parte deverá comprovar o recolhimento dos seguintes valores:\n- R$ [VALOR FUNJUS EM DOBRO], por meio do Fundo da Justiça – FUNJUS, referente ao recolhimento em dobro das custas locais (Lei Estadual nº [LEI ESTADUAL FUNJUS VIGENTE]), por meio de guia gerada no próprio sítio deste Tribunal de Justiça, no link https://www.tjpr.jus.br/preparo-de-recurso-2o-grau;\n- R$ [VALOR GRU EM DOBRO], por meio da guia GRU-COBRANÇA, referente ao recolhimento em dobro das custas devidas ao Superior Tribunal de Justiça, conforme Tabela \"B\", do Anexo da INSTRUÇÃO NORMATIVA STJ/GP N. 13 DE 27 DE JANEIRO DE 2026.\n\nCumpre esclarecer que para comprovação do efetivo recolhimento do preparo, a parte deverá providenciar a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível. No caso do pagamento ter sido realizado por meio da plataforma digital PagTesouro, da Secretaria do Tesouro Nacional (ferramenta disponibilizada pela Corte Superior), a parte deverá apresentar o recibo enviado pelo STJ por e-mail, que conterá todas as informações do pagamento, inclusive com os dados de identificação do contribuinte e número único do processo.";
 
 /**
- * DESERÇÃO — descumprimento da determinação de complementar / dobro.
- * Fonte: minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf
+ * Caso 12 — 0003802-77.2026.8.16.0000
+ * stepKey: dobro_nd / optionText: '2 agendamentos bancários como comprovante'
+ * Situação: 2 comprovantes de agendamento bancário GRU+FUNJUS → dobro §4º
  */
-const BODY_DESERCAO_GERAL =
-`Após a interposição do recurso, percebeu-se a necessidade de intimação da parte recorrente para complementar o preparo recursal (despacho de mov. [DESPACHO DE INTIMAÇÃO]).
-
-Todavia, a parte não regularizou o preparo recursal, como determinado, visto que [DESCREVER IRREGULARIDADE REMANESCENTE].
-
-Nesse particular, é assente o entendimento do Superior Tribunal de Justiça "(...) no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. A juntada apenas do comprovante de pagamento das custas, sem a respectiva guia de recolhimento, configura ausência de regular comprovação do preparo." (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023).
-
-Sendo assim, nos termos do artigo 1.007, §§ 4º e 5º, do Código de Processo Civil, c/c a Súmula 187 do Superior Tribunal de Justiça, declaro a deserção do recurso especial.
-
-Diante do exposto, inadmito o recurso especial interposto.`;
+const TEXTO_CASO_12 = "Verifica-se que a parte recorrente não comprovou o recolhimento do preparo, já que os comprovantes de agendamento bancário juntados nos movs. [MOVIMENTOS DOS AGENDAMENTOS BANCÁRIOS] não são documentos aptos a comprovar o efetivo recolhimento das custas (AgInt nos EAREsp n. 940.673/SP, relator Ministro João Otávio de Noronha, Corte Especial, julgado em 8/4/2025, DJEN de 14/4/2025.). \n\nNesse sentido:\n\nPROCESSUAL CIVIL. AGRAVO INTERNO NOS EMBARGOS DE DIVERGÊNCIA EM RECURSO ESPECIAL. PREPARO RECURSAL. APRESENTAÇÃO DE COMPROVANTE DE AGENDAMENTO. IRREGULARIDADE. INTIMAÇÃO PARA RECOLHER EM DOBRO. JUNTADA POSTERIOR DA GUIA DE RECOLHIMENTO. PRECLUSÃO CONSUMATIVA. DESERÇÃO. SÚMULA 187/STJ.\n1. Tendo o recurso sido interposto contra decisão publicada na vigência do Código de Processo Civil de 2015, devem ser exigidos os requisitos de admissibilidade na forma nele previsto, conforme Enunciado Administrativo n. 3/2016/STJ.\n2. É deserto o recurso dirigido a esta Corte se a parte não comprova, adequada e tempestivamente, o recolhimento do preparo recursal, a despeito de haver sido regularmente intimada na forma do art. 1.007, § 4º, do CPC/2015. Precedentes.\n3. A juntada posterior de comprovante de pagamento de custas não é capaz de superar a deserção em razão da preclusão consumativa.\n4. Agravo interno não provido.\n(AgInt nos EREsp n. 1.848.579/CE, relator Ministro Benedito Gonçalves, Corte Especial, julgado em 27/9/2022, DJe de 3/10/2022.)\n\nAssim sendo, diante da ausência de comprovação do pagamento das custas no ato da interposição do recurso, intime-se a parte recorrente para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, o recolhimento em dobro do preparo.\n\nPara tanto, a parte recorrente deverá:\n\n1. apresentar os comprovantes de pagamento referentes às guias de recolhimento de movs. [MOVIMENTOS DAS GUIAS GRU E FUNJUS];\n2. realizar o recolhimento da importância de R$ [VALOR STJ COMPLEMENTAR EM DOBRO], referente às custas do Superior Tribunal de Justiça, conforme Tabela \"B\", do Anexo da INSTRUÇÃO NORMATIVA STJ/GP N. 13 DE 27 DE JANEIRO DE 2026, cujo novo valor passou a vigorar a partir de 02.02.2026, eis que devidas em dobro;\n3. realizar novo recolhimento da importância de R$ [VALOR FUNJUS COMPLEMENTAR EM DOBRO] ao Fundo da Justiça – FUNJUS (Lei Estadual nº 21.868, de 18/12/2023), eis que devido em dobro.\n\nRessalta-se que, caso seja impossível apresentar os comprovantes de pagamento mencionados no item 1, a parte deverá comprovar o recolhimento dos seguintes valores:\n- R$ [VALOR GRU TOTAL EM DOBRO], por meio da guia GRU-COBRANÇA, referente ao recolhimento em dobro das custas devidas ao Superior Tribunal de Justiça, conforme Tabela \"B\", do Anexo da INSTRUÇÃO NORMATIVA STJ/GP N. 13 DE 27 DE JANEIRO DE 2026.\n- R$ [VALOR FUNJUS TOTAL EM DOBRO], ao Fundo da Justiça – FUNJUS, referente ao recolhimento em dobro das custas do Tribunal de Justiça do Estado do Paraná (Lei Estadual nº 21.868, de 18/12/2023).\n\nInsta salientar, que para comprovação do efetivo recolhimento do preparo, a parte deverá providenciar a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível. No caso do pagamento ter sido realizado por meio da plataforma digital PagTesouro, da Secretaria do Tesouro Nacional (ferramenta disponibilizada pela Corte Superior), a parte deverá apresentar o recibo enviado pelo STJ por e-mail, que conterá todas as informações do pagamento, inclusive com os dados de identificação do contribuinte e número único do processo.";
 
 /**
- * DESERÇÃO — dobro comprovado apenas de forma simples.
- * Fonte: minutas/VANESSA/0139226-28.2025.8.16.0000 Pet.pdf
+ * Caso 13 — 0013879-48.2026.8.16.0000
+ * stepKey: dobro_nd / optionText: '2 comprovantes sem código de barras legível'
+ * Situação: comprovantes GRU+FUNJUS sem código de barras legível → dobro §4º
  */
-const BODY_DESERCAO_DOBRO_SIMPLES =
-`Declaro a deserção do recurso especial, nos termos do §4º do artigo 1.007 do Código de Processo Civil, uma vez que a parte recorrente, após ser devidamente intimada, deixou de comprovar o preparo recursal em dobro, conforme determinado no despacho de mov. [DESPACHO DE INTIMAÇÃO].
-
-Isso porque, embora a parte tenha se manifestado no prazo legal, o fato é que não comprovou o pagamento das custas recursais devidas em dobro, visto que trouxe documentos que comprovam apenas o pagamento simples das custas recursais devidas ao Superior Tribunal de Justiça e a este Tribunal de Justiça (FUNJUS), pois não há correspondência entre o número do código de barras constante das guias de recolhimento e dos comprovantes de pagamento apresentados.
-
-Nesse sentido:
-"AGRAVO INTERNO NO AGRAVO EM RECURSO ESPECIAL. PREPARO RECURSAL. AUSÊNCIA DE CORRESPONDÊNCIA ENTRE O NÚMERO DE CÓDIGO DE BARRAS E DO COMPROVANTE DE PAGAMENTO BANCÁRIO. RECURSO DESERTO. AGRAVO INTERNO DESPROVIDO.
-1. Nos termos da jurisprudência do Superior Tribunal de Justiça, 'a falta de correspondência entre o código de barras da guia de recolhimento e o comprovante de pagamento enseja irregularidade no preparo do recurso especial e, portanto, sua deserção' (AgInt no AREsp 1.449.432/SP, Relator Ministro Luis Felipe Salomão, Quarta Turma, DJe de 12/5/2020).
-2. É inviável a análise de questão meritória em recurso especial que não ultrapassa sequer o juízo de admissibilidade.
-3. Agravo interno desprovido."
-(AgInt no AREsp n. 2.665.947/MS, relator Ministro Marco Aurélio Bellizze, Terceira Turma, julgado em 28/10/2024, DJe de 5/11/2024.).
-
-Diante do exposto, inadmito o recurso especial interposto.`;
-
-/**
- * INTEMPESTIVO — recurso fora do prazo.
- * Fonte: minutas/DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf
- *         minutas/VANESSA/0000859-84.2026.8.16.0098 Pet.pdf
- */
-const BODY_INTEMPESTIVO =
-`O recurso especial não pode ser admitido, pois foi interposto sem observância do prazo previsto no artigo 1.003, § 5º, c/c artigo 219, ambos do Código de Processo Civil.
-
-Isto porque se verifica que a intimação do acórdão recorrido se deu pela disponibilização no DJEN na data de [DATA DE DISPONIBILIZAÇÃO] e, considerada como data da publicação o primeiro dia útil seguinte ao da disponibilização da informação (artigos 4º, §3º, da Lei 11.419/2006, e 224, do Código de Processo Civil), [DATA DA PUBLICAÇÃO], iniciou-se a contagem do prazo no primeiro dia útil seguinte ao da publicação, isto é, em [DATA DE INÍCIO DO PRAZO].
-
-[OBSERVAÇÃO SOBRE FERIADOS, SE HOUVER]
-
-Sendo assim, a petição recursal protocolada em [DATA DO PROTOCOLO] é intempestiva, já que o prazo de 15 (quinze) dias úteis para interposição do recurso findou em [DATA FINAL DO PRAZO].
-
-Neste sentido:
-"PROCESSUAL CIVIL. AGRAVO INTERNO NO AGRAVO EM RECURSO ESPECIAL. RECURSO MANEJADO SOB A ÉGIDE DO NCPC. RECURSO INTEMPESTIVO. RECURSO ESPECIAL INTERPOSTO NA VIGÊNCIA DO NCPC. RECURSO ESPECIAL APRESENTADO FORA DO PRAZO LEGAL. INTEMPESTIVIDADE. APLICAÇÃO DOS ARTS. 219 E 1.003, § 5º, AMBOS DO NCPC. ADMISSIBILIDADE DO APELO NOBRE. JUÍZO BIFÁSICO. AUSÊNCIA DE VINCULAÇÃO DO STJ. AGRAVO INTERNO NÃO PROVIDO.
-1. Aplica-se o NCPC a este julgamento ante os termos do Enunciado Administrativo nº 3, aprovado pelo Plenário do STJ na sessão de 9/3/2016: Aos recursos interpostos com fundamento no CPC/2015 (relativos a decisões publicadas a partir de 18 de março de 2016) serão exigidos os requisitos de admissibilidade recursal na forma do novo CPC.
-2. A interposição de recurso especial após o prazo legal implica o seu não conhecimento, por intempestividade, nos termos dos arts. 219 e 1.003, § 5º, ambos do NCPC.
-3. O juízo de admissibilidade do apelo nobre é bifásico, não ficando o STJ vinculado à decisão proferida pela Corte estadual.
-4. Agravo interno não provido."
-(AgInt no AREsp n. 2.039.729/RS, relator Ministro Moura Ribeiro, Terceira Turma, julgado em 9/5/2022, DJe de 11/5/2022.)
-
-Diante do exposto, inadmito o recurso especial interposto.`;
+const TEXTO_CASO_13 = "Verifica-se que a parte recorrente não demonstrou o recolhimento do preparo no ato da interposição do recurso, pois os documentos juntados como comprovantes de pagamento no mov. [MOVIMENTO DOS COMPROVANTES] não são aptos a comprovar o efetivo recolhimento das custas recursais, já que não é possível visualizar o código de barras na sua integralidade, impossibilitando a comparação com os dados constantes nas guias de recolhimento apresentadas (AgInt no AREsp n. 2.558.214/RS, relatora Ministra Maria Isabel Gallotti, Quarta Turma, julgado em 14/10/2024, DJe de 23/10/2024).\n\nAssim sendo, diante da ausência de comprovação do pagamento das custas no ato da interposição do recurso, intime-se a parte recorrente para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, o recolhimento em dobro do preparo.\n\nPara tanto, a parte recorrente deverá comprovar o recolhimento dos seguintes valores:\n- R$ [VALOR GRU EM DOBRO], por meio da guia GRU-COBRANÇA, referente ao recolhimento em dobro das custas devidas ao Superior Tribunal de Justiça, conforme Tabela \"B\", do Anexo da INSTRUÇÃO NORMATIVA STJ/GP N. 13 DE 27 DE JANEIRO DE 2026.\n- R$ [VALOR FUNJUS EM DOBRO], ao Fundo da Justiça – FUNJUS, referente ao recolhimento em dobro das custas do Tribunal de Justiça do Estado do Paraná (Lei Estadual nº 21.868, de 18/12/2023).\n\nInsta salientar, que para comprovação do efetivo recolhimento do preparo, a parte deverá providenciar a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível. No caso do pagamento ter sido realizado por meio da plataforma digital PagTesouro, da Secretaria do Tesouro Nacional (ferramenta disponibilizada pela Corte Superior), a parte deverá apresentar o recibo enviado pelo STJ por e-mail, que conterá todas as informações do pagamento, inclusive com os dados de identificação do contribuinte e número único do processo.";
 
 // ---------------------------------------------------------------------------
-// Helpers para identificar perfil de recurso
+// Helper
 // ---------------------------------------------------------------------------
 
-type ResourceKind = 'resp' | 're';
-
-interface ResourceProfile {
-  kind: ResourceKind;
-  shortLabel: string;
-  fullLabel: string;
-  superiorCourtName: string;
-  superiorCourtShort: string;
+function semReferencia(id: string): MinutaTemplate {
+  return {
+    id,
+    title: 'Sem referência disponível',
+    text: SEM_REFERENCIA,
+    sourceFiles: [],
+  };
 }
 
-const RESOURCE_PROFILES: Record<ResourceKind, ResourceProfile> = {
-  resp: {
-    kind: 'resp',
-    shortLabel: 'REsp',
-    fullLabel: 'Recurso Especial',
-    superiorCourtName: 'Superior Tribunal de Justiça',
-    superiorCourtShort: 'STJ'
-  },
-  re: {
-    kind: 're',
-    shortLabel: 'RE',
-    fullLabel: 'Recurso Extraordinário',
-    superiorCourtName: 'Supremo Tribunal Federal',
-    superiorCourtShort: 'STF'
-  }
-};
-
-const getResourceProfile = (path: MinutaTemplatePathStep[]): ResourceProfile => {
-  const initialChoice = path[0]?.optionText;
-  return initialChoice === 'Recurso Extraordinário (RE)'
-    ? RESOURCE_PROFILES.re
-    : RESOURCE_PROFILES.resp;
-};
-
 // ---------------------------------------------------------------------------
-// Resolução principal
+// Função principal
 // ---------------------------------------------------------------------------
 
-export const resolveMinutaTemplate = (path: MinutaTemplatePathStep[]): MinutaTemplate => {
-  const profile = getResourceProfile(path);
-  const lastStep = path[path.length - 1];
+export function resolveMinutaTemplate(path: MinutaTemplatePathStep[]): MinutaTemplate {
+  const id = path.map(s => s.stepKey + ':' + s.optionText).join(' > ');
+  const isRE = path[0]?.optionText === 'Recurso Extraordinário (RE)';
+  const last = path[path.length - 1];
+  const stepKey = last?.stepKey ?? '';
+  const optionText = last?.optionText ?? '';
 
-  switch (lastStep.stepKey) {
+  // RE não tem PDFs — sempre sem referência
+  if (isRE) return semReferencia(id);
 
-    // --- COMPLEMENTAÇÃO: falta guia ---
-    case 'comp_falta_guia': {
-      const guide = lastStep.optionText; // 'GRU' ou 'FUNJUS'
-      if (guide === 'GRU') {
+  switch (stepKey) {
+
+    // ── Complementação — GRU ─────────────────────────────────────────────────
+    case 'comp_gru':
+      return semReferencia(id);
+
+    // ── Complementação — FUNJUS ──────────────────────────────────────────────
+    case 'comp_funjus':
+      if (optionText === 'Juntou só a guia FUNJUS (sem comprovante de pagamento)') {
         return {
-          id: `dobro-guia-unica-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — recolhimento em dobro por ausência da guia GRU`,
-          text: `A parte recorrente não comprovou o recolhimento do preparo no ato da interposição do recurso, visto que não juntou a guia de recolhimento GRU referente às custas devidas ao ${profile.superiorCourtName}, conforme exigido pelo artigo 1.007, caput, do Código de Processo Civil.
-
-Nesse sentido, é assente o entendimento do Superior Tribunal de Justiça de que os recursos especiais devem estar acompanhados, simultaneamente, das guias de recolhimento devidamente preenchidas e dos respectivos comprovantes de pagamento, sob pena de deserção. A juntada apenas do comprovante de pagamento das custas, sem a respectiva guia de recolhimento, configura ausência de regular comprovação do preparo (AgInt no AREsp n. 2.258.023/GO, relator Ministro Paulo Sérgio Domingues, Primeira Turma, julgado em 4/9/2023, DJe de 8/9/2023).
-
-Assim sendo, intime-se a parte Recorrente, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, o recolhimento em dobro das custas devidas ao ${profile.superiorCourtName}.
-
-Para tanto, deverá apresentar nova guia GRU com o valor correspondente ao dobro das custas devidas ao ${profile.superiorCourtName}, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-          sourceFiles: ['minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf']
+          id,
+          title: 'Complementação — guia FUNJUS juntada sem comprovante (REsp)',
+          text: TEXTO_CASO_02,
+          sourceFiles: ['minutas/Caso 02.pdf'],
         };
       }
-      // FUNJUS
-      return {
-        id: `dobro-guia-unica-funjus-${profile.kind}`,
-        title: `${profile.shortLabel} — recolhimento em dobro por ausência da guia FUNJUS`,
-        text: `A parte recorrente não comprovou o recolhimento do preparo no ato da interposição do recurso, visto que não juntou a guia de recolhimento FUNJUS referente às custas locais devidas a este Tribunal de Justiça, conforme exigido pelo artigo 1.007, caput, do Código de Processo Civil.
-
-Nesse sentido, é assente o entendimento do Superior Tribunal de Justiça de que os recursos especiais devem estar acompanhados, simultaneamente, das guias de recolhimento devidamente preenchidas e dos respectivos comprovantes de pagamento, sob pena de deserção. A juntada apenas do comprovante de pagamento das custas, sem a respectiva guia de recolhimento, configura ausência de regular comprovação do preparo (AgInt no AREsp n. 2.258.023/GO, relator Ministro Paulo Sérgio Domingues, Primeira Turma, julgado em 4/9/2023, DJe de 8/9/2023).
-
-Assim sendo, intime-se a parte Recorrente, nos termos do artigo 1.007, § 4º, do Código de Processo Civil, para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, o recolhimento em dobro das custas locais devidas a este Tribunal de Justiça (FUNJUS).
-
-Para tanto, deverá gerar nova guia FUNJUS com o valor correspondente ao dobro das custas devidas a este Tribunal de Justiça, no próprio sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-        sourceFiles: ['minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf']
-      };
-    }
-    // --- COMPLEMENTAÇÃO: falta comprovante ---
-    case 'comp_falta_comprovante': {
-      const guide = lastStep.optionText;
-      if (guide === 'GRU') {
+      if (optionText === 'Guia FUNJUS juntada + comprovante de agendamento bancário') {
         return {
-          id: `comp-falta-comprovante-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação por ausência de comprovante GRU`,
-          text: BODY_COMP_FALTA_COMPROVANTE_GRU.replace(/\[CORTE SUPERIOR\]/g, profile.superiorCourtName),
-          sourceFiles: ['minutas/VANESSA/0000281-66.2026.8.16.0084 Pet.pdf']
+          id,
+          title: 'Complementação — comprovante de agendamento bancário FUNJUS (REsp)',
+          text: TEXTO_CASO_05,
+          sourceFiles: ['minutas/Caso 05.pdf'],
         };
       }
-      return {
-        id: `comp-falta-comprovante-funjus-${profile.kind}`,
-        title: `${profile.shortLabel} — complementação por ausência de comprovante FUNJUS`,
-        text: BODY_COMP_FALTA_COMPROVANTE_FUNJUS,
-        sourceFiles: ['minutas/VANESSA/0000281-66.2026.8.16.0084 Pet.pdf']
-      };
-    }
-
-    // --- COMPLEMENTAÇÃO: comprovante GRU com situação específica ---
-    case 'comp_comp_gru': {
-      const opt = lastStep.optionText;
-      if (opt === 'Agendamento / em análise (transação não efetivada)') {
+      if (optionText === 'Guia FUNJUS juntada + comprovante sem código de barras legível') {
         return {
-          id: `comp-comp-agend-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação por comprovante GRU em agendamento`,
-          text: `O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas ao ${profile.superiorCourtName} não restou comprovado, já que o comprovante de agendamento bancário juntado no mov. [MOVIMENTO DO COMPROVANTE GRU] não é documento apto a comprovar o efetivo recolhimento das custas (AgInt nos EAREsp n. 940.673/SP, relator Ministro João Otávio de Noronha, Corte Especial, julgado em 8/4/2025, DJEN de 14/4/2025.).
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá apresentar o comprovante de pagamento definitivo referente à guia GRU juntada no mov. [MOVIMENTO DA GUIA GRU], no qual conste o código de barras de forma visível e legível, "(...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento." (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).
-
-Caso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento das custas devidas ao ${profile.superiorCourtName}, conforme normativo de custas vigente.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+          id,
+          title: 'Complementação — código de barras divergente no comprovante FUNJUS (REsp)',
+          text: TEXTO_CASO_07,
+          sourceFiles: ['minutas/Caso 07.pdf'],
         };
       }
-      // Valor divergente / insuficiente
-      return {
-        id: `comp-comp-valor-gru-${profile.kind}`,
-        title: `${profile.shortLabel} — complementação por comprovante GRU com valor divergente`,
-        text: `O recurso não foi devidamente preparado, visto que o valor recolhido por meio da guia GRU referente às custas devidas ao ${profile.superiorCourtName} mostra-se insuficiente ou divergente do valor exigido.
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá juntar nova guia GRU com o valor correto das custas devidas ao ${profile.superiorCourtName}, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-        sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
-      };
-    }
-
-    // --- COMPLEMENTAÇÃO: comprovante FUNJUS com situação específica ---
-    case 'comp_comp_funjus': {
-      const opt = lastStep.optionText;
-      if (opt === 'Agendamento / em análise') {
+      if (optionText === 'Guia FUNJUS juntada + comprovante não localizado (N/D)') {
         return {
-          id: `comp-comp-agend-funjus-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação por comprovante FUNJUS em agendamento`,
-          text: BODY_COMP_AGENDAMENTO_FUNJUS,
-          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+          id,
+          title: 'Complementação — FUNJUS ausente, sem guia nem pagamento (REsp)',
+          text: TEXTO_CASO_08,
+          sourceFiles: ['minutas/Caso 08.pdf'],
         };
       }
-      // Valor divergente / insuficiente
-      return {
-        id: `comp-comp-valor-funjus-${profile.kind}`,
-        title: `${profile.shortLabel} — complementação por comprovante FUNJUS com valor divergente`,
-        text: `O recurso não foi devidamente preparado, visto que o valor recolhido por meio da guia FUNJUS referente às custas locais devidas a este Tribunal de Justiça mostra-se insuficiente ou divergente do valor exigido.
+      return semReferencia(id);
 
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá gerar nova guia FUNJUS com o valor correto das custas devidas a este Tribunal de Justiça, no próprio sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-        sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
-      };
-    }
-
-    // --- COMPLEMENTAÇÃO: irregularidade GRU ---
-    case 'comp_irr_gru': {
-      const opt = lastStep.optionText;
-
-      if (opt === 'Agendamento / em análise (transação não efetivada)') {
+    // ── Pagamento em Dobro — situação documental ──────────────────────────────
+    case 'dobro':
+      if (optionText === 'Juntou só as guias GRU e FUNJUS (sem comprovantes de pagamento)') {
         return {
-          id: `comp-agend-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação GRU por agendamento`,
-          text: `O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas ao ${profile.superiorCourtName} não restou comprovado, já que o comprovante de agendamento bancário juntado no mov. [MOVIMENTO DO COMPROVANTE GRU] não é documento apto a comprovar o efetivo recolhimento das custas (AgInt nos EAREsp n. 940.673/SP, relator Ministro João Otávio de Noronha, Corte Especial, julgado em 8/4/2025, DJEN de 14/4/2025.).
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá apresentar o comprovante de pagamento definitivo referente à guia GRU juntada no mov. [MOVIMENTO DA GUIA GRU], no qual conste o código de barras de forma visível e legível, "(...) para que não haja dúvida acerca da validade do documento e do seu efetivo recolhimento." (AREsp 2062229-SP/RS, Rel. Ministro HUMBERTO MARTINS, QUARTA TURMA, julgado em 21/03/2022, DJe 22/03/2022).
-
-Caso não seja possível apresentar referido documento, a parte deverá realizar novo recolhimento das custas devidas ao ${profile.superiorCourtName}, conforme normativo de custas vigente.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo. No caso do pagamento ter sido realizado por meio da plataforma digital PagTesouro, da Secretaria do Tesouro Nacional, a parte deverá apresentar o recibo enviado pelo ${profile.superiorCourtShort} por e-mail, contendo os dados de identificação do contribuinte e o número único do processo.`,
-          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+          id,
+          title: 'Dobro §4º — guias GRU e FUNJUS sem comprovantes (REsp)',
+          text: TEXTO_CASO_10,
+          sourceFiles: ['minutas/Caso 10.pdf'],
         };
       }
+      return semReferencia(id);
 
-      if (opt === 'Valor divergente / insuficiente (é val. falso)') {
+    // ── Pagamento em Dobro — documentos ausentes/inválidos ───────────────────
+    case 'dobro_nd':
+      if (optionText === '2 agendamentos bancários como comprovante') {
         return {
-          id: `comp-valor-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação GRU por valor divergente`,
-          text: `O recurso não foi devidamente preparado, visto que o valor recolhido por meio da guia GRU referente às custas devidas ao ${profile.superiorCourtName} mostra-se insuficiente ou divergente do valor exigido.
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá juntar nova guia GRU com o valor correto das custas devidas ao ${profile.superiorCourtName}, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+          id,
+          title: 'Dobro §4º — 2 agendamentos bancários GRU+FUNJUS (REsp)',
+          text: TEXTO_CASO_12,
+          sourceFiles: ['minutas/Caso 12.pdf'],
         };
       }
-
-      if (opt === 'Sem número de processo / número incorreto') {
+      if (optionText === '2 comprovantes sem código de barras legível') {
         return {
-          id: `comp-numero-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação GRU por identificação processual divergente`,
-          text: `O recurso não foi devidamente preparado, visto que a guia GRU referente às custas devidas ao ${profile.superiorCourtName} apresentada não permite a vinculação segura ao presente feito, diante da ausência do número do processo, número incorreto ou outra falha de identificação processual.
-
-Nesse particular, é assente o entendimento do Superior Tribunal de Justiça no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023.)
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 7º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, regularizar o preparo recursal, sob pena de deserção.
-
-Para regularização, a parte deverá gerar e juntar nova guia GRU com a correta identificação processual, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
+          id,
+          title: 'Dobro §4º — 2 comprovantes sem código de barras legível GRU+FUNJUS (REsp)',
+          text: TEXTO_CASO_13,
+          sourceFiles: ['minutas/Caso 13.pdf'],
         };
       }
-
-      if (opt === 'Pago a destempo — PAD (após o prazo recursal)') {
+      if (optionText === '1 guia certa (GRU ou FUNJUS) + comprovante ausente/inválido') {
         return {
-          id: `comp-pad-gru-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação GRU por recolhimento a destempo`,
-          text: `O recurso não foi devidamente preparado, visto que o recolhimento das custas recursais devidas ao ${profile.superiorCourtName} foi efetuado após o prazo recursal, não sendo suficiente para demonstrar a regularidade do preparo no momento exigido em lei.
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, regularizar o preparo recursal, sob pena de deserção.
-
-Para regularização, a parte deverá comprovar o recolhimento tempestivo ou, se for o caso, apresentar novo preparo conforme o fundamento jurídico aplicável ao caso concreto, acompanhado da respectiva guia GRU e do comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-          sourceFiles: [
-            'minutas/DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf',
-            'minutas/VANESSA/0000859-84.2026.8.16.0098 Pet.pdf'
-          ]
+          id,
+          title: 'Dobro §4º — guia GRU sem comprovante + FUNJUS não recolhida (REsp)',
+          text: TEXTO_CASO_01,
+          sourceFiles: ['minutas/Caso 01.pdf'],
         };
       }
+      return semReferencia(id);
 
-      // Guia pertencente a outro processo
-      return {
-        id: `comp-outro-processo-gru-${profile.kind}`,
-        title: `${profile.shortLabel} — complementação GRU por guia de outro processo`,
-        text: `O recurso não foi devidamente preparado, visto que a guia GRU referente às custas devidas ao ${profile.superiorCourtName} apresentada não se refere aos presentes autos, de modo que não é apta a comprovar o recolhimento devido neste recurso.
-
-Nesse particular, é assente o entendimento do Superior Tribunal de Justiça no sentido de que os recursos especiais devem estar acompanhados das guias de recolhimento devidamente preenchidas, além dos respectivos comprovantes de pagamento, ambos de forma visível e legível. (AgInt no AREsp n. 2.208.504/RS, Rel. Min. Benedito Gonçalves, Primeira Turma, DJe de 26/4/2023.)
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 7º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, regularizar o preparo recursal, sob pena de deserção.
-
-Para regularização, a parte deverá gerar e juntar a guia GRU correspondente ao presente feito, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-        sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
-      };
-    }
-
-    // --- COMPLEMENTAÇÃO: irregularidade FUNJUS ---
-    case 'comp_irr_funjus': {
-      const opt = lastStep.optionText;
-
-      if (opt === 'Agendamento / em análise') {
-        return {
-          id: `comp-agend-funjus-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação FUNJUS por agendamento`,
-          text: BODY_COMP_AGENDAMENTO_FUNJUS,
-          sourceFiles: [
-            'minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf',
-            'minutas/GABY/0003396-38.2025.8.16.0179 Pet - COMPROVANTE FUNJUS - EM PROCESSO DE AUTENTICACAO - INTIMADO COMPROVAR CORRETAMENTE - EQUIVALE A AGENDAMENTO.pdf'
-          ]
-        };
-      }
-
-      if (opt === 'Valor divergente / insuficiente') {
-        return {
-          id: `comp-valor-funjus-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação FUNJUS por valor divergente`,
-          text: `O recurso não foi devidamente preparado, visto que o valor recolhido por meio da guia FUNJUS referente às custas locais devidas a este Tribunal de Justiça mostra-se insuficiente ou divergente do valor exigido.
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, complementar o preparo recursal, sob pena de deserção.
-
-Para tanto, deverá gerar nova guia FUNJUS com o valor correto das custas devidas a este Tribunal de Justiça, no próprio sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-          sourceFiles: ['minutas/GABY/0003021-52.2026.8.16.0001 Pet - INTIMADO COMPLEMENTAR CUSTAS - AGENDAMENTO FUNJUS.pdf']
-        };
-      }
-
-      if (opt === 'Sem número de processo / número incorreto') {
-        return {
-          id: `comp-numero-funjus-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação FUNJUS por identificação processual divergente`,
-          text: BODY_COMP_OUTRO_PROCESSO_FUNJUS,
-          sourceFiles: ['minutas/VANESSA/0020823-03.2025.8.16.0194 Pet.pdf']
-        };
-      }
-
-      if (opt === 'Pago a destempo — PAD') {
-        return {
-          id: `comp-pad-funjus-${profile.kind}`,
-          title: `${profile.shortLabel} — complementação FUNJUS por recolhimento a destempo`,
-          text: `O recurso não foi devidamente preparado, visto que o recolhimento das custas locais devidas a este Tribunal de Justiça (FUNJUS) foi efetuado após o prazo recursal, não sendo suficiente para demonstrar a regularidade do preparo no momento exigido em lei.
-
-Sendo assim, intime-se a parte Recorrente, nos termos do artigo 1.007, § 2º, do Código de Processo Civil, para, no prazo de 5 (cinco) dias, regularizar o preparo recursal, sob pena de deserção.
-
-Para regularização, a parte deverá comprovar o recolhimento tempestivo ou, se for o caso, apresentar novo preparo, gerando nova guia FUNJUS no sítio deste Tribunal de Justiça, https://www.tjpr.jus.br/preparo-de-recurso-2o-grau, acompanhada do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.
-
-Insta salientar que a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível, são imprescindíveis para fins de comprovação do efetivo recolhimento do preparo.`,
-          sourceFiles: [
-            'minutas/DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf',
-            'minutas/VANESSA/0000859-84.2026.8.16.0098 Pet.pdf'
-          ]
-        };
-      }
-
-      // Guia pertencente a outro processo
-      return {
-        id: `comp-outro-processo-funjus-${profile.kind}`,
-        title: `${profile.shortLabel} — complementação FUNJUS por guia de outro processo`,
-        text: BODY_COMP_OUTRO_PROCESSO_FUNJUS,
-        sourceFiles: ['minutas/VANESSA/0020823-03.2025.8.16.0194 Pet.pdf']
-      };
-    }
-
-    // --- DOBRO: falta guia ---
-    case 'dobro_falta_guia': {
-      const bodyBase = profile.kind === 'resp' ? BODY_DOBRO_SO_GUIAS_RESP : BODY_DOBRO_SO_GUIAS_RE;
-      return {
-        id: `dobro-falta-guia-${profile.kind}`,
-        title: `${profile.shortLabel} — pagamento em dobro (ausência de guias)`,
-        text: bodyBase,
-        sourceFiles: ['minutas/GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf']
-      };
-    }
-
-    // --- DOBRO: falta comprovante ---
-    case 'dobro_falta_comprovante': {
-      const bodyBase = profile.kind === 'resp' ? BODY_DOBRO_SO_GUIAS_RESP : BODY_DOBRO_SO_GUIAS_RE;
-      return {
-        id: `dobro-falta-comprovante-${profile.kind}`,
-        title: `${profile.shortLabel} — pagamento em dobro (ausência de comprovantes)`,
-        text: bodyBase,
-        sourceFiles: ['minutas/GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf']
-      };
-    }
-
-    // --- DOBRO: pagamento intempestivo ---
-    case 'dobro_intempestivo': {
-      const bodyBase = profile.kind === 'resp' ? BODY_DOBRO_SO_GUIAS_RESP : BODY_DOBRO_SO_GUIAS_RE;
-      return {
-        id: `dobro-intempestivo-${profile.kind}`,
-        title: `${profile.shortLabel} — pagamento em dobro (recolhimento intempestivo)`,
-        text: bodyBase,
-        sourceFiles: ['minutas/GABY/0001137-80.2026.8.16.0035 Pet - CUSTAS EM DOBRO - JUNTOU APENAS AS GUIAS.pdf']
-      };
-    }
-
-    // --- DOBRO: autos físicos N/D ---
-    case 'dobro_nd': {
-      const corteLabel = profile.superiorCourtShort;
-      return {
-        id: `dobro-nd-${profile.kind}`,
-        title: `${profile.shortLabel} — pagamento em dobro (autos físicos não digitalizados)`,
-        text: `A parte não comprovou o recolhimento do preparo, visto que se trata de processo físico não digitalizado, no qual não há comprovação regular do preparo recursal, abrangendo as custas locais, as custas devidas ao ${profile.superiorCourtName} e, quando cabível, o porte de remessa e retorno.
-
-A jurisprudência do Superior Tribunal de Justiça é unânime no sentido de que "Para comprovação do preparo recursal não basta o pagamento das custas processuais, impõe-se a juntada dos respectivos comprovantes e guia de recolhimento, sob pena de deserção. Precedentes." (AgInt nos EAREsp n. 2.343.494/SP, relator Ministro Humberto Martins, Segunda Seção, julgado em 19/11/2024, DJe de 25/11/2024.)
-
-Assim sendo, diante da ausência de comprovação do pagamento das custas no ato da interposição do recurso, intime-se a parte recorrente para que comprove, no prazo de 5 (cinco) dias, sob pena de deserção, nos termos do artigo 1.007, § 4º, do Código de Processo Civil e Súmula 187/${corteLabel}, o recolhimento em dobro do preparo.
-
-Para tanto, a parte deverá comprovar o recolhimento dos seguintes valores:
-- [VALOR FUNJUS EM DOBRO], por meio do Fundo da Justiça – FUNJUS, referente ao recolhimento em dobro das custas locais, por meio de guia gerada no próprio sítio deste Tribunal de Justiça;
-- [VALOR DAS CUSTAS ${corteLabel} EM DOBRO], por meio da guia GRU-COBRANÇA, referente ao recolhimento em dobro das custas devidas ao ${profile.superiorCourtName};
-- [VALOR DO PORTE DE REMESSA E RETORNO EM DOBRO], referente ao recolhimento em dobro do porte de remessa e retorno, se exigível no caso concreto.
-
-Cumpre esclarecer que para comprovação do efetivo recolhimento do preparo, a parte deverá providenciar a juntada da guia e do respectivo comprovante de pagamento, no qual conste o código de barras de forma visível e legível.`,
-        sourceFiles: []
-      };
-    }
-
-    // --- DESERÇÃO GRU ---
-    case 'desercao_gru':
-    // --- DESERÇÃO AMBAS ---
-    case 'desercao_ambas':
-    // --- DESERÇÃO FUNJUS ---
-    case 'desercao_funjus': {
-      const opt = lastStep.optionText;
-      // Caso de deserção por código de barras / simples x dobro
-      if (
-        opt === 'Valores divergentes' ||
-        opt === 'Valor divergente (insuficiente)' ||
-        opt === 'Intimado para pagar em dobro e pagou simples' ||
-        opt === 'Guia pertencente a outro processo' ||
-        opt === 'Guias pertencentes a outros processos'
-      ) {
-        return {
-          id: `desercao-irregularidade-${profile.kind}-${lastStep.stepKey}`,
-          title: `${profile.shortLabel} — deserção por irregularidade material`,
-          text: BODY_DESERCAO_DOBRO_SIMPLES,
-          sourceFiles: ['minutas/VANESSA/0139226-28.2025.8.16.0000 Pet.pdf']
-        };
-      }
-      // Guia nunca apresentada após intimação
-      if (
-        opt === 'Guia GRU não apresentada após intimação (nunca juntada)' ||
-        opt === 'Guia FUNJUS não apresentada após intimação (nunca juntada)'
-      ) {
-        return {
-          id: `desercao-guia-nao-apresentada-${profile.kind}-${lastStep.stepKey}`,
-          title: `${profile.shortLabel} — deserção por guia não apresentada após intimação`,
-          text: BODY_DESERCAO_GERAL,
-          sourceFiles: ['minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf']
-        };
-      }
-      // Demais casos (agendamento, N/D, justaposição)
-      return {
-        id: `desercao-${profile.kind}-${lastStep.stepKey}`,
-        title: `${profile.shortLabel} — deserção`,
-        text: BODY_DESERCAO_GERAL,
-        sourceFiles: [
-          'minutas/DMG/0001365-67.2026.8.16.0031 Pet deserto.pdf',
-          'minutas/VANESSA/0139226-28.2025.8.16.0000 Pet.pdf'
-        ]
-      };
-    }
-
-    // --- INTEMPESTIVO ---
-    case 'intempestivo': {
-      return {
-        id: `intempestivo-${profile.kind}`,
-        title: `${profile.shortLabel} — inadmissão por intempestividade`,
-        text: BODY_INTEMPESTIVO,
-        sourceFiles: [
-          'minutas/DMG/0151935-95.2025.8.16.0000 Pet - intempestivo.pdf',
-          'minutas/VANESSA/0000859-84.2026.8.16.0098 Pet.pdf'
-        ]
-      };
-    }
-
+    // ── Deserção e demais nós ─────────────────────────────────────────────────
     default:
-      return {
-        id: 'fallback-template',
-        title: `${profile.shortLabel} — regularização de preparo`,
-        text: `Intime-se a parte recorrente para regularizar o preparo recursal do ${profile.fullLabel.toLowerCase()}, no prazo legal, observando-se a irregularidade apontada e a consequência processual aplicável ao caso concreto.`,
-        sourceFiles: []
-      };
+      return semReferencia(id);
   }
-};
+}
