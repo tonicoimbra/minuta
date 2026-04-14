@@ -1,5 +1,4 @@
 import { fluxo, type Flow, type Option } from './flow';
-import { resolveMinutaTemplate, type MinutaTemplate } from './minutaTemplates';
 
 export interface MinutaSelection {
   stepKey: string;
@@ -12,8 +11,6 @@ export interface MinutaSelection {
 export interface MinutaCatalogEntry {
   id: string;
   selections: MinutaSelection[];
-  templateText: string;
-  template?: MinutaTemplate;
 }
 
 export interface MinutaPathStep {
@@ -50,21 +47,7 @@ const collectMinutas = (
     ];
 
     if (option.proximo === 'final') {
-      const template = resolveMinutaTemplate(
-        nextTrail.map(selection => ({
-          stepKey: selection.stepKey,
-          optionText: selection.optionText
-        }))
-      );
-
-      return [
-        {
-          id: buildEntryId(nextTrail),
-          selections: nextTrail,
-          templateText: template.text,
-          template
-        }
-      ];
+      return [{ id: buildEntryId(nextTrail), selections: nextTrail }];
     }
 
     return collectMinutas(flow, option.proximo, nextTrail);

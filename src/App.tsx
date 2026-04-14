@@ -1,11 +1,18 @@
 import React, { useEffect, useMemo, useState, Fragment } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { CheckCircle2, ChevronRight, FileText } from 'lucide-react';
+import type { Session } from '@supabase/supabase-js';
+import { supabase } from './lib/supabase';
+import { getProfile, signOut, type UserProfile } from './lib/auth';
 import { fluxo, Option } from './data/flow';
 import { findMinutaByPath } from './data/minutaCatalog';
+import { fetchMinutaTemplate, SEM_REFERENCIA } from './data/minutaTemplates';
 import { TJPRBadge, TJPRButton, TJPRCard, TJPRHeader } from './components/TJPR';
+import LoginPage from './components/LoginPage';
+import AdminPanel from './components/AdminPanel';
 
 type ThemeMode = 'light' | 'dark';
+type AppView = 'wizard' | 'admin';
 
 /** Renderiza o texto da minuta com os `[PLACEHOLDERS]` em vermelho. */
 function renderMinutaComColchetes(text: string): React.ReactNode {
@@ -69,15 +76,56 @@ const STEP_ICONS: Record<string, string> = {
 };
 
 export default function App() {
+  // ── Auth ────────────────────────────────────────────────────────────────────
+  const [session, setSession] = useState<Session | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session: s } }) => {
+      setSession(s);
+      if (s?.user) {
+        getProfile(s.user.id).then(p => setUserProfile(p));
+      }
+      setAuthLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+      if (s?.user) {
+        getProfile(s.user.id).then(p => setUserProfile(p));
+      } else {
+        setUserProfile(null);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut();
+    setSession(null);
+    setUserProfile(null);
+    reiniciar();
+    setView('wizard');
+  };
+
+  // ── View (wizard | admin) ───────────────────────────────────────────────────
+  const [view, setView] = useState<AppView>('wizard');
+
+  // ── Wizard state ────────────────────────────────────────────────────────────
   const [etapaAtual, setEtapaAtual] = useState('inicio');
   const [historico, setHistorico] = useState<{ step: string; optionText: string; snippet: string }[]>([]);
   const [finalizado, setFinalizado] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [copiado, setCopiado] = useState(false);
+
+  // ── Template assíncrono ─────────────────────────────────────────────────────
+  const [minutaFinal, setMinutaFinal] = useState('');
+  const [minutaLoading, setMinutaLoading] = useState(false);
+
   const reduceMotion = useReducedMotion();
   const isDarkMode = theme === 'dark';
-
   const perguntaAtual = fluxo[etapaAtual];
 
   useEffect(() => {
@@ -86,6 +134,17 @@ export default function App() {
     document.documentElement.style.colorScheme = theme;
     window.localStorage.setItem('theme-mode', theme);
   }, [isDarkMode, theme]);
+
+  // Busca o template no Supabase quando o wizard finaliza
+  useEffect(() => {
+    if (!finalizado || historico.length === 0) return;
+    setMinutaLoading(true);
+    const path = historico.map(s => ({ stepKey: s.step, optionText: s.optionText }));
+    fetchMinutaTemplate(path).then(template => {
+      setMinutaFinal(template.text);
+      setMinutaLoading(false);
+    });
+  }, [finalizado, historico]);
 
   const toggleDarkMode = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
 
@@ -113,6 +172,7 @@ export default function App() {
       setEtapaAtual(ultimaEtapa.step);
       setFinalizado(false);
       setSelectedOption(null);
+      setMinutaFinal('');
     }
   };
 
@@ -122,26 +182,21 @@ export default function App() {
     setFinalizado(false);
     setSelectedOption(null);
     setCopiado(false);
+    setMinutaFinal('');
   };
 
+  // Mantido para compatibilidade com painel lateral
   const minutaSelecionada = useMemo(
     () => findMinutaByPath(historico.map(s => ({ step: s.step, optionText: s.optionText }))),
     [historico]
   );
-
-  const minutaFinal = useMemo(() => minutaSelecionada?.templateText ?? '', [minutaSelecionada]);
+  void minutaSelecionada; // usado apenas para manter o histórico legível
 
   const copiarTexto = () => {
     if (!minutaFinal) return;
     navigator.clipboard.writeText(minutaFinal);
     setCopiado(true);
     setTimeout(() => setCopiado(false), 2500);
-  };
-
-  const mockUser = {
-    displayName: 'Usuário TJPR',
-    email: 'usuario@tjpr.jus.br',
-    avatarColor: '#1B263B'
   };
 
   const questionMotionProps = reduceMotion
@@ -157,12 +212,61 @@ export default function App() {
       ? {}
       : { initial: { opacity: 0, x: -12 }, animate: { opacity: 1, x: 0 }, transition: { delay: index * 0.07, duration: 0.25 } };
 
-  // ─── Renderização ─────────────────────────────────────────────────────────────
+  // ── Loading inicial de sessão ────────────────────────────────────────────────
+  if (authLoading) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'app-shell-dark' : 'app-shell-light'}`}>
+        <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Verificando sessão…</p>
+      </div>
+    );
+  }
+
+  // ── Não autenticado ─────────────────────────────────────────────────────────
+  if (!session) {
+    return <LoginPage isDarkMode={isDarkMode} />;
+  }
+
+  // ── Painel Admin ─────────────────────────────────────────────────────────────
+  if (view === 'admin' && userProfile?.role === 'admin') {
+    return (
+      <AdminPanel
+        isDarkMode={isDarkMode}
+        onClose={() => setView('wizard')}
+      />
+    );
+  }
+
+  // ─── Header user data ─────────────────────────────────────────────────────────
+  const headerUser = {
+    displayName: userProfile?.full_name ?? session.user.email?.split('@')[0] ?? 'Usuário',
+    email: session.user.email ?? '',
+    avatarColor: '#1B263B',
+  };
+
+  // ─── Renderização principal ──────────────────────────────────────────────────
   const hasSidebar = historico.length > 0;
 
   return (
     <div className={`min-h-screen flex flex-col ${isDarkMode ? 'app-shell-dark text-white' : 'app-shell-light text-tjpr-gray-900'}`}>
-      <TJPRHeader user={mockUser} isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
+      <TJPRHeader
+        user={headerUser}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={toggleDarkMode}
+        onLogout={handleLogout}
+      />
+
+      {/* Botão Admin (visível apenas para admins) */}
+      {userProfile?.role === 'admin' && (
+        <div className={`px-6 py-2 flex justify-end border-b ${isDarkMode ? 'border-[rgba(144,169,201,0.12)] bg-[rgba(0,0,0,0.2)]' : 'border-[rgba(27,38,59,0.08)] bg-[rgba(27,38,59,0.02)]'}`}>
+          <TJPRButton
+            variant="ghost"
+            size="sm"
+            onClick={() => setView('admin')}
+          >
+            ⚙️ Painel Administrativo
+          </TJPRButton>
+        </div>
+      )}
 
       <main
         id="conteudo-principal"
@@ -426,17 +530,29 @@ export default function App() {
                         </div>
                       </div>
 
-                      {/* ── Corpo da minuta (sem cabeçalho nem rodapé) ── */}
+                      {/* ── Corpo da minuta ── */}
                       <div className={`p-6 border min-h-[200px] mb-8 ${isDarkMode ? 'minuta-panel-dark' : 'minuta-panel-light'}`}>
-                        <p className="whitespace-pre-wrap max-w-[72ch] text-tjpr-gray-900 dark:text-gray-100 text-base leading-relaxed font-sans">
-                          {renderMinutaComColchetes(minutaFinal)}
-                        </p>
+                        {minutaLoading ? (
+                          <p className={`text-sm italic ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            Carregando minuta…
+                          </p>
+                        ) : minutaFinal === SEM_REFERENCIA ? (
+                          <p className={`text-sm italic ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            {SEM_REFERENCIA}
+                          </p>
+                        ) : (
+                          <p className="whitespace-pre-wrap max-w-[72ch] text-tjpr-gray-900 dark:text-gray-100 text-base leading-relaxed font-sans">
+                            {renderMinutaComColchetes(minutaFinal)}
+                          </p>
+                        )}
                       </div>
 
                       {/* Nota sobre placeholders */}
-                      <div className={`mb-6 px-4 py-3 border text-sm ${isDarkMode ? 'border-tjpr-gold/20 bg-tjpr-gold/5 text-tjpr-gold/80' : 'border-amber-200 bg-amber-50 text-amber-800'}`}>
-                        <strong>Atenção:</strong> Substitua os campos entre <code>[COLCHETES]</code> pelos dados reais do processo antes de assinar.
-                      </div>
+                      {minutaFinal && minutaFinal !== SEM_REFERENCIA && !minutaLoading && (
+                        <div className={`mb-6 px-4 py-3 border text-sm ${isDarkMode ? 'border-tjpr-gold/20 bg-tjpr-gold/5 text-tjpr-gold/80' : 'border-amber-200 bg-amber-50 text-amber-800'}`}>
+                          <strong>Atenção:</strong> Substitua os campos entre <code>[COLCHETES]</code> pelos dados reais do processo antes de assinar.
+                        </div>
+                      )}
 
                       <div className="flex flex-col sm:flex-row gap-4 justify-end pt-4 border-t border-[rgba(27,38,59,0.1)] dark:border-[rgba(144,169,201,0.2)]">
                         <TJPRButton variant="ghost" onClick={voltar} icon="arrow_back">
@@ -446,6 +562,7 @@ export default function App() {
                           variant="secondary"
                           onClick={copiarTexto}
                           icon="content_copy"
+                          disabled={!minutaFinal || minutaFinal === SEM_REFERENCIA || minutaLoading}
                         >
                           {copiado ? 'Copiado ✓' : 'Copiar conteúdo'}
                         </TJPRButton>
