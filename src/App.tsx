@@ -203,11 +203,38 @@ export default function App() {
   const copiarTexto = async () => {
     if (!minutaFinal) return;
 
-    // Build HTML with Arial 16pt so it pastes formatted into Word
-    const htmlContent = `<html><body><div style="font-family: Arial, Helvetica, sans-serif; font-size: 16pt; line-height: 1.5;">${minutaFinal
+    // Word-optimized HTML with MSO namespaces to force Arial 16pt
+    const paragraphs = minutaFinal
       .split('\n')
-      .map(line => line.trim() ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16pt; margin: 0 0 4pt 0;">${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>` : '<p style="margin: 0 0 4pt 0;">&nbsp;</p>')
-      .join('')}</div></body></html>`;
+      .map(line => {
+        const escaped = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return line.trim()
+          ? `<p class=MsoNormal><span style='font-family:"Arial",sans-serif;font-size:12.0pt;mso-bidi-font-size:12.0pt'>${escaped}</span></p>`
+          : `<p class=MsoNormal><span style='font-family:"Arial",sans-serif;font-size:12.0pt;mso-bidi-font-size:12.0pt'>&nbsp;</span></p>`;
+      })
+      .join('\n');
+
+    const htmlContent = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<style>
+@font-face{font-family:"Arial";mso-font-charset:0;mso-generic-font-family:swiss;}
+p.MsoNormal, li.MsoNormal, div.MsoNormal{
+  mso-style-unhide:no;
+  mso-style-qformat:yes;
+  margin:0cm;
+  font-size:12.0pt;
+  mso-bidi-font-size:12.0pt;
+  font-family:"Arial",sans-serif;
+  mso-fareast-font-family:"Arial";
+  mso-bidi-font-family:"Arial";
+  line-height:150%;
+}
+</style>
+</head>
+<body lang=PT-BR style='tab-interval:35.4pt;word-wrap:break-word'>
+${paragraphs}
+</body>
+</html>`;
 
     try {
       await navigator.clipboard.write([
