@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Eye, EyeOff, KeyRound, Mail, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, KeyRound, Mail, ShieldCheck, User } from 'lucide-react';
 import { signIn, signUp, resetPassword } from '../lib/auth';
 
 interface LoginPageProps {
@@ -7,6 +7,8 @@ interface LoginPageProps {
 }
 
 type Tab = 'entrar' | 'cadastrar' | 'recuperar';
+
+const DOMAIN = '@tjpr.jus.br';
 
 interface PasswordStrength {
   score: 0 | 1 | 2 | 3;
@@ -33,9 +35,21 @@ function getPasswordStrength(password: string): PasswordStrength {
   return levels[score] ?? levels[0];
 }
 
+/**
+ * Builds the full email from the username part.
+ * If the user already typed the domain, returns as-is.
+ */
+function buildEmail(username: string): string {
+  const trimmed = username.trim().toLowerCase();
+  if (!trimmed) return '';
+  if (trimmed.includes('@')) return trimmed;
+  return `${trimmed}${DOMAIN}`;
+}
+
 export default function LoginPage({ isDarkMode }: LoginPageProps) {
   const [tab, setTab] = useState<Tab>('entrar');
-  const [email, setEmail] = useState('');
+  const [emailUser, setEmailUser] = useState('');
+  const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -43,21 +57,27 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [lgpdAccepted, setLgpdAccepted] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   const emailRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
   const dark = isDarkMode;
   const passwordStrength = getPasswordStrength(password);
 
   useEffect(() => {
-    emailRef.current?.focus();
+    if (tab === 'cadastrar') {
+      nameRef.current?.focus();
+    } else {
+      emailRef.current?.focus();
+    }
   }, [tab]);
-
-  const validateDomain = (e: string) => e.toLowerCase().endsWith('@tjpr.jus.br');
 
   const handleEntrar = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!validateDomain(email)) {
+    const email = buildEmail(emailUser);
+    if (!email.endsWith(DOMAIN)) {
       setError('Apenas e-mails @tjpr.jus.br são permitidos.');
       return;
     }
@@ -79,8 +99,13 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
     e.preventDefault();
     setError('');
     setSuccessMsg('');
-    if (!validateDomain(email)) {
+    const email = buildEmail(emailUser);
+    if (!email.endsWith(DOMAIN)) {
       setError('Apenas e-mails @tjpr.jus.br são permitidos.');
+      return;
+    }
+    if (!fullName.trim()) {
+      setError('Informe seu nome completo.');
       return;
     }
     if (password.length < 8) {
@@ -95,8 +120,12 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
       setError('As senhas não coincidem.');
       return;
     }
+    if (!lgpdAccepted) {
+      setError('Você precisa aceitar a Política de Privacidade e os Termos de Uso para criar uma conta.');
+      return;
+    }
     setLoading(true);
-    const { error: authError } = await signUp(email, password);
+    const { error: authError } = await signUp(email, password, fullName);
     setLoading(false);
     if (authError) {
       if (authError.message.includes('already registered')) {
@@ -111,21 +140,20 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
     setSuccessMsg(
       'Conta criada! Verifique seu e-mail @tjpr.jus.br para confirmar o acesso.'
     );
-    setEmail('');
+    setEmailUser('');
+    setFullName('');
     setPassword('');
     setConfirmPassword('');
+    setLgpdAccepted(false);
   };
 
   const handleRecuperar = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccessMsg('');
-    if (!email.trim()) {
-      setError('Informe seu e-mail institucional.');
-      return;
-    }
-    if (!validateDomain(email)) {
-      setError('Apenas e-mails @tjpr.jus.br são permitidos.');
+    const email = buildEmail(emailUser);
+    if (!email || !email.endsWith(DOMAIN)) {
+      setError('Informe seu nome de usuário (parte antes de @tjpr.jus.br).');
       return;
     }
     setLoading(true);
@@ -138,7 +166,7 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
     setSuccessMsg(
       'E-mail de redefinição enviado! Verifique sua caixa de entrada @tjpr.jus.br e clique no link para criar uma nova senha.'
     );
-    setEmail('');
+    setEmailUser('');
   };
 
   const switchTab = (newTab: Tab) => {
@@ -170,6 +198,8 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
   `;
 
   const labelClass = `block text-xs font-semibold uppercase tracking-wider mb-1.5 ${dark ? 'text-[#90a9c9]' : 'text-tjpr-navy-800'}`;
+
+  const domainSuffixClass = `absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold select-none pointer-events-none ${dark ? 'text-[#90a9c9]' : 'text-tjpr-navy-700'}`;
 
   const PasswordToggle = ({ visible, onToggle }: { visible: boolean; onToggle: () => void }) => (
     <button
@@ -230,20 +260,20 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
             <form onSubmit={handleEntrar} className="space-y-4">
               <div>
                 <label className={labelClass}>
-                  E-mail institucional
+                  Usuário
                 </label>
                 <div className="relative">
                   <input
                     ref={emailRef}
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="nome@tjpr.jus.br"
+                    type="text"
+                    value={emailUser}
+                    onChange={e => setEmailUser(e.target.value.replace(/\s/g, ''))}
+                    placeholder="nome.sobrenome"
                     required
-                    autoComplete="email"
-                    className={`${inputClass} pr-10`}
+                    autoComplete="username"
+                    className={`${inputClass} pr-[120px]`}
                   />
-                  <Mail className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <span className={domainSuffixClass}>{DOMAIN}</span>
                 </div>
               </div>
               <div>
@@ -289,27 +319,50 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
           {/* ── Tab: Criar conta ─────────────────────────────────────── */}
           {tab === 'cadastrar' && (
             <form onSubmit={handleCadastrar} className="space-y-4">
+              {/* Nome completo */}
               <div>
                 <label className={labelClass}>
-                  E-mail institucional
+                  Nome completo
+                </label>
+                <div className="relative">
+                  <input
+                    ref={nameRef}
+                    type="text"
+                    value={fullName}
+                    onChange={e => setFullName(e.target.value)}
+                    placeholder="Seu nome completo"
+                    required
+                    autoComplete="name"
+                    className={`${inputClass} pr-10`}
+                  />
+                  <User className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
+                </div>
+              </div>
+
+              {/* Usuário (email) */}
+              <div>
+                <label className={labelClass}>
+                  Usuário (e-mail institucional)
                 </label>
                 <div className="relative">
                   <input
                     ref={emailRef}
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="nome@tjpr.jus.br"
+                    type="text"
+                    value={emailUser}
+                    onChange={e => setEmailUser(e.target.value.replace(/\s/g, ''))}
+                    placeholder="nome.sobrenome"
                     required
-                    autoComplete="email"
-                    className={`${inputClass} pr-10`}
+                    autoComplete="username"
+                    className={`${inputClass} pr-[120px]`}
                   />
-                  <Mail className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <span className={domainSuffixClass}>{DOMAIN}</span>
                 </div>
                 <p className={`mt-1 text-xs ${dark ? 'text-gray-500' : 'text-gray-400'}`}>
-                  Apenas @tjpr.jus.br é aceito.
+                  O domínio {DOMAIN} será adicionado automaticamente.
                 </p>
               </div>
+
+              {/* Senha */}
               <div>
                 <label className={labelClass}>
                   Senha
@@ -353,6 +406,8 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
                   </div>
                 )}
               </div>
+
+              {/* Confirmar senha */}
               <div>
                 <label className={labelClass}>
                   Confirmar senha
@@ -373,9 +428,66 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
                   <p className="mt-1 text-xs text-red-500">As senhas não coincidem.</p>
                 )}
               </div>
+
+              {/* LGPD Consent Checkbox */}
+              <div className={`p-3 border ${dark ? 'border-[rgba(144,169,201,0.18)] bg-[rgba(144,169,201,0.03)]' : 'border-[rgba(27,38,59,0.08)] bg-[rgba(27,38,59,0.01)]'}`}>
+                <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={lgpdAccepted}
+                    onChange={e => setLgpdAccepted(e.target.checked)}
+                    className="accent-tjpr-gold mt-0.5 shrink-0"
+                  />
+                  <span className={`text-xs leading-relaxed ${dark ? 'text-gray-300' : 'text-tjpr-gray-700'}`}>
+                    Li e concordo com a{' '}
+                    <button
+                      type="button"
+                      onClick={() => setShowPrivacyPolicy(v => !v)}
+                      className={`font-semibold underline underline-offset-2 transition-colors ${dark ? 'text-tjpr-gold hover:text-tjpr-gold/80' : 'text-tjpr-navy-800 hover:text-tjpr-navy-900'}`}
+                    >
+                      Política de Privacidade e Termos de Uso
+                    </button>
+                    {' '}do sistema, conforme a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).
+                  </span>
+                </label>
+
+                {/* Inline Privacy Policy */}
+                {showPrivacyPolicy && (
+                  <div className={`mt-3 p-3 border text-xs leading-relaxed max-h-48 overflow-y-auto ${dark ? 'border-[rgba(144,169,201,0.2)] bg-[#0a1520] text-gray-300' : 'border-[rgba(27,38,59,0.12)] bg-gray-50 text-gray-600'}`}>
+                    <p className={`font-bold mb-2 ${dark ? 'text-white' : 'text-tjpr-navy-900'}`}>
+                      Política de Privacidade — Gerador de Minutas TJPR
+                    </p>
+                    <p className="mb-2">
+                      <strong>1. Controlador:</strong> Tribunal de Justiça do Estado do Paraná (TJPR), por meio da Assessoria P-SEP-AR.
+                    </p>
+                    <p className="mb-2">
+                      <strong>2. Dados coletados:</strong> Nome completo, e-mail institucional (@tjpr.jus.br), hash da senha (nunca armazenada em texto puro), e registros de acesso (data/hora de login). Não coletamos dados sensíveis conforme Art. 5º, II da LGPD.
+                    </p>
+                    <p className="mb-2">
+                      <strong>3. Finalidade (Art. 7º):</strong> Autenticação e controle de acesso ao sistema interno de geração de minutas processuais. Os dados são usados exclusivamente para identificação do usuário, auditoria de acessos e personalização da interface.
+                    </p>
+                    <p className="mb-2">
+                      <strong>4. Base legal (Art. 7º, II e V):</strong> Execução de atividade de interesse público e cumprimento de obrigação legal do Poder Judiciário.
+                    </p>
+                    <p className="mb-2">
+                      <strong>5. Compartilhamento:</strong> Os dados NÃO são compartilhados com terceiros. O armazenamento é feito em infraestrutura segura (Supabase) com criptografia em trânsito (TLS) e em repouso.
+                    </p>
+                    <p className="mb-2">
+                      <strong>6. Retenção:</strong> Os dados são mantidos enquanto a conta estiver ativa. Após inatividade superior a 365 dias, os dados podem ser anonimizados.
+                    </p>
+                    <p className="mb-2">
+                      <strong>7. Seus direitos (Art. 18):</strong> Você pode acessar, corrigir, excluir ou exportar seus dados pessoais a qualquer momento pelo seu perfil no sistema, ou contatar a Assessoria P-SEP-AR.
+                    </p>
+                    <p>
+                      <strong>8. Segurança (Art. 46):</strong> Senhas são armazenadas com hash criptográfico (bcrypt). Sessões expiram automaticamente. Acesso é restrito a usuários com e-mail institucional verificado.
+                    </p>
+                  </div>
+                )}
+              </div>
+
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !lgpdAccepted}
                 className={`w-full py-2.5 text-sm font-semibold transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-tjpr-gold focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed
                   ${dark ? 'bg-[#2a4a6e] hover:bg-[#335580] text-white' : 'bg-tjpr-navy-800 hover:bg-[#142033] text-white'}`}
               >
@@ -401,20 +513,20 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
 
               <div>
                 <label className={labelClass}>
-                  E-mail institucional
+                  Usuário
                 </label>
                 <div className="relative">
                   <input
                     ref={emailRef}
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="nome@tjpr.jus.br"
+                    type="text"
+                    value={emailUser}
+                    onChange={e => setEmailUser(e.target.value.replace(/\s/g, ''))}
+                    placeholder="nome.sobrenome"
                     required
-                    autoComplete="email"
-                    className={`${inputClass} pr-10`}
+                    autoComplete="username"
+                    className={`${inputClass} pr-[120px]`}
                   />
-                  <Mail className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 ${dark ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <span className={domainSuffixClass}>{DOMAIN}</span>
                 </div>
               </div>
 
@@ -442,7 +554,7 @@ export default function LoginPage({ isDarkMode }: LoginPageProps) {
       {/* Rodapé */}
       <div className={`mt-6 flex items-center gap-1.5 text-xs ${dark ? 'text-gray-600' : 'text-gray-400'}`}>
         <ShieldCheck className="w-3.5 h-3.5" />
-        <span>Sistema de uso interno exclusivo do TJPR</span>
+        <span>Sistema de uso interno exclusivo do TJPR · Dados protegidos pela LGPD</span>
       </div>
     </div>
   );

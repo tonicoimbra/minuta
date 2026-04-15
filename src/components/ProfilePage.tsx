@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Eye, EyeOff, Save, ShieldCheck, User, KeyRound, Info, ArrowLeft, CheckCircle2 } from 'lucide-react';
-import { updatePassword, updateProfile, type UserProfile } from '../lib/auth';
+import { Eye, EyeOff, Save, ShieldCheck, User, KeyRound, Info, CheckCircle2, Download } from 'lucide-react';
+import { updatePassword, updateProfile, exportUserData, type UserProfile } from '../lib/auth';
 import { TJPRButton } from './TJPR';
 
 interface ProfilePageProps {
@@ -399,6 +399,51 @@ export default function ProfilePage({
                 </span>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* ── Seção 4: Privacidade e Dados (LGPD) ──────────────── */}
+        <div className={`${cardClass} p-6`}>
+          <div className="flex items-center gap-2 mb-5">
+            <ShieldCheck className={`w-4 h-4 ${dark ? 'text-tjpr-gold' : 'text-tjpr-navy-800'}`} />
+            <h2 className={sectionTitleClass}>Privacidade e dados (LGPD)</h2>
+          </div>
+
+          <div className={`mb-4 p-3 border text-xs leading-relaxed ${dark ? 'border-[rgba(144,169,201,0.15)] bg-[rgba(144,169,201,0.03)] text-gray-300' : 'border-[rgba(27,38,59,0.08)] bg-[rgba(27,38,59,0.01)] text-gray-600'}`}>
+            <p className="mb-2">
+              Conforme a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong>, você tem direito a:
+            </p>
+            <ul className="list-disc pl-4 space-y-1">
+              <li><strong>Acesso (Art. 18, II):</strong> visualizar todos os dados pessoais armazenados.</li>
+              <li><strong>Correção (Art. 18, III):</strong> atualizar dados incorretos ou incompletos (seção acima).</li>
+              <li><strong>Portabilidade (Art. 18, V):</strong> exportar seus dados em formato aberto.</li>
+              <li><strong>Eliminação (Art. 18, VI):</strong> solicitar exclusão dos dados — contate a Assessoria P-SEP-AR.</li>
+            </ul>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={async () => {
+                const { data, error } = await exportUserData(userProfile.id);
+                if (error || !data) {
+                  alert('Erro ao exportar dados. Tente novamente.');
+                  return;
+                }
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `meus-dados-tjpr-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+              className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold border transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-tjpr-gold focus:ring-offset-2
+                ${dark ? 'border-[rgba(144,169,201,0.3)] text-[#90a9c9] hover:bg-[rgba(144,169,201,0.08)]' : 'border-[rgba(27,38,59,0.2)] text-tjpr-navy-800 hover:bg-[rgba(27,38,59,0.03)]'}`}
+            >
+              <Download className="w-4 h-4" />
+              Exportar meus dados
+            </button>
           </div>
         </div>
 

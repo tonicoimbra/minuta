@@ -38,8 +38,37 @@ export async function signIn(email: string, password: string) {
   return supabase.auth.signInWithPassword({ email, password });
 }
 
-export async function signUp(email: string, password: string) {
-  return supabase.auth.signUp({ email, password });
+export async function signUp(email: string, password: string, fullName?: string) {
+  const result = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { full_name: fullName?.trim() || '' },
+    },
+  });
+
+  // After signup, update profile with full_name if provided
+  if (!result.error && result.data.user && fullName?.trim()) {
+    await supabase
+      .from('profiles')
+      .update({ full_name: fullName.trim() })
+      .eq('id', result.data.user.id);
+  }
+
+  return result;
+}
+
+/**
+ * Exporta todos os dados do usuário (LGPD Art. 18 — portabilidade).
+ * Retorna os dados do perfil do usuário.
+ */
+export async function exportUserData(userId: string) {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .single();
+  return { data, error };
 }
 
 export async function signOut() {
