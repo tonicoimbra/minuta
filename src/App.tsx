@@ -10,9 +10,10 @@ import { fetchMinutaTemplate, SEM_REFERENCIA } from './data/minutaTemplates';
 import { TJPRBadge, TJPRButton, TJPRCard, TJPRHeader } from './components/TJPR';
 import LoginPage from './components/LoginPage';
 import AdminPanel from './components/AdminPanel';
+import ProfilePage from './components/ProfilePage';
 
 type ThemeMode = 'light' | 'dark';
-type AppView = 'wizard' | 'admin';
+type AppView = 'wizard' | 'admin' | 'profile';
 
 /** Renderiza o texto da minuta com os `[PLACEHOLDERS]` em vermelho. */
 function renderMinutaComColchetes(text: string): React.ReactNode {
@@ -80,6 +81,7 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session: s } }) => {
@@ -90,12 +92,17 @@ export default function App() {
       setAuthLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, s) => {
       setSession(s);
       if (s?.user) {
         getProfile(s.user.id).then(p => setUserProfile(p));
       } else {
         setUserProfile(null);
+      }
+      // Auto-open profile with password reset section when user comes from a password recovery link
+      if (event === 'PASSWORD_RECOVERY') {
+        setShowPasswordReset(true);
+        setView('profile');
       }
     });
     return () => subscription.unsubscribe();
@@ -105,6 +112,7 @@ export default function App() {
     await signOut();
     setSession(null);
     setUserProfile(null);
+    setShowPasswordReset(false);
     reiniciar();
     setView('wizard');
   };
@@ -236,6 +244,25 @@ export default function App() {
     );
   }
 
+  // ── Perfil do Usuário ───────────────────────────────────────────────────────
+  if (view === 'profile' && userProfile) {
+    return (
+      <ProfilePage
+        isDarkMode={isDarkMode}
+        userProfile={userProfile}
+        sessionEmail={session.user.email ?? ''}
+        sessionCreatedAt={session.user.created_at}
+        sessionLastSignIn={session.user.last_sign_in_at}
+        onClose={() => {
+          setView('wizard');
+          setShowPasswordReset(false);
+        }}
+        onProfileUpdated={(updated) => setUserProfile(updated)}
+        showPasswordReset={showPasswordReset}
+      />
+    );
+  }
+
   // ─── Header user data ─────────────────────────────────────────────────────────
   const headerUser = {
     displayName: userProfile?.full_name ?? session.user.email?.split('@')[0] ?? 'Usuário',
@@ -253,6 +280,7 @@ export default function App() {
         isDarkMode={isDarkMode}
         onToggleDarkMode={toggleDarkMode}
         onLogout={handleLogout}
+        onOpenProfile={() => setView('profile')}
       />
 
       {/* Botão Admin (visível apenas para admins) */}

@@ -45,3 +45,34 @@ export async function signUp(email: string, password: string) {
 export async function signOut() {
   return supabase.auth.signOut();
 }
+
+/**
+ * Envia email de redefinição de senha via Supabase Auth.
+ * O link no email redireciona para a URL configurada no dashboard.
+ */
+export async function resetPassword(email: string) {
+  const redirectTo = `${window.location.origin}/minuta/`;
+  return supabase.auth.resetPasswordForEmail(email, { redirectTo });
+}
+
+/**
+ * Atualiza a senha do usuário autenticado.
+ * Requer sessão ativa (JWT válido).
+ */
+export async function updatePassword(newPassword: string) {
+  return supabase.auth.updateUser({ password: newPassword });
+}
+
+/**
+ * Atualiza o perfil do usuário na tabela `profiles`.
+ * RLS garante que só altera o próprio perfil (policy: users_update_own_profile).
+ */
+export async function updateProfile(
+  userId: string,
+  data: { full_name?: string }
+) {
+  return supabase
+    .from('profiles')
+    .update(data)
+    .eq('id', userId);
+}

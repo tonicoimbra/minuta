@@ -116,6 +116,12 @@ DROP POLICY IF EXISTS "admin_read_all_profiles" ON profiles;
 CREATE POLICY "admin_read_all_profiles" ON profiles
   FOR SELECT USING (public.is_admin());
 
+-- Permite que o usuário atualize seus próprios dados (full_name)
+DROP POLICY IF EXISTS "users_update_own_profile" ON profiles;
+CREATE POLICY "users_update_own_profile" ON profiles
+  FOR UPDATE USING (auth.uid() = id)
+  WITH CHECK (auth.uid() = id);
+
 -- minuta_templates
 ALTER TABLE minuta_templates ENABLE ROW LEVEL SECURITY;
 
