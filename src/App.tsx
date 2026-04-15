@@ -200,9 +200,27 @@ export default function App() {
   );
   void minutaSelecionada; // usado apenas para manter o histórico legível
 
-  const copiarTexto = () => {
+  const copiarTexto = async () => {
     if (!minutaFinal) return;
-    navigator.clipboard.writeText(minutaFinal);
+
+    // Build HTML with Arial 16pt so it pastes formatted into Word
+    const htmlContent = `<html><body><div style="font-family: Arial, Helvetica, sans-serif; font-size: 16pt; line-height: 1.5;">${minutaFinal
+      .split('\n')
+      .map(line => line.trim() ? `<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16pt; margin: 0 0 4pt 0;">${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>` : '<p style="margin: 0 0 4pt 0;">&nbsp;</p>')
+      .join('')}</div></body></html>`;
+
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([htmlContent], { type: 'text/html' }),
+          'text/plain': new Blob([minutaFinal], { type: 'text/plain' }),
+        }),
+      ]);
+    } catch {
+      // Fallback for older browsers
+      await navigator.clipboard.writeText(minutaFinal);
+    }
+
     setCopiado(true);
     setTimeout(() => setCopiado(false), 2500);
   };
