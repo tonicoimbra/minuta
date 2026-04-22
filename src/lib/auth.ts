@@ -43,6 +43,7 @@ export async function signUp(email: string, password: string, fullName?: string)
     email,
     password,
     options: {
+      emailRedirectTo: `${window.location.origin}/minuta/`,
       data: { full_name: fullName?.trim() || '' },
     },
   });
