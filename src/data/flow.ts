@@ -141,6 +141,10 @@ export const fluxo: Flow = {
       finalOption(
         'Guia FUNJUS pertencente a outro processo',
         'A guia FUNJUS apresentada pertence a outro processo ou recurso, não sendo imputável ao presente feito.'
+      ),
+      finalOption(
+        'Guia FUNJUS juntada + divergência no código de barras',
+        'O código de barras constante na guia FUNJUS não coincide com o do comprovante de pagamento, inviabilizando a conferência.'
       )
     ]
   },
@@ -160,6 +164,28 @@ export const fluxo: Flow = {
         'Não pagou / documentos N/D (ausentes ou inválidos)',
         'dobro_nd',
         'Verificada ausência ou invalidade dos documentos de recolhimento (GRU e/ou FUNJUS) no ato da interposição.'
+      ),
+      finalOption(
+        'JG alegada — concessão não localizada nos autos',
+        'A parte alegou ser beneficiária de JG, mas o deferimento não foi localizado nos autos; não comprovou preparo nem requereu JG no ato da interposição do REsp.'
+      ),
+      finalOption(
+        'JG alegada — ato incompatível (pagamento anterior no recurso originário)',
+        'A parte alegou JG, mas praticou ato incompatível ao pagar o preparo do recurso originário; não comprovou preparo no REsp.'
+      ),
+      finalOption(
+        'Preparo juntado após o ato da interposição (pagamento simples)',
+        'A parte juntou o preparo após o ato da interposição; o recolhimento foi feito na forma simples, sujeito à incidência do §4º.'
+      ),
+      option(
+        'Não pagou — precisa também juntar Decreto Judiciário (feriado/suspensão)',
+        'dobro_decreto',
+        'Além da ausência de preparo, é necessário juntar Decreto Judiciário para comprovar feriado local ou suspensão de expediente.'
+      ),
+      option(
+        'Não pagou — precisa também regularizar procuração',
+        'dobro_proc',
+        'Além da ausência de preparo, é necessário regularizar a representação processual do advogado subscritor.'
       )
     ]
   },
@@ -186,6 +212,22 @@ export const fluxo: Flow = {
       finalOption(
         '1 guia certa (GRU ou FUNJUS) + comprovante ausente/inválido',
         'Constatada a juntada de uma guia regularmente, mas o respectivo comprovante está ausente ou inválido; a outra guia não foi apresentada.'
+      ),
+      finalOption(
+        'Comprovante GRU sem guia + FUNJUS não recolhida',
+        'Juntado apenas o comprovante GRU, sem a respectiva guia de recolhimento; as custas FUNJUS não foram recolhidas.'
+      ),
+      finalOption(
+        'Guia GRU sem comprovante + FUNJUS não recolhida',
+        'Juntada a guia GRU sem o respectivo comprovante de pagamento; as custas FUNJUS não foram recolhidas.'
+      ),
+      finalOption(
+        'Divergência entre código de barras da guia e do comprovante',
+        'O código de barras constante na guia de recolhimento não coincide com o do comprovante de pagamento.'
+      ),
+      finalOption(
+        "Comprovantes com status 'Em processo de autenticação'",
+        "Os comprovantes exibem a informação 'Em processo de autenticação', não comprovando o recolhimento efetivo das custas."
       )
     ]
   },
@@ -220,6 +262,16 @@ export const fluxo: Flow = {
         'Recurso intempestivo',
         'desercao_intempestivo',
         'O recurso é inadmissível por intempestividade — interposto fora do prazo previsto no art. 1.003, § 5º, c/c art. 219, do CPC.'
+      ),
+      option(
+        'Após indeferimento de JG — intimado para preparo simples e não regularizou',
+        'desercao_jg',
+        'O pedido de JG foi indeferido; após intimação para recolher o preparo simples (art. 99, §7º, CPC), a parte não regularizou adequadamente.'
+      ),
+      option(
+        'Intimado para juntar Decreto Judiciário + regularizar preparo — permaneceu inerte',
+        'desercao_decreto',
+        'A parte foi intimada para juntar Decreto Judiciário (feriado/suspensão) e regularizar o preparo, mas permaneceu inerte.'
       )
     ]
   },
@@ -258,6 +310,14 @@ export const fluxo: Flow = {
       finalOption(
         'Guia pertencente a outro processo',
         'A guia apresentada pertence a outro processo — vício insanável.'
+      ),
+      finalOption(
+        'Comprovação da complementação apresentada fora do prazo legal',
+        'A regularização do preparo foi apresentada após o término do prazo de 5 dias concedido na intimação (§2º) — deserção configurada.'
+      ),
+      finalOption(
+        'Procuração regularizada, mas preparo não comprovado',
+        'A parte regularizou a representação processual conforme intimada, mas deixou de comprovar a complementação do preparo recursal (§2º).'
       )
     ]
   },
@@ -284,6 +344,14 @@ export const fluxo: Flow = {
       finalOption(
         'Documentos não localizados (N/D)',
         'Documentos de recolhimento não localizados — vício insanável após dobro.'
+      ),
+      finalOption(
+        'Intimado para pagar em dobro e pagou em valor simples',
+        'A parte foi intimada para recolher em dobro, mas apresentou guias e comprovantes em valor simples — dobro não atendido.'
+      ),
+      finalOption(
+        'Pedido de JG após intimação para dobro (sem efeito retroativo)',
+        'A parte formulou pedido de JG somente após ser intimada para o dobro; eventual deferimento não tem efeito retroativo sobre o preparo.'
       )
     ]
   },
@@ -322,6 +390,10 @@ export const fluxo: Flow = {
       finalOption(
         'Guia pertencente a outro processo',
         'Guia GRU pertence a outro processo — vício insanável.'
+      ),
+      finalOption(
+        'Guia GRU não apresentada após intimação (juntou só o comprovante)',
+        'A parte apresentou apenas o comprovante de pagamento GRU, sem a respectiva guia de recolhimento — vício insanável (§2º).'
       )
     ]
   },
@@ -426,6 +498,58 @@ export const fluxo: Flow = {
       finalOption(
         'Comprovante de pagamento juntado fora do prazo recursal',
         'O comprovante de pagamento das custas recursais foi juntado após o término do prazo recursal (art. 1.003, § 5º, c/c art. 219, do CPC).'
+      )
+    ]
+  },
+
+  dobro_decreto: {
+    pergunta: 'Qual a situação dos documentos de preparo? (Decreto Judiciário também ausente)',
+    opcoes: [
+      finalOption(
+        'Juntou só comprovantes (sem guias de recolhimento) + Decreto não apresentado',
+        'A parte juntou apenas comprovantes de pagamento sem as guias; o Decreto Judiciário para comprovar feriado/suspensão não foi apresentado.'
+      ),
+      finalOption(
+        'Documentos de preparo não localizados (N/D) + Decreto não apresentado',
+        'Não localizados documentos de preparo nos autos; o Decreto Judiciário também não foi apresentado.'
+      )
+    ]
+  },
+
+  dobro_proc: {
+    pergunta: 'Qual a situação do preparo? (procuração também ausente/irregular)',
+    opcoes: [
+      finalOption(
+        'Procuração e preparo em dobro — ambos ausentes',
+        'A parte não regularizou a representação processual e não comprovou o recolhimento do preparo recursal; ambos devem ser sanados no mesmo prazo.'
+      )
+    ]
+  },
+
+  desercao_jg: {
+    pergunta: 'Qual o resultado da intimação para preparo após indeferimento de JG?',
+    opcoes: [
+      finalOption(
+        'Apresentou comprovantes sem código de barras (preparo irregular)',
+        'Após intimação para recolher o preparo simples (art. 99, §7º, CPC), a parte apresentou comprovantes sem código de barras legível — preparo não comprovado regularmente.'
+      ),
+      finalOption(
+        'Permaneceu inerte (certidão de decurso de prazo)',
+        'A parte não se manifestou após a intimação para recolher o preparo simples na sequência do indeferimento de JG.'
+      )
+    ]
+  },
+
+  desercao_decreto: {
+    pergunta: 'Qual a combinação da intimação (Decreto Judiciário + preparo)?',
+    opcoes: [
+      finalOption(
+        'Decreto + complementação (§2º) — permaneceu inerte',
+        'A parte foi intimada para juntar Decreto Judiciário e complementar o preparo (§2º), mas permaneceu inerte — intempestividade e deserção configuradas.'
+      ),
+      finalOption(
+        'Decreto + dobro (§4º) — permaneceu inerte',
+        'A parte foi intimada para juntar Decreto Judiciário e pagar o preparo em dobro (§4º), mas permaneceu inerte — intempestividade e deserção configuradas.'
       )
     ]
   }

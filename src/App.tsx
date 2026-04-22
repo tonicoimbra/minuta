@@ -52,6 +52,10 @@ const STEP_LABELS: Record<string, string> = {
   desercao_funjus_1pgto: 'Vício — §2º (FUNJUS)',
   desercao_funjus_2pgto: 'Vício — §4º (FUNJUS)',
   desercao_intempestivo: 'Natureza da Intempestividade',
+  dobro_decreto: 'Dobro + Decreto Judiciário',
+  dobro_proc: 'Dobro + Procuração',
+  desercao_jg: 'Deserção — Após JG Indeferida',
+  desercao_decreto: 'Deserção — Inércia (Decreto + Preparo)',
 };
 
 // ─── Ícone por categoria ──────────────────────────────────────────────────────
@@ -74,6 +78,10 @@ const STEP_ICONS: Record<string, string> = {
   desercao_funjus_1pgto: '🚫',
   desercao_funjus_2pgto: '🚫',
   desercao_intempestivo: '⏰',
+  dobro_decreto: '📅',
+  dobro_proc: '📝',
+  desercao_jg: '🆓',
+  desercao_decreto: '📅',
 };
 
 export default function App() {
