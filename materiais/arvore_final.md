@@ -1,437 +1,523 @@
 # Árvore de Saídas — Gerador de Minutas TJPR
 
-**Base:** `src/data/flow.ts` (estado pós-expansão 2026-04-22)
-**Total de saídas:** 144 (72 caminhos × REsp / RE)
+**Base:** `src/data/flow.ts` (estado atualizado 2026-04-24)
+**Total de saídas terminais:** 113
+**Templates extraídos de PDFs:** 49
+**Saídas sem template:** 64
 
-As saídas marcadas com `🔴 INTIMAÇÃO` geram despacho intimando a parte para regularizar.
-As marcadas com `⚖️ DESERÇÃO` decretam a deserção / inadmissão do recurso.
-
-> `★` = opção adicionada na expansão de 2026-04-22 (51 PDFs)
-
----
-
-## PASSO 1 — Tipo de Recurso
-
-```
-REsp  →  (todos os caminhos abaixo — template gerado via Supabase)
-RE    →  (todos os caminhos abaixo — retorna "AINDA SEM REFERENCIA DE MINUTAS")
-```
-
----
-
-## PASSO 2 — Classificação da Irregularidade
-
-```
-├── A. COMPLEMENTAÇÃO          (15 caminhos)
-├── B. PAGAMENTO EM DOBRO      (17 caminhos)
-└── C. DESERÇÃO                (40 caminhos)
-```
+Legenda:
+- `✅` = template extraído fielmente de PDF na pasta `minutas/`
+- `❌` = sem template de referência (SEM TEMPLATE)
+- `🔴 INTIMAÇÃO` = gera despacho intimando a parte para regularizar
+- `⚖️ DESERÇÃO` = decreta a deserção / inadmissão do recurso
 
 ---
 
 ## A. COMPLEMENTAÇÃO
 
-> Nó pai: `comp_guia` → `comp_gru` ou `comp_funjus`
-
-### A.1 — Irregularidade na GRU (`comp_gru`)
+### Falta só a guia (`comp_falta_guia`)
 
 ```
-Irregularidade GRU (FUNJUS regular, parte não intimada)
-├── Juntou só a guia GRU (sem comprovante de pagamento)
-│   └── 🔴 INTIMAÇÃO §2º
-├── Juntou só o comprovante GRU (sem a guia de recolhimento)
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia GRU juntada + comprovante de agendamento bancário
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia GRU juntada + comprovante sem código de barras legível
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia GRU juntada + número de processo ausente ou incorreto
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia GRU juntada + comprovante não localizado (N/D)
-│   └── 🔴 INTIMAÇÃO §2º
-└── Guia GRU pertencente a outro processo
-    └── 🔴 INTIMAÇÃO §2º
+❌ GRU
+   └── 🔴 INTIMAÇÃO
+❌ FUNJUS
+   └── 🔴 INTIMAÇÃO
 ```
+**Cobertura: 0/2**
 
-**Saídas: 7**
-
----
-
-### A.2 — Irregularidade na FUNJUS (`comp_funjus`)
+### Falta só o comprovante (`comp_falta_comprovante`)
 
 ```
-Irregularidade FUNJUS (GRU regular, parte não intimada)
-├── Juntou só a guia FUNJUS (sem comprovante de pagamento)
-│   └── 🔴 INTIMAÇÃO §2º
-├── Juntou só o comprovante FUNJUS (sem a guia de recolhimento)
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia FUNJUS juntada + comprovante de agendamento bancário
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia FUNJUS juntada + comprovante sem código de barras legível
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia FUNJUS juntada + número de processo ausente ou incorreto
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia FUNJUS juntada + comprovante não localizado (N/D)
-│   └── 🔴 INTIMAÇÃO §2º
-├── Guia FUNJUS pertencente a outro processo
-│   └── 🔴 INTIMAÇÃO §2º
-└── ★ Guia FUNJUS juntada + divergência no código de barras
-    └── 🔴 INTIMAÇÃO §2º
+❌ GRU
+   └── 🔴 INTIMAÇÃO
+❌ FUNJUS
+   └── 🔴 INTIMAÇÃO
 ```
+**Cobertura: 0/2**
 
-**Saídas: 8**
+### Irregularidade na GRU (`comp_irr_gru`)
 
----
+```
+✅ Juntou só a guia GRU (sem comprovante de pagamento)
+   └── 🔴 INTIMAÇÃO
+❌ Juntou só o comprovante GRU (sem a guia de recolhimento)
+   └── 🔴 INTIMAÇÃO
+❌ Agendamento / em análise (transação não efetivada)
+   └── 🔴 INTIMAÇÃO
+✅ Valor divergente / insuficiente (e val. falso)
+   └── 🔴 INTIMAÇÃO
+❌ Sem número de processo / número incorreto
+   └── 🔴 INTIMAÇÃO
+❌ Número único divergente do processo ou da árvore processual
+   └── 🔴 INTIMAÇÃO
+✅ Comprovante sem código de barras legível
+   └── 🔴 INTIMAÇÃO
+✅ Divergência no código de barras da guia e do comprovante
+   └── 🔴 INTIMAÇÃO
+❌ Pago a destempo - PAD (após o prazo recursal)
+   └── 🔴 INTIMAÇÃO
+❌ Comprovante não localizado (N/D)
+   └── 🔴 INTIMAÇÃO
+❌ Guia pertencente a outro processo
+   └── 🔴 INTIMAÇÃO
+```
+**Cobertura: 4/11**
 
-**TOTAL COMPLEMENTAÇÃO: 15 caminhos (×2 = 30 saídas)**
+### Irregularidade na FUNJUS (`comp_irr_funjus`)
+
+```
+✅ Juntou só a guia FUNJUS (sem comprovante de pagamento)
+   └── 🔴 INTIMAÇÃO
+❌ Juntou só o comprovante FUNJUS (sem a guia de recolhimento)
+   └── 🔴 INTIMAÇÃO
+❌ Agendamento / em análise
+   └── 🔴 INTIMAÇÃO
+✅ Valor divergente / insuficiente
+   └── 🔴 INTIMAÇÃO
+❌ Sem número de processo / número incorreto
+   └── 🔴 INTIMAÇÃO
+❌ Número único divergente do processo ou da árvore processual
+   └── 🔴 INTIMAÇÃO
+✅ Comprovante sem código de barras legível
+   └── 🔴 INTIMAÇÃO
+✅ Divergência no código de barras da guia e do comprovante
+   └── 🔴 INTIMAÇÃO
+❌ Pago a destempo - PAD
+   └── 🔴 INTIMAÇÃO
+❌ Comprovante não localizado (N/D)
+   └── 🔴 INTIMAÇÃO
+❌ Guia pertencente a outro processo
+   └── 🔴 INTIMAÇÃO
+```
+**Cobertura: 4/11**
+
+**TOTAL A. COMPLEMENTAÇÃO: 8/26 templates**
 
 ---
 
 ## B. PAGAMENTO EM DOBRO
 
-> Nó pai: `dobro` → opções diretas ou sub-nós
-
-### B.1 — Opções diretas do nó `dobro`
+### Dobro — opções diretas (`dobro`)
 
 ```
-Situação documental no ato da interposição
-├── Juntou só as guias GRU e FUNJUS (sem comprovantes de pagamento)
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── Juntou só os comprovantes GRU e FUNJUS (sem as guias de recolhimento)
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── ★ JG alegada — concessão não localizada nos autos
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── ★ JG alegada — ato incompatível (pagamento anterior no recurso originário)
-│   └── 🔴 INTIMAÇÃO §4º dobro
-└── ★ Preparo juntado após o ato da interposição (pagamento simples)
-    └── 🔴 INTIMAÇÃO §4º complementação dobro
+✅ Juntou só as guias GRU e FUNJUS (sem comprovantes de pagamento)
+   └── 🔴 INTIMAÇÃO
+✅ Juntou só os comprovantes GRU e FUNJUS (sem as guias de recolhimento)
+   └── 🔴 INTIMAÇÃO
+✅ Preparo juntado após o ato da interposição (pagamento simples)
+   └── 🔴 INTIMAÇÃO
+✅ JG pedida no ato da interposição - depois desistiu ou renunciou ao pedido
+   └── 🔴 INTIMAÇÃO
 ```
+**Cobertura: 4/4**
 
-**Saídas diretas: 5**
-
----
-
-### B.2 — Documentos ausentes/inválidos (`dobro_nd`)
+### Dobro — faltam guias (`dobro_falta_guia`)
 
 ```
-Problema específico nos documentos (N/D ou inválidos)
-├── 2 agendamentos bancários como comprovante
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── 2 comprovantes sem código de barras legível
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── 2 guias com número de processo ausente ou incorreto
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── 2 documentos não localizados (N/D)
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── 1 guia certa (GRU ou FUNJUS) + comprovante ausente/inválido
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── ★ Comprovante GRU sem guia + FUNJUS não recolhida
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── ★ Guia GRU sem comprovante + FUNJUS não recolhida
-│   └── 🔴 INTIMAÇÃO §4º dobro
-├── ★ Divergência entre código de barras da guia e do comprovante
-│   └── 🔴 INTIMAÇÃO §4º dobro
-└── ★ Comprovantes com status 'Em processo de autenticação'
-    └── 🔴 INTIMAÇÃO §4º dobro
+❌ 2 agendamentos / em análise
+   └── 🔴 INTIMAÇÃO
+❌ 2 valores divergentes / insuficientes
+   └── 🔴 INTIMAÇÃO
+❌ 2 guias sem número / número incorreto de processo
+   └── 🔴 INTIMAÇÃO
+❌ 2 não localizadas / não disponíveis (N/D)
+   └── 🔴 INTIMAÇÃO
+❌ 2 guias pertencentes a outros processos
+   └── 🔴 INTIMAÇÃO
 ```
+**Cobertura: 0/5**
 
-**Saídas: 9**
-
----
-
-### B.3 — Dobro + Decreto Judiciário (`dobro_decreto`) ★
+### Dobro — faltam comprovantes (`dobro_falta_comprovante`)
 
 ```
-Preparo ausente + Decreto Judiciário (feriado/suspensão) também ausente
-├── ★ Juntou só comprovantes (sem guias de recolhimento) + Decreto não apresentado
-│   └── 🔴 INTIMAÇÃO §4º dobro + juntar Decreto
-└── ★ Documentos de preparo não localizados (N/D) + Decreto não apresentado
-    └── 🔴 INTIMAÇÃO §4º dobro + juntar Decreto
+❌ 2 agendamentos / em análise
+   └── 🔴 INTIMAÇÃO
+❌ 2 valores divergentes / insuficientes
+   └── 🔴 INTIMAÇÃO
+❌ 2 guias sem número / número incorreto de processo
+   └── 🔴 INTIMAÇÃO
+❌ 2 não localizados / não disponíveis (N/D)
+   └── 🔴 INTIMAÇÃO
+❌ 2 pertencentes a outros processos
+   └── 🔴 INTIMAÇÃO
 ```
+**Cobertura: 0/5**
 
-**Saídas: 2**
-
----
-
-### B.4 — Dobro + Procuração (`dobro_proc`) ★
+### Dobro — N/D ou inválidos (`dobro_nd`)
 
 ```
-Preparo ausente + representação processual irregular
-└── ★ Procuração e preparo em dobro — ambos ausentes
-    └── 🔴 INTIMAÇÃO §4º dobro + regularizar procuração
+❌ 2 agendamentos bancários como comprovante
+   └── 🔴 INTIMAÇÃO
+✅ 2 comprovantes sem código de barras legível
+   └── 🔴 INTIMAÇÃO
+❌ 2 guias com número de processo ausente ou incorreto
+   └── 🔴 INTIMAÇÃO
+❌ Número único divergente do processo ou da árvore processual
+   └── 🔴 INTIMAÇÃO
+❌ 2 documentos não localizados (N/D)
+   └── 🔴 INTIMAÇÃO
+✅ 1 guia certa (GRU ou FUNJUS) + comprovante ausente/inválido
+   └── 🔴 INTIMAÇÃO
+✅ Comprovante GRU sem guia + FUNJUS não recolhida
+   └── 🔴 INTIMAÇÃO
+✅ Guia GRU sem comprovante + FUNJUS não recolhida
+   └── 🔴 INTIMAÇÃO
+✅ Divergência entre código de barras da guia e do comprovante
+   └── 🔴 INTIMAÇÃO
+❌ 3 guias ausentes / incorretas (GRU + FUNJUS + porte de remessa)
+   └── 🔴 INTIMAÇÃO
 ```
+**Cobertura: 5/10**
 
-**Saídas: 1**
+### Dobro + Decreto (`dobro_decreto`)
 
----
+```
+✅ Juntou só comprovantes (sem guias de recolhimento) + Decreto não apresentado
+   └── 🔴 INTIMAÇÃO
+✅ Documentos de preparo não localizados (N/D) + Decreto não apresentado
+   └── 🔴 INTIMAÇÃO
+```
+**Cobertura: 2/2**
 
-**TOTAL PAGAMENTO EM DOBRO: 17 caminhos (×2 = 34 saídas)**
+### Dobro + Procuração (`dobro_proc`)
+
+```
+✅ Procuração e preparo em dobro - ambos ausentes
+   └── 🔴 INTIMAÇÃO
+```
+**Cobertura: 1/1**
+
+### Preparo simples após JG (`preparo_simples_jg`)
+
+```
+❌ JG alegada - concessão não localizada nos autos
+   └── 🔴 INTIMAÇÃO
+✅ JG alegada - ato incompatível (pagamento anterior no recurso originário)
+   └── 🔴 INTIMAÇÃO
+```
+**Cobertura: 1/2**
+
+**TOTAL B. PAGAMENTO EM DOBRO: 13/29 templates**
 
 ---
 
 ## C. DESERÇÃO
 
-> Nó pai: `desercao`
-
-### C.1 — Opções diretas do nó `desercao`
+### Deserção — opções diretas (`desercao`)
 
 ```
-Situação documental que fundamenta a deserção
-├── Juntou só as guias GRU e FUNJUS (sem comprovantes)
-│   └── ⚖️ DESERÇÃO
-└── Juntou só os comprovantes GRU e FUNJUS (sem guias)
-    └── ⚖️ DESERÇÃO
+❌ Juntou só as guias GRU e FUNJUS (sem comprovantes)
+   └── ⚖️ DESERÇÃO
+❌ Juntou só os comprovantes GRU e FUNJUS (sem guias)
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 0/2**
 
-**Saídas diretas: 2**
-
----
-
-### C.2 — Ambas as guias N/D — §2º (`desercao_nd_1pgto`)
-
-> Caminho: `desercao` → `desercao_nd_pgto` → `desercao_nd_1pgto`
+### Deserção N/D §2º (`desercao_nd_1pgto`)
 
 ```
-Vício após intimação §2º (GRU + FUNJUS)
-├── Agendamento bancário
-│   └── ⚖️ DESERÇÃO §2º
-├── Sem código de barras legível
-│   └── ⚖️ DESERÇÃO §2º
-├── Número de processo ausente ou incorreto
-│   └── ⚖️ DESERÇÃO §2º
-├── Guia pertencente a outro processo
-│   └── ⚖️ DESERÇÃO §2º
-├── ★ Comprovação da complementação apresentada fora do prazo legal
-│   └── ⚖️ DESERÇÃO §2º (intempestiva)
-└── ★ Procuração regularizada, mas preparo não comprovado
-    └── ⚖️ DESERÇÃO §2º
+✅ Permaneceu inerte (certidão de decurso de prazo)
+   └── ⚖️ DESERÇÃO
+❌ Renunciou expressamente ao prazo
+   └── ⚖️ DESERÇÃO
+✅ Agendamento bancário
+   └── ⚖️ DESERÇÃO
+✅ Sem código de barras legível
+   └── ⚖️ DESERÇÃO
+✅ Comprovação da complementação apresentada fora do prazo legal
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 4/5**
 
-**Saídas: 6**
-
----
-
-### C.3 — Ambas as guias N/D — §4º (`desercao_nd_2pgto`)
-
-> Caminho: `desercao` → `desercao_nd_pgto` → `desercao_nd_2pgto`
+### Deserção N/D §4º (`desercao_nd_2pgto`)
 
 ```
-Vício após intimação §4º dobro (GRU + FUNJUS)
-├── Guia pertencente a outro processo
-│   └── ⚖️ DESERÇÃO §4º
-├── Agendamento bancário
-│   └── ⚖️ DESERÇÃO §4º
-├── Sem código de barras legível
-│   └── ⚖️ DESERÇÃO §4º
-├── Número de processo ausente ou incorreto
-│   └── ⚖️ DESERÇÃO §4º
-├── Documentos não localizados (N/D)
-│   └── ⚖️ DESERÇÃO §4º
-├── ★ Intimado para pagar em dobro e pagou em valor simples
-│   └── ⚖️ DESERÇÃO §4º
-└── ★ Pedido de JG após intimação para dobro (sem efeito retroativo)
-    └── ⚖️ DESERÇÃO §4º
+✅ Permaneceu inerte (certidão de decurso de prazo)
+   └── ⚖️ DESERÇÃO
+❌ Renunciou expressamente ao prazo
+   └── ⚖️ DESERÇÃO
+✅ Documentos não localizados (N/D)
+   └── ⚖️ DESERÇÃO
+✅ Intimado para pagar em dobro e pagou em valor simples
+   └── ⚖️ DESERÇÃO
+✅ Pedido de JG após intimação para dobro (sem efeito retroativo)
+   └── ⚖️ DESERÇÃO
+✅ Comprovação do dobro apresentada fora do prazo legal
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 5/6**
 
-**Saídas: 7**
-
----
-
-### C.4 — GRU irregular — §2º (`desercao_gru_1pgto`)
-
-> Caminho: `desercao` → `desercao_gru_pgto` → `desercao_gru_1pgto`
+### Deserção GRU §2º (`desercao_gru_1pgto`)
 
 ```
-Vício na GRU após intimação §2º (FUNJUS regular)
-├── Agendamento bancário
-│   └── ⚖️ DESERÇÃO §2º
-├── Sem código de barras legível
-│   └── ⚖️ DESERÇÃO §2º
-├── Número de processo ausente ou incorreto
-│   └── ⚖️ DESERÇÃO §2º
-├── Guia pertencente a outro processo
-│   └── ⚖️ DESERÇÃO §2º
-└── ★ Guia GRU não apresentada após intimação (juntou só o comprovante)
-    └── ⚖️ DESERÇÃO §2º
+❌ Agendamento bancário
+   └── ⚖️ DESERÇÃO
+❌ Sem código de barras legível
+   └── ⚖️ DESERÇÃO
+❌ Divergência de código de barras
+   └── ⚖️ DESERÇÃO
+❌ Número de processo ausente ou incorreto
+   └── ⚖️ DESERÇÃO
+❌ Juntou só o comprovante GRU (sem guia) após intimação
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 0/5**
 
-**Saídas: 5**
-
----
-
-### C.5 — GRU irregular — §4º (`desercao_gru_2pgto`)
-
-> Caminho: `desercao` → `desercao_gru_pgto` → `desercao_gru_2pgto`
+### Deserção GRU §4º (`desercao_gru_2pgto`)
 
 ```
-Vício na GRU após intimação §4º dobro (FUNJUS regular)
-├── Guia pertencente a outro processo
-│   └── ⚖️ DESERÇÃO §4º
-├── Agendamento bancário
-│   └── ⚖️ DESERÇÃO §4º
-├── Sem código de barras legível
-│   └── ⚖️ DESERÇÃO §4º
-├── Número de processo ausente ou incorreto
-│   └── ⚖️ DESERÇÃO §4º
-└── Documentos não localizados (N/D)
-    └── ⚖️ DESERÇÃO §4º
+❌ Agendamento bancário
+   └── ⚖️ DESERÇÃO
+❌ Sem código de barras legível
+   └── ⚖️ DESERÇÃO
+❌ Divergência de código de barras
+   └── ⚖️ DESERÇÃO
+❌ Número de processo ausente ou incorreto
+   └── ⚖️ DESERÇÃO
+❌ Documentos não localizados (N/D)
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 0/5**
 
-**Saídas: 5**
-
----
-
-### C.6 — FUNJUS irregular — §2º (`desercao_funjus_1pgto`)
-
-> Caminho: `desercao` → `desercao_funjus_pgto` → `desercao_funjus_1pgto`
+### Deserção FUNJUS §2º (`desercao_funjus_1pgto`)
 
 ```
-Vício na FUNJUS após intimação §2º (GRU regular)
-├── Agendamento bancário
-│   └── ⚖️ DESERÇÃO §2º
-├── Sem código de barras legível
-│   └── ⚖️ DESERÇÃO §2º
-├── Número de processo ausente ou incorreto
-│   └── ⚖️ DESERÇÃO §2º
-└── Guia pertencente a outro processo
-    └── ⚖️ DESERÇÃO §2º
+❌ Agendamento bancário
+   └── ⚖️ DESERÇÃO
+❌ Sem código de barras legível
+   └── ⚖️ DESERÇÃO
+❌ Divergência de código de barras
+   └── ⚖️ DESERÇÃO
+❌ Número de processo ausente ou incorreto
+   └── ⚖️ DESERÇÃO
+❌ Guia pertencente a outro processo
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 0/5**
 
-**Saídas: 4**
-
----
-
-### C.7 — FUNJUS irregular — §4º (`desercao_funjus_2pgto`)
-
-> Caminho: `desercao` → `desercao_funjus_pgto` → `desercao_funjus_2pgto`
+### Deserção FUNJUS §4º (`desercao_funjus_2pgto`)
 
 ```
-Vício na FUNJUS após intimação §4º dobro (GRU regular)
-├── Guia pertencente a outro processo
-│   └── ⚖️ DESERÇÃO §4º
-├── Agendamento bancário
-│   └── ⚖️ DESERÇÃO §4º
-├── Sem código de barras legível
-│   └── ⚖️ DESERÇÃO §4º
-├── Número de processo ausente ou incorreto
-│   └── ⚖️ DESERÇÃO §4º
-└── Documentos não localizados (N/D)
-    └── ⚖️ DESERÇÃO §4º
+❌ Agendamento bancário
+   └── ⚖️ DESERÇÃO
+❌ Sem código de barras legível
+   └── ⚖️ DESERÇÃO
+❌ Divergência de código de barras
+   └── ⚖️ DESERÇÃO
+❌ Número de processo ausente ou incorreto
+   └── ⚖️ DESERÇÃO
+❌ Documentos não localizados (N/D)
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 0/5**
 
-**Saídas: 5**
-
----
-
-### C.8 — Recurso intempestivo (`desercao_intempestivo`)
-
-> Caminho: `desercao` → `desercao_intempestivo`
+### Deserção intempestivo (`desercao_intempestivo`)
 
 ```
-Natureza da intempestividade
-├── Pagamento realizado fora do prazo recursal
-│   └── ⚖️ DESERÇÃO / INADMISSÃO
-└── Comprovante de pagamento juntado fora do prazo recursal
-    └── ⚖️ DESERÇÃO / INADMISSÃO
+✅ Pagamento realizado fora do prazo recursal
+   └── ⚖️ DESERÇÃO
+❌ Comprovante de pagamento juntado fora do prazo recursal
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 1/2**
 
-**Saídas: 2**
-
----
-
-### C.9 — Após indeferimento de JG (`desercao_jg`) ★
-
-> Caminho: `desercao` → `desercao_jg`
+### Deserção após indeferimento JG (`desercao_jg`)
 
 ```
-JG indeferida — resultado da intimação para preparo simples
-├── ★ Apresentou comprovantes sem código de barras (preparo irregular)
-│   └── ⚖️ DESERÇÃO
-└── ★ Permaneceu inerte (certidão de decurso de prazo)
-    └── ⚖️ DESERÇÃO
+✅ Apresentou comprovantes sem código de barras (preparo irregular)
+   └── ⚖️ DESERÇÃO
+✅ Permaneceu inerte (certidão de decurso de prazo)
+   └── ⚖️ DESERÇÃO
+✅ Renunciou ao prazo expressamente (petição de renúncia)
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 3/3**
 
-**Saídas: 2**
-
----
-
-### C.10 — Inércia após Decreto + Preparo (`desercao_decreto`) ★
-
-> Caminho: `desercao` → `desercao_decreto`
+### Deserção após Decreto (`desercao_decreto`)
 
 ```
-Intimado para Decreto Judiciário + regularizar preparo — permaneceu inerte
-├── ★ Decreto + complementação (§2º) — permaneceu inerte
-│   └── ⚖️ DESERÇÃO + INTEMPESTIVIDADE
-└── ★ Decreto + dobro (§4º) — permaneceu inerte
-    └── ⚖️ DESERÇÃO + INTEMPESTIVIDADE
+❌ Decreto + complementação (§2º) - permaneceu inerte
+   └── ⚖️ DESERÇÃO
+❌ Decreto + dobro (§4º) - permaneceu inerte
+   └── ⚖️ DESERÇÃO
 ```
+**Cobertura: 0/2**
 
-**Saídas: 2**
+### Deserção GRU (direta) (`desercao_gru`)
 
----
+```
+❌ Agendamento não efetivado
+   └── ⚖️ DESERÇÃO
+❌ Valor divergente (insuficiente)
+   └── ⚖️ DESERÇÃO
+❌ Sem número de processo / número incorreto
+   └── ⚖️ DESERÇÃO
+❌ Não localizada / não disponível (N/D)
+   └── ⚖️ DESERÇÃO
+❌ Guia pertencente a outro processo
+   └── ⚖️ DESERÇÃO
+```
+**Cobertura: 0/5**
 
-**TOTAL DESERÇÃO: 40 caminhos (×2 = 80 saídas)**
+### Deserção ambas (direta) (`desercao_ambas`)
+
+```
+❌ Agendamentos não efetivados
+   └── ⚖️ DESERÇÃO
+❌ Valores divergentes
+   └── ⚖️ DESERÇÃO
+❌ Sem número de processo / número incorreto
+   └── ⚖️ DESERÇÃO
+❌ Não localizadas / não disponíveis (N/D)
+   └── ⚖️ DESERÇÃO
+✅ Guias pertencentes a outros processos
+   └── ⚖️ DESERÇÃO
+```
+**Cobertura: 1/5**
+
+### Deserção FUNJUS (direta) (`desercao_funjus`)
+
+```
+❌ Agendamento não efetivado
+   └── ⚖️ DESERÇÃO
+❌ Valor divergente (insuficiente)
+   └── ⚖️ DESERÇÃO
+❌ Sem número de processo / número incorreto
+   └── ⚖️ DESERÇÃO
+❌ Não localizada / não disponível (N/D)
+   └── ⚖️ DESERÇÃO
+❌ Justaposição de guia FUNJUS
+   └── ⚖️ DESERÇÃO
+```
+**Cobertura: 0/5**
+
+**TOTAL C. DESERÇÃO: 14/55 templates**
 
 ---
 
 ## Resumo Consolidado
 
-| Categoria | Caminhos únicos | × REsp/RE | Total saídas |
-|-----------|:--------------:|:---------:|:------------:|
-| A. Complementação | 15 | ×2 | 30 |
-| B. Pagamento em Dobro | 17 | ×2 | 34 |
-| C. Deserção | 40 | ×2 | 80 |
-| **TOTAL** | **72** | | **144** |
+| Categoria | Saídas terminais | Com template | Sem template |
+|-----------|:----------------:|:------------:|:------------:|
+| A. COMPLEMENTAÇÃO | 26 | 8 | 18 |
+| B. PAGAMENTO EM DOBRO | 29 | 13 | 16 |
+| C. DESERÇÃO | 55 | 14 | 41 |
+| **TOTAL** | **113** | **49** | **64** |
 
 ---
 
 ## Mapa de nós do fluxo
 
-| Nó | Tipo | Opções | Observação |
-|----|------|:------:|-----------|
-| `inicio` | roteador | 2 | REsp / RE |
-| `classif` | roteador | 3 | Comp / Dobro / Deserção |
-| `comp_guia` | roteador | 2 | GRU / FUNJUS |
-| `comp_gru` | terminal | 7 | — |
-| `comp_funjus` | terminal | 8 | +1 divergência ★ |
-| `dobro` | misto | 8 | 5 terminais + 3 sub-nós |
-| `dobro_nd` | terminal | 9 | +4 novos ★ |
-| `dobro_decreto` | terminal | 2 | nó novo ★ |
-| `dobro_proc` | terminal | 1 | nó novo ★ |
-| `desercao` | misto | 8 | 2 terminais + 6 sub-nós |
-| `desercao_nd_pgto` | roteador | 2 | §2º / §4º (ambas guias) |
-| `desercao_nd_1pgto` | terminal | 6 | +2 novos ★ |
-| `desercao_nd_2pgto` | terminal | 7 | +2 novos ★ |
-| `desercao_gru_pgto` | roteador | 2 | §2º / §4º (GRU) |
-| `desercao_gru_1pgto` | terminal | 5 | +1 novo ★ |
-| `desercao_gru_2pgto` | terminal | 5 | — |
-| `desercao_funjus_pgto` | roteador | 2 | §2º / §4º (FUNJUS) |
-| `desercao_funjus_1pgto` | terminal | 4 | — |
-| `desercao_funjus_2pgto` | terminal | 5 | — |
-| `desercao_intempestivo` | terminal | 2 | — |
-| `desercao_jg` | terminal | 2 | nó novo ★ |
-| `desercao_decreto` | terminal | 2 | nó novo ★ |
+| Nó | Tipo | Opções | Cobertura |
+|----|------|:------:|:---------:|
+| `comp_falta_guia` | terminal | 2 | 0/2 |
+| `comp_falta_comprovante` | terminal | 2 | 0/2 |
+| `comp_irr_gru` | terminal | 11 | 4/11 |
+| `comp_irr_funjus` | terminal | 11 | 4/11 |
+| `dobro` | terminal | 4 | 4/4 |
+| `dobro_falta_guia` | terminal | 5 | 0/5 |
+| `dobro_falta_comprovante` | terminal | 5 | 0/5 |
+| `dobro_nd` | terminal | 10 | 5/10 |
+| `dobro_decreto` | terminal | 2 | 2/2 |
+| `dobro_proc` | terminal | 1 | 1/1 |
+| `preparo_simples_jg` | terminal | 2 | 1/2 |
+| `desercao` | terminal | 2 | 0/2 |
+| `desercao_nd_1pgto` | terminal | 5 | 4/5 |
+| `desercao_nd_2pgto` | terminal | 6 | 5/6 |
+| `desercao_gru_1pgto` | terminal | 5 | 0/5 |
+| `desercao_gru_2pgto` | terminal | 5 | 0/5 |
+| `desercao_funjus_1pgto` | terminal | 5 | 0/5 |
+| `desercao_funjus_2pgto` | terminal | 5 | 0/5 |
+| `desercao_intempestivo` | terminal | 2 | 1/2 |
+| `desercao_jg` | terminal | 3 | 3/3 |
+| `desercao_decreto` | terminal | 2 | 0/2 |
+| `desercao_gru` | terminal | 5 | 0/5 |
+| `desercao_ambas` | terminal | 5 | 1/5 |
+| `desercao_funjus` | terminal | 5 | 0/5 |
 
 ---
 
-## Cobertura de templates no Supabase (REsp)
+## Saídas sem template de referência
 
-| Nó | Cobertura | Opções sem template |
-|----|:---------:|---|
-| `comp_gru` | 1/7 | 6 opções sem template |
-| `comp_funjus` | 5/8 | 3 opções sem template |
-| `dobro` | 5/5 diretas ✓ | — |
-| `dobro_nd` | 6/9 | "2 guias nº processo", "1 guia certa + compr. ausente", "Em processo de autenticação" |
-| `dobro_decreto` | 1/2 | "N/D + Decreto não apresentado" |
-| `dobro_proc` | 1/1 ✓ | — |
-| `desercao` diretas | 0/2 | ambas sem template |
-| `desercao_nd_1pgto` | 2/6 | 4 sem template |
-| `desercao_nd_2pgto` | 4/7 | 3 sem template |
-| `desercao_gru_1pgto` | 3/5 | "Agendamento bancário", "Número de processo" |
-| `desercao_gru_2pgto` | 0/5 | todas sem template |
-| `desercao_funjus_1pgto` | 2/4 | "Sem cód. barras", "Número de processo" |
-| `desercao_funjus_2pgto` | 0/5 | todas sem template |
-| `desercao_intempestivo` | 1/2 | "Pagamento fora do prazo recursal" |
-| `desercao_jg` | 2/2 ✓ | — |
-| `desercao_decreto` | 2/2 ✓ | — |
+As seguintes saídas do fluxo não possuem PDF correspondente na pasta `minutas/`:
+
+### A. COMPLEMENTAÇÃO
+- `comp_falta_guia` → `GRU`
+- `comp_falta_guia` → `FUNJUS`
+- `comp_falta_comprovante` → `GRU`
+- `comp_falta_comprovante` → `FUNJUS`
+- `comp_irr_gru` → `Juntou só o comprovante GRU (sem a guia de recolhimento)`
+- `comp_irr_gru` → `Agendamento / em análise (transação não efetivada)`
+- `comp_irr_gru` → `Sem número de processo / número incorreto`
+- `comp_irr_gru` → `Número único divergente do processo ou da árvore processual`
+- `comp_irr_gru` → `Pago a destempo - PAD (após o prazo recursal)`
+- `comp_irr_gru` → `Comprovante não localizado (N/D)`
+- `comp_irr_gru` → `Guia pertencente a outro processo`
+- `comp_irr_funjus` → `Juntou só o comprovante FUNJUS (sem a guia de recolhimento)`
+- `comp_irr_funjus` → `Agendamento / em análise`
+- `comp_irr_funjus` → `Sem número de processo / número incorreto`
+- `comp_irr_funjus` → `Número único divergente do processo ou da árvore processual`
+- `comp_irr_funjus` → `Pago a destempo - PAD`
+- `comp_irr_funjus` → `Comprovante não localizado (N/D)`
+- `comp_irr_funjus` → `Guia pertencente a outro processo`
+
+### B. PAGAMENTO EM DOBRO
+- `dobro_falta_guia` → `2 agendamentos / em análise`
+- `dobro_falta_guia` → `2 valores divergentes / insuficientes`
+- `dobro_falta_guia` → `2 guias sem número / número incorreto de processo`
+- `dobro_falta_guia` → `2 não localizadas / não disponíveis (N/D)`
+- `dobro_falta_guia` → `2 guias pertencentes a outros processos`
+- `dobro_falta_comprovante` → `2 agendamentos / em análise`
+- `dobro_falta_comprovante` → `2 valores divergentes / insuficientes`
+- `dobro_falta_comprovante` → `2 guias sem número / número incorreto de processo`
+- `dobro_falta_comprovante` → `2 não localizados / não disponíveis (N/D)`
+- `dobro_falta_comprovante` → `2 pertencentes a outros processos`
+- `dobro_nd` → `2 agendamentos bancários como comprovante`
+- `dobro_nd` → `2 guias com número de processo ausente ou incorreto`
+- `dobro_nd` → `Número único divergente do processo ou da árvore processual`
+- `dobro_nd` → `2 documentos não localizados (N/D)`
+- `dobro_nd` → `3 guias ausentes / incorretas (GRU + FUNJUS + porte de remessa)`
+- `preparo_simples_jg` → `JG alegada - concessão não localizada nos autos`
+
+### C. DESERÇÃO
+- `desercao` → `Juntou só as guias GRU e FUNJUS (sem comprovantes)`
+- `desercao` → `Juntou só os comprovantes GRU e FUNJUS (sem guias)`
+- `desercao_nd_1pgto` → `Renunciou expressamente ao prazo`
+- `desercao_nd_2pgto` → `Renunciou expressamente ao prazo`
+- `desercao_gru_1pgto` → `Agendamento bancário`
+- `desercao_gru_1pgto` → `Sem código de barras legível`
+- `desercao_gru_1pgto` → `Divergência de código de barras`
+- `desercao_gru_1pgto` → `Número de processo ausente ou incorreto`
+- `desercao_gru_1pgto` → `Juntou só o comprovante GRU (sem guia) após intimação`
+- `desercao_gru_2pgto` → `Agendamento bancário`
+- `desercao_gru_2pgto` → `Sem código de barras legível`
+- `desercao_gru_2pgto` → `Divergência de código de barras`
+- `desercao_gru_2pgto` → `Número de processo ausente ou incorreto`
+- `desercao_gru_2pgto` → `Documentos não localizados (N/D)`
+- `desercao_funjus_1pgto` → `Agendamento bancário`
+- `desercao_funjus_1pgto` → `Sem código de barras legível`
+- `desercao_funjus_1pgto` → `Divergência de código de barras`
+- `desercao_funjus_1pgto` → `Número de processo ausente ou incorreto`
+- `desercao_funjus_1pgto` → `Guia pertencente a outro processo`
+- `desercao_funjus_2pgto` → `Agendamento bancário`
+- `desercao_funjus_2pgto` → `Sem código de barras legível`
+- `desercao_funjus_2pgto` → `Divergência de código de barras`
+- `desercao_funjus_2pgto` → `Número de processo ausente ou incorreto`
+- `desercao_funjus_2pgto` → `Documentos não localizados (N/D)`
+- `desercao_intempestivo` → `Comprovante de pagamento juntado fora do prazo recursal`
+- `desercao_decreto` → `Decreto + complementação (§2º) - permaneceu inerte`
+- `desercao_decreto` → `Decreto + dobro (§4º) - permaneceu inerte`
+- `desercao_gru` → `Agendamento não efetivado`
+- `desercao_gru` → `Valor divergente (insuficiente)`
+- `desercao_gru` → `Sem número de processo / número incorreto`
+- `desercao_gru` → `Não localizada / não disponível (N/D)`
+- `desercao_gru` → `Guia pertencente a outro processo`
+- `desercao_ambas` → `Agendamentos não efetivados`
+- `desercao_ambas` → `Valores divergentes`
+- `desercao_ambas` → `Sem número de processo / número incorreto`
+- `desercao_ambas` → `Não localizadas / não disponíveis (N/D)`
+- `desercao_funjus` → `Agendamento não efetivado`
+- `desercao_funjus` → `Valor divergente (insuficiente)`
+- `desercao_funjus` → `Sem número de processo / número incorreto`
+- `desercao_funjus` → `Não localizada / não disponível (N/D)`
+- `desercao_funjus` → `Justaposição de guia FUNJUS`
