@@ -14,6 +14,7 @@ import ProfilePage from './components/ProfilePage';
 
 type ThemeMode = 'light' | 'dark';
 type AppView = 'wizard' | 'admin' | 'profile';
+type WizardHistoryItem = { step: string; optionText: string; snippet: string };
 
 /** Renderiza o texto da minuta com os `[PLACEHOLDERS]` em vermelho. */
 function renderMinutaComColchetes(text: string): React.ReactNode {
@@ -35,53 +36,69 @@ const getInitialTheme = (): ThemeMode => {
 // ─── Step labels legíveis para o painel lateral ───────────────────────────────
 const STEP_LABELS: Record<string, string> = {
   inicio: 'Tipo de Recurso',
-  classif: 'Classificação do Preparo',
-  comp_guia: 'Guia com Irregularidade',
-  comp_gru: 'Irregularidade GRU',
-  comp_funjus: 'Irregularidade FUNJUS',
+  classif_irregularidade: 'Classificação do Preparo',
+  complementacao: 'Pendência Documental',
+  comp_falta_guia: 'Guia Ausente',
+  comp_falta_comprovante: 'Comprovante Ausente',
+  comp_irr_gru: 'Irregularidade GRU',
+  comp_irr_funjus: 'Irregularidade FUNJUS',
+  preparo_simples_jg: 'Preparo Simples — JG',
   dobro: 'Situação Documental — Dobro',
-  dobro_nd: 'Documentos Ausentes/Inválidos',
-  desercao: 'Fundamento da Deserção',
-  desercao_nd_pgto: 'Intimação Anterior (Ambas)',
-  desercao_nd_1pgto: 'Vício — §2º (Ambas)',
-  desercao_nd_2pgto: 'Vício — §4º (Ambas)',
-  desercao_gru_pgto: 'Intimação Anterior (GRU)',
-  desercao_gru_1pgto: 'Vício — §2º (GRU)',
-  desercao_gru_2pgto: 'Vício — §4º (GRU)',
-  desercao_funjus_pgto: 'Intimação Anterior (FUNJUS)',
-  desercao_funjus_1pgto: 'Vício — §2º (FUNJUS)',
-  desercao_funjus_2pgto: 'Vício — §4º (FUNJUS)',
-  desercao_intempestivo: 'Natureza da Intempestividade',
-  dobro_decreto: 'Dobro + Decreto Judiciário',
+  dobro_falta_guia: 'Guias Ausentes',
+  dobro_falta_comprovante: 'Comprovantes Ausentes',
+  dobro_nd: 'Autos Físicos',
+  dobro_decreto: 'Dobro + Decreto',
   dobro_proc: 'Dobro + Procuração',
-  desercao_jg: 'Deserção — Após JG Indeferida',
-  desercao_decreto: 'Deserção — Inércia (Decreto + Preparo)',
+  desercao: 'Fundamento da Deserção',
+  desercao_nd_pgto: 'Intimação Anterior',
+  desercao_nd_1pgto: 'Deserção — §2º',
+  desercao_nd_2pgto: 'Deserção — §4º',
+  desercao_gru_pgto: 'Regularização GRU',
+  desercao_gru_1pgto: 'GRU — §2º',
+  desercao_gru_2pgto: 'GRU — §4º',
+  desercao_funjus_pgto: 'Regularização FUNJUS',
+  desercao_funjus_1pgto: 'FUNJUS — §2º',
+  desercao_funjus_2pgto: 'FUNJUS — §4º',
+  desercao_intempestivo: 'Intempestividade',
+  desercao_jg: 'Deserção — JG',
+  desercao_decreto: 'Deserção + Decreto',
+  desercao_gru: 'Deserção — GRU',
+  desercao_ambas: 'Deserção — GRU + FUNJUS',
+  desercao_funjus: 'Deserção — FUNJUS',
 };
 
 // ─── Ícone por categoria ──────────────────────────────────────────────────────
 const STEP_ICONS: Record<string, string> = {
-  inicio: '⚖️',
-  classif: '🗂️',
-  comp_guia: '📋',
-  comp_gru: '🏛️',
-  comp_funjus: '📊',
-  dobro: '💰',
-  dobro_nd: '📦',
-  desercao: '⛔',
-  desercao_nd_pgto: '🔍',
-  desercao_nd_1pgto: '🚫',
-  desercao_nd_2pgto: '🚫',
-  desercao_gru_pgto: '🔍',
-  desercao_gru_1pgto: '🚫',
-  desercao_gru_2pgto: '🚫',
-  desercao_funjus_pgto: '🔍',
-  desercao_funjus_1pgto: '🚫',
-  desercao_funjus_2pgto: '🚫',
-  desercao_intempestivo: '⏰',
-  dobro_decreto: '📅',
-  dobro_proc: '📝',
-  desercao_jg: '🆓',
-  desercao_decreto: '📅',
+  inicio: '1',
+  classif_irregularidade: '2',
+  complementacao: 'C',
+  comp_falta_guia: 'G',
+  comp_falta_comprovante: 'P',
+  comp_irr_gru: 'GRU',
+  comp_irr_funjus: 'FUN',
+  preparo_simples_jg: 'JG',
+  dobro: 'D',
+  dobro_falta_guia: 'G',
+  dobro_falta_comprovante: 'P',
+  dobro_nd: 'ND',
+  dobro_decreto: 'DEC',
+  dobro_proc: 'PROC',
+  desercao: 'X',
+  desercao_nd_pgto: 'ND',
+  desercao_nd_1pgto: '§2',
+  desercao_nd_2pgto: '§4',
+  desercao_gru_pgto: 'GRU',
+  desercao_gru_1pgto: '§2',
+  desercao_gru_2pgto: '§4',
+  desercao_funjus_pgto: 'FUN',
+  desercao_funjus_1pgto: '§2',
+  desercao_funjus_2pgto: '§4',
+  desercao_intempestivo: 'TMP',
+  desercao_jg: 'JG',
+  desercao_decreto: 'DEC',
+  desercao_gru: 'GRU',
+  desercao_ambas: '2',
+  desercao_funjus: 'FUN',
 };
 
 export default function App() {
@@ -130,7 +147,7 @@ export default function App() {
 
   // ── Wizard state ────────────────────────────────────────────────────────────
   const [etapaAtual, setEtapaAtual] = useState('inicio');
-  const [historico, setHistorico] = useState<{ step: string; optionText: string; snippet: string }[]>([]);
+  const [historico, setHistorico] = useState<WizardHistoryItem[]>([]);
   const [finalizado, setFinalizado] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
@@ -155,11 +172,18 @@ export default function App() {
   useEffect(() => {
     if (!finalizado || historico.length === 0) return;
     setMinutaLoading(true);
+    setMinutaFinal('');
     const path = historico.map(s => ({ stepKey: s.step, optionText: s.optionText }));
-    fetchMinutaTemplate(path).then(template => {
-      setMinutaFinal(template.text);
-      setMinutaLoading(false);
-    });
+    fetchMinutaTemplate(path)
+      .then(template => {
+        setMinutaFinal(template.text);
+      })
+      .catch(() => {
+        setMinutaFinal(SEM_REFERENCIA);
+      })
+      .finally(() => {
+        setMinutaLoading(false);
+      });
   }, [finalizado, historico]);
 
   const toggleDarkMode = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
@@ -167,12 +191,14 @@ export default function App() {
   const handleEscolha = () => {
     if (!selectedOption) return;
     const proximaEtapa = selectedOption.proximo;
-    setHistorico(prev => [
-      ...prev,
+    const nextHistorico = [
+      ...historico,
       { step: etapaAtual, optionText: selectedOption.texto, snippet: selectedOption.snippet }
-    ]);
+    ];
+    setHistorico(nextHistorico);
     setSelectedOption(null);
     if (proximaEtapa === 'final') {
+      setMinutaFinal('');
       setFinalizado(true);
     } else {
       setEtapaAtual(proximaEtapa);

@@ -153,8 +153,8 @@ export default function AdminPanel({ isDarkMode, onClose }: AdminPanelProps) {
     setForm(f => ({ ...f, step_key, option_text }));
   };
 
-  const covered = templates.length;
-  const total = allPaths.filter(p => !p.option_text.startsWith('Recurso Extraordinário')).length;
+  const covered = allPaths.filter(p => hasTemplate(p.step_key, p.option_text)).length;
+  const total = allPaths.length;
 
   const displayedPaths = showOnlyMissing
     ? allPaths.filter(p => !hasTemplate(p.step_key, p.option_text))
@@ -211,7 +211,7 @@ export default function AdminPanel({ isDarkMode, onClose }: AdminPanelProps) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           {[
             { label: 'Templates cadastrados', value: covered },
-            { label: 'Caminhos do fluxo (REsp)', value: total },
+            { label: 'Caminhos do fluxo', value: total },
             { label: 'Sem template', value: total - covered < 0 ? 0 : total - covered },
           ].map(stat => (
             <div key={stat.label} className={`p-4 border ${cardClass}`}>
