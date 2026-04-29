@@ -123,10 +123,6 @@ export const fluxo: Flow = {
         'O número único de referência constante no documento não corresponde ao número do processo nem à árvore processual.'
       ),
       finalOption(
-        'Guia GRU juntada + comprovante não localizado (N/D)',
-        'Não localizado nos autos o comprovante de pagamento da guia GRU.'
-      ),
-      finalOption(
         'Guia GRU pertencente a outro processo',
         'A guia GRU apresentada pertence a outro processo ou recurso, não sendo imputável ao presente feito.'
       ),
@@ -167,10 +163,6 @@ export const fluxo: Flow = {
       finalOption(
         'Número único não corresponde ao processo',
         'O número único de referência constante no documento não corresponde ao número do processo nem à árvore processual.'
-      ),
-      finalOption(
-        'Guia FUNJUS juntada + comprovante não localizado (N/D)',
-        'Não localizado nos autos o comprovante de pagamento da guia FUNJUS.'
       ),
       finalOption(
         'Guia FUNJUS pertencente a outro processo',
@@ -253,68 +245,18 @@ export const fluxo: Flow = {
       ),
       option(
         'Não pagou N/D — ambas as guias (GRU + FUNJUS)',
-        'desercao_nd_pgto',
+        'desercao_nd_2pgto',
         'Verificada ausência total de documentos de preparo (GRU e FUNJUS), não regularizada no prazo assinado.'
       ),
       option(
         'Apresentou documentação só para GRU (FUNJUS regular ou não exigida)',
-        'desercao_gru_pgto',
+        'desercao_gru_1pgto',
         'A irregularidade definitiva concentra-se na guia GRU, não regularizada no prazo assinado.'
       ),
       option(
         'Apresentou documentação só para FUNJUS (GRU regular ou não exigida)',
-        'desercao_funjus_pgto',
+        'desercao_funjus_1pgto',
         'A irregularidade definitiva concentra-se na guia FUNJUS, não regularizada no prazo assinado.'
-      )
-    ]
-  },
-
-  desercao_nd_pgto: {
-    pergunta: 'Qual foi o tipo de intimação anterior para regularização do preparo?',
-    opcoes: [
-      option(
-        'Intimado para complementar (§2º — pagamento simples)',
-        'desercao_nd_1pgto',
-        'A parte foi intimada para complementar o preparo (§2º) e não regularizou no prazo.'
-      ),
-      option(
-        'Intimado para pagar em dobro (§4º)',
-        'desercao_nd_2pgto',
-        'A parte foi intimada para recolher o preparo em dobro (§4º) e não regularizou no prazo.'
-      )
-    ]
-  },
-
-  desercao_nd_1pgto: {
-    pergunta: 'Qual o vício que fundamenta a deserção? (intimação §2º, ambas as guias)',
-    opcoes: [
-      finalOption(
-        'Agendamento bancário',
-        'O comprovante apresentado corresponde a agendamento não efetivado — vício insanável.'
-      ),
-      finalOption(
-        'Divergência de código de barras',
-        'O código de barras do comprovante não corresponde ao da guia de recolhimento — vício insanável.'
-      ),
-      finalOption(
-        'Sem código de barras legível',
-        'O comprovante não apresenta código de barras visível e legível — vício insanável.'
-      ),
-      finalOption(
-        'Número de processo ausente ou incorreto',
-        'A guia não identifica corretamente o processo — vício insanável.'
-      ),
-      finalOption(
-        'Número único não corresponde ao processo',
-        'O número único de referência nas guias não corresponde ao número do processo nem à árvore processual — vício insanável.'
-      ),
-      finalOption(
-        'Guia pertencente a outro processo',
-        'A guia apresentada pertence a outro processo — vício insanável.'
-      ),
-      finalOption(
-        'Valores divergentes ou insuficientes (ambas as guias)',
-        'Os valores recolhidos nas guias GRU e FUNJUS são divergentes ou insuficientes — vício insanável.'
       )
     ]
   },
@@ -373,22 +315,6 @@ export const fluxo: Flow = {
     ]
   },
 
-  desercao_gru_pgto: {
-    pergunta: 'Qual foi o tipo de intimação anterior para regularização da GRU?',
-    opcoes: [
-      option(
-        'Intimado para complementar (§2º — pagamento simples)',
-        'desercao_gru_1pgto',
-        'A parte foi intimada para complementar a GRU (§2º) e não regularizou no prazo.'
-      ),
-      option(
-        'Intimado para pagar em dobro (§4º)',
-        'desercao_gru_2pgto',
-        'A parte foi intimada para recolher a GRU em dobro (§4º) e não regularizou no prazo.'
-      )
-    ]
-  },
-
   desercao_gru_1pgto: {
     pergunta: 'Qual o vício que fundamenta a deserção na GRU? (intimação §2º)',
     opcoes: [
@@ -427,80 +353,6 @@ export const fluxo: Flow = {
     ]
   },
 
-  desercao_gru_2pgto: {
-    pergunta: 'Qual o vício que fundamenta a deserção na GRU? (intimação §4º)',
-    opcoes: [
-      finalOption(
-        'Guia pertencente a outro processo',
-        'Guia GRU pertence a outro processo — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Agendamento bancário',
-        'Comprovante GRU = agendamento não efetivado — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Comprovou pagamento em valor simples (em vez de dobro)',
-        'A parte foi intimada para recolher em dobro e comprovou o pagamento em valor simples — vício insanável.'
-      ),
-      finalOption(
-        'Divergência de código de barras',
-        'O código de barras do comprovante GRU não corresponde ao da guia de recolhimento — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Sem código de barras legível',
-        'Comprovante GRU sem código de barras visível e legível — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Número de processo ausente ou incorreto',
-        'Guia GRU sem identificação processual correta — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Número único não corresponde ao processo (GRU)',
-        'O número único de referência na guia GRU não corresponde ao número do processo nem à árvore processual — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Guia GRU não apresentada após intimação (nunca juntada)',
-        'A parte foi intimada para juntar a guia GRU correspondente e não atendeu à determinação no prazo assinado — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Documentos não localizados (N/D)',
-        'Documentos GRU não localizados — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Valor divergente ou insuficiente (GRU)',
-        'O valor recolhido na GRU é divergente ou insuficiente — vício insanável.'
-      ),
-      finalOption(
-        'Ausência de manifestação',
-        'A parte foi intimada e não se manifestou — vício insanável.'
-      ),
-      finalOption(
-        'Renúncia de prazo',
-        'A parte renunciou ao prazo para regularização — vício insanável.'
-      ),
-      finalOption(
-        'Decurso de prazo',
-        'Decorrido o prazo para regularização sem manifestação — vício insanável.'
-      )
-    ]
-  },
-
-  desercao_funjus_pgto: {
-    pergunta: 'Qual foi o tipo de intimação anterior para regularização da FUNJUS?',
-    opcoes: [
-      option(
-        'Intimado para complementar (§2º — pagamento simples)',
-        'desercao_funjus_1pgto',
-        'A parte foi intimada para complementar a FUNJUS (§2º) e não regularizou no prazo.'
-      ),
-      option(
-        'Intimado para pagar em dobro (§4º)',
-        'desercao_funjus_2pgto',
-        'A parte foi intimada para recolher a FUNJUS em dobro (§4º) e não regularizou no prazo.'
-      )
-    ]
-  },
-
   desercao_funjus_1pgto: {
     pergunta: 'Qual o vício que fundamenta a deserção na FUNJUS? (intimação §2º)',
     opcoes: [
@@ -535,64 +387,6 @@ export const fluxo: Flow = {
       finalOption(
         'Valor divergente ou insuficiente (FUNJUS)',
         'O valor recolhido na FUNJUS é divergente ou insuficiente — vício insanável.'
-      )
-    ]
-  },
-
-  desercao_funjus_2pgto: {
-    pergunta: 'Qual o vício que fundamenta a deserção na FUNJUS? (intimação §4º)',
-    opcoes: [
-      finalOption(
-        'Guia pertencente a outro processo',
-        'Guia FUNJUS pertence a outro processo — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Agendamento bancário',
-        'Comprovante FUNJUS = agendamento não efetivado — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Comprovou pagamento em valor simples (em vez de dobro)',
-        'A parte foi intimada para recolher em dobro e comprovou o pagamento em valor simples — vício insanável.'
-      ),
-      finalOption(
-        'Divergência de código de barras',
-        'O código de barras do comprovante FUNJUS não corresponde ao da guia de recolhimento — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Sem código de barras legível',
-        'Comprovante FUNJUS sem código de barras visível e legível — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Número de processo ausente ou incorreto',
-        'Guia FUNJUS sem identificação processual correta — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Número único não corresponde ao processo (FUNJUS)',
-        'O número único de referência na guia FUNJUS não corresponde ao número do processo nem à árvore processual — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Guia FUNJUS não apresentada após intimação (nunca juntada)',
-        'A parte foi intimada para juntar a guia FUNJUS correspondente e não atendeu à determinação no prazo assinado — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Documentos não localizados (N/D)',
-        'Documentos FUNJUS não localizados — vício insanável após dobro.'
-      ),
-      finalOption(
-        'Valor divergente ou insuficiente (FUNJUS)',
-        'O valor recolhido na FUNJUS é divergente ou insuficiente — vício insanável.'
-      ),
-      finalOption(
-        'Ausência de manifestação',
-        'A parte foi intimada e não se manifestou — vício insanável.'
-      ),
-      finalOption(
-        'Renúncia de prazo',
-        'A parte renunciou ao prazo para regularização — vício insanável.'
-      ),
-      finalOption(
-        'Decurso de prazo',
-        'Decorrido o prazo para regularização sem manifestação — vício insanável.'
       )
     ]
   },

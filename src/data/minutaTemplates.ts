@@ -49,13 +49,11 @@ const TEMPLATE_LOOKUP_ALIASES: Record<string, readonly TemplateLookupCandidate[]
   ],
   'comp_falta_comprovante:GRU': [
     { stepKey: 'comp_gru', optionText: 'Juntou só a guia GRU (sem comprovante de pagamento)' },
-    { stepKey: 'comp_gru', optionText: 'Juntou so a guia GRU (sem comprovante de pagamento)' },
-    { stepKey: 'comp_gru', optionText: 'Guia GRU juntada + comprovante não localizado (N/D)' }
+    { stepKey: 'comp_gru', optionText: 'Juntou so a guia GRU (sem comprovante de pagamento)' }
   ],
   'comp_falta_comprovante:FUNJUS': [
     { stepKey: 'comp_funjus', optionText: 'Juntou só a guia FUNJUS (sem comprovante de pagamento)' },
-    { stepKey: 'comp_funjus', optionText: 'Juntou so a guia FUNJUS (sem comprovante de pagamento)' },
-    { stepKey: 'comp_funjus', optionText: 'Guia FUNJUS juntada + comprovante não localizado (N/D)' }
+    { stepKey: 'comp_funjus', optionText: 'Juntou so a guia FUNJUS (sem comprovante de pagamento)' }
   ],
   'comp_irr_gru:Agendamento / em análise (transação não efetivada)': [
     { stepKey: 'comp_gru', optionText: 'Guia GRU juntada + comprovante de agendamento bancário' }
@@ -71,9 +69,6 @@ const TEMPLATE_LOOKUP_ALIASES: Record<string, readonly TemplateLookupCandidate[]
   'comp_irr_gru:Número único divergente do processo ou da árvore processual': [
     { stepKey: 'comp_gru', optionText: 'Guia GRU juntada + número de processo ausente ou incorreto' }
   ],
-  'comp_irr_gru:Comprovante não localizado (N/D)': [
-    { stepKey: 'comp_gru', optionText: 'Guia GRU juntada + comprovante não localizado (N/D)' }
-  ],
   'comp_irr_funjus:Agendamento / em análise': [
     { stepKey: 'comp_funjus', optionText: 'Guia FUNJUS juntada + comprovante de agendamento bancário' }
   ],
@@ -87,9 +82,6 @@ const TEMPLATE_LOOKUP_ALIASES: Record<string, readonly TemplateLookupCandidate[]
   ],
   'comp_irr_funjus:Número único divergente do processo ou da árvore processual': [
     { stepKey: 'comp_funjus', optionText: 'Guia FUNJUS juntada + número de processo ausente ou incorreto' }
-  ],
-  'comp_irr_funjus:Comprovante não localizado (N/D)': [
-    { stepKey: 'comp_funjus', optionText: 'Guia FUNJUS juntada + comprovante não localizado (N/D)' }
   ],
   'dobro_nd:2 agendamentos bancários como comprovante': [
     { stepKey: 'dobro_nd', optionText: '2 agendamentos / em análise' }

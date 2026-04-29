@@ -42,15 +42,9 @@ const STEP_LABELS: Record<string, string> = {
   dobro: 'Situação Documental — Dobro',
   dobro_nd: 'Documentos Ausentes/Inválidos',
   desercao: 'Fundamento da Deserção',
-  desercao_nd_pgto: 'Intimação Anterior (Ambas)',
-  desercao_nd_1pgto: 'Vício — §2º (Ambas)',
   desercao_nd_2pgto: 'Vício — §4º (Ambas)',
-  desercao_gru_pgto: 'Intimação Anterior (GRU)',
   desercao_gru_1pgto: 'Vício — §2º (GRU)',
-  desercao_gru_2pgto: 'Vício — §4º (GRU)',
-  desercao_funjus_pgto: 'Intimação Anterior (FUNJUS)',
   desercao_funjus_1pgto: 'Vício — §2º (FUNJUS)',
-  desercao_funjus_2pgto: 'Vício — §4º (FUNJUS)',
   intempestivo: 'Natureza da Intempestividade',
   desistencia_jg: 'Desistência de J.G. — Custas em Dobro',
   apos_indeferimento_jg: 'Após Indeferimento de J.G.',
@@ -66,15 +60,9 @@ const STEP_ICONS: Record<string, string> = {
   dobro: '💰',
   dobro_nd: '📦',
   desercao: '⛔',
-  desercao_nd_pgto: '🔍',
-  desercao_nd_1pgto: '🚫',
   desercao_nd_2pgto: '🚫',
-  desercao_gru_pgto: '🔍',
   desercao_gru_1pgto: '🚫',
-  desercao_gru_2pgto: '🚫',
-  desercao_funjus_pgto: '🔍',
   desercao_funjus_1pgto: '🚫',
-  desercao_funjus_2pgto: '🚫',
   desercao_intempestivo: '⏰',
   intempestivo: '⏰',
   desistencia_jg: '⚖️',
@@ -129,7 +117,6 @@ export default function App() {
   const [etapaAtual, setEtapaAtual] = useState('inicio');
   const [historico, setHistorico] = useState<{ step: string; optionText: string; snippet: string }[]>([]);
   const [finalizado, setFinalizado] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [copiado, setCopiado] = useState(false);
 
@@ -161,18 +148,15 @@ export default function App() {
 
   const toggleDarkMode = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
 
-  const handleEscolha = () => {
-    if (!selectedOption) return;
-    const proximaEtapa = selectedOption.proximo;
+  const handleOptionSelect = (opt: Option) => {
     setHistorico(prev => [
       ...prev,
-      { step: etapaAtual, optionText: selectedOption.texto, snippet: selectedOption.snippet }
+      { step: etapaAtual, optionText: opt.texto, snippet: opt.snippet }
     ]);
-    setSelectedOption(null);
-    if (proximaEtapa === 'final') {
+    if (opt.proximo === 'final') {
       setFinalizado(true);
     } else {
-      setEtapaAtual(proximaEtapa);
+      setEtapaAtual(opt.proximo);
     }
   };
 
@@ -184,7 +168,6 @@ export default function App() {
       setHistorico(novoHistorico);
       setEtapaAtual(ultimaEtapa.step);
       setFinalizado(false);
-      setSelectedOption(null);
       setMinutaFinal('');
     }
   };
@@ -193,7 +176,6 @@ export default function App() {
     setEtapaAtual('inicio');
     setHistorico([]);
     setFinalizado(false);
-    setSelectedOption(null);
     setCopiado(false);
     setMinutaFinal('');
   };
@@ -520,53 +502,32 @@ ${paragraphs}
 
                         <div className="space-y-4">
                           {perguntaAtual.opcoes.map((opt, index) => {
-                            const isSelected = selectedOption?.texto === opt.texto;
-                            const optionStateClass = isSelected
-                              ? isDarkMode ? 'choice-card-dark-selected' : 'choice-card-light-selected'
-                              : isDarkMode ? 'choice-card-dark' : 'choice-card-light';
+                            const optionStateClass = isDarkMode ? 'choice-card-dark' : 'choice-card-light';
 
                             return (
-                              <label
+                              <button
                                 key={index}
+                                type="button"
+                                onClick={() => handleOptionSelect(opt)}
                                 className={`
-                                  flex items-center p-4 rounded-none border cursor-pointer
+                                  w-full text-left flex items-center p-4 rounded-none border cursor-pointer
                                   transition-colors duration-200
                                   ${optionStateClass}
-                                  focus-within:outline-none focus-within:ring-2
-                                  focus-within:ring-tjpr-gold focus-within:ring-offset-2
-                                  focus-within:ring-offset-[#f7f4ee] dark:focus-within:ring-offset-[#101b2b]
+                                  focus:outline-none focus:ring-2
+                                  focus:ring-tjpr-gold focus:ring-offset-2
+                                  focus:ring-offset-[#f7f4ee] dark:focus:ring-offset-[#101b2b]
                                 `}
                               >
-                                <input
-                                  type="radio"
-                                  name={`pergunta-${etapaAtual}`}
-                                  className="sr-only"
-                                  aria-label={opt.texto}
-                                  checked={isSelected}
-                                  onChange={() => setSelectedOption(opt)}
-                                />
-                                <div
-                                  className={`
-                                    w-[20px] h-[20px] border-2 mr-4 flex items-center justify-center transition-colors shrink-0
-                                    ${isSelected
-                                      ? 'border-tjpr-navy-800 dark:border-tjpr-gold bg-tjpr-navy-800 dark:bg-tjpr-gold'
-                                      : 'border-tjpr-navy-700 dark:border-gray-400 bg-transparent'}
-                                  `}
-                                >
-                                  {isSelected && (
-                                    <div className={`w-[9px] h-[9px] rounded-none ${isDarkMode ? 'bg-[#0D1B2A]' : 'bg-white'}`} />
-                                  )}
-                                </div>
                                 <span className="text-[clamp(1rem,0.97rem+0.2vw,1.125rem)] leading-normal font-medium text-tjpr-gray-900 dark:text-gray-100">
                                   {opt.texto}
                                 </span>
-                              </label>
+                              </button>
                             );
                           })}
                         </div>
                       </fieldset>
 
-                      <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-6 border-t border-[rgba(27,38,59,0.1)] dark:border-[rgba(144,169,201,0.2)]">
+                      <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-start gap-3 pt-6 border-t border-[rgba(27,38,59,0.1)] dark:border-[rgba(144,169,201,0.2)]">
                         <TJPRButton
                           variant="ghost"
                           onClick={voltar}
@@ -575,17 +536,6 @@ ${paragraphs}
                           className="w-full sm:w-auto"
                         >
                           Voltar
-                        </TJPRButton>
-
-                        <TJPRButton
-                          variant="primary"
-                          onClick={handleEscolha}
-                          disabled={!selectedOption}
-                          icon="arrow_forward"
-                          iconPosition="right"
-                          className="w-full sm:w-auto"
-                        >
-                          Avançar
                         </TJPRButton>
                       </div>
                     </TJPRCard>
