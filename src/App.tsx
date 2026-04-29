@@ -117,6 +117,7 @@ export default function App() {
   const [etapaAtual, setEtapaAtual] = useState('inicio');
   const [historico, setHistorico] = useState<{ step: string; optionText: string; snippet: string }[]>([]);
   const [finalizado, setFinalizado] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [copiado, setCopiado] = useState(false);
 
@@ -147,6 +148,10 @@ export default function App() {
   }, [finalizado, historico]);
 
   const toggleDarkMode = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+
+  useEffect(() => {
+    setSelectedOption(null);
+  }, [etapaAtual]);
 
   const handleOptionSelect = (opt: Option) => {
     setHistorico(prev => [
@@ -502,26 +507,50 @@ ${paragraphs}
 
                         <div className="space-y-4">
                           {perguntaAtual.opcoes.map((opt, index) => {
-                            const optionStateClass = isDarkMode ? 'choice-card-dark' : 'choice-card-light';
+                            const isSelected = selectedOption?.texto === opt.texto;
+                            const optionStateClass = isSelected
+                              ? isDarkMode ? 'choice-card-dark-selected' : 'choice-card-light-selected'
+                              : isDarkMode ? 'choice-card-dark' : 'choice-card-light';
 
                             return (
-                              <button
+                              <label
                                 key={index}
-                                type="button"
-                                onClick={() => handleOptionSelect(opt)}
                                 className={`
-                                  w-full text-left flex items-center p-4 rounded-none border cursor-pointer
+                                  flex items-center p-4 rounded-none border cursor-pointer
                                   transition-colors duration-200
                                   ${optionStateClass}
-                                  focus:outline-none focus:ring-2
-                                  focus:ring-tjpr-gold focus:ring-offset-2
-                                  focus:ring-offset-[#f7f4ee] dark:focus:ring-offset-[#101b2b]
+                                  focus-within:outline-none focus-within:ring-2
+                                  focus-within:ring-tjpr-gold focus-within:ring-offset-2
+                                  focus-within:ring-offset-[#f7f4ee] dark:focus-within:ring-offset-[#101b2b]
                                 `}
                               >
+                                <input
+                                  type="radio"
+                                  name={`pergunta-${etapaAtual}`}
+                                  className="sr-only"
+                                  aria-label={opt.texto}
+                                  checked={isSelected}
+                                  onChange={() => {
+                                    setSelectedOption(opt);
+                                    handleOptionSelect(opt);
+                                  }}
+                                />
+                                <div
+                                  className={`
+                                    w-[20px] h-[20px] border-2 mr-4 flex items-center justify-center transition-colors shrink-0
+                                    ${isSelected
+                                      ? 'border-tjpr-navy-800 dark:border-tjpr-gold bg-tjpr-navy-800 dark:bg-tjpr-gold'
+                                      : 'border-tjpr-navy-700 dark:border-gray-400 bg-transparent'}
+                                  `}
+                                >
+                                  {isSelected && (
+                                    <div className={`w-[9px] h-[9px] rounded-none ${isDarkMode ? 'bg-[#0D1B2A]' : 'bg-white'}`} />
+                                  )}
+                                </div>
                                 <span className="text-[clamp(1rem,0.97rem+0.2vw,1.125rem)] leading-normal font-medium text-tjpr-gray-900 dark:text-gray-100">
                                   {opt.texto}
                                 </span>
-                              </button>
+                              </label>
                             );
                           })}
                         </div>
